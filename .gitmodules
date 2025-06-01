@@ -1,0 +1,3 @@
+[submodule "treasury-contracts"]
+	path = treasury-contracts
+	url = git@github.com:KtorZ/treasury-contracts.git

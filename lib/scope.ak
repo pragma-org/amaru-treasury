@@ -77,7 +77,7 @@ pub fn with_inline_scopes(datum: Datum, return: fn(Scopes) -> result) -> result 
 pub fn expect_scopes(inputs: List<Input>, policy_id: PolicyId) -> Scopes {
   when inputs is {
     [] -> {
-      trace @"no scopes found in reference inputs": policy_id
+      trace @"no scopes found in reference inputs for policy id": policy_id
       fail
     }
     [head, ..tail] ->

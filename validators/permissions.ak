@@ -12,9 +12,8 @@
 //// See the License for the specific language governing permissions and
 //// limitations under the License.
 
-use aiken/crypto.{ScriptHash}
 use cardano/address.{Address, Credential}
-use cardano/assets
+use cardano/assets.{PolicyId}
 use cardano/script_context.{ScriptContext}
 use cardano/transaction.{InlineDatum, Input, Output, Transaction}
 use config
@@ -62,7 +61,7 @@ pub type Authorization {
 /// It defines the ownership rules in addition to the logic corresponding to the
 /// sweep, reorganize, disburse and fund actions.
 ///
-validator permissions(scopes_ref: ScriptHash, scope: Scope) {
+validator permissions(scopes_nft: PolicyId, scope: Scope) {
   // The 'withdraw' purpose is used by sundae/multisig to simulate a
   // remote-call from another script. So this is effectively the script
   // interface to others.
@@ -77,7 +76,7 @@ validator permissions(scopes_ref: ScriptHash, scope: Scope) {
         approved_by_owner_and_someone_else(
           self,
           scope,
-          expect_scopes(self.reference_inputs, scopes_ref),
+          expect_scopes(self.reference_inputs, scopes_nft),
         )
 
       // A swap is more involved, as we must ensure that we can only swap some
@@ -92,7 +91,7 @@ validator permissions(scopes_ref: ScriptHash, scope: Scope) {
           approved_by_owner(
             self,
             scope,
-            expect_scopes(self.reference_inputs, scopes_ref),
+            expect_scopes(self.reference_inputs, scopes_nft),
           )
 
         // We do not know what the treasury script is, and we cannot easily
@@ -170,7 +169,7 @@ validator permissions(scopes_ref: ScriptHash, scope: Scope) {
           approved_by_owner(
             self,
             scope,
-            expect_scopes(self.reference_inputs, scopes_ref),
+            expect_scopes(self.reference_inputs, scopes_nft),
           )
 
         // We only allow to cancel one swap order at a time.
@@ -204,7 +203,7 @@ validator permissions(scopes_ref: ScriptHash, scope: Scope) {
     approved_by_owner(
       transaction,
       scope,
-      expect_scopes(transaction.reference_inputs, scopes_ref),
+      expect_scopes(transaction.reference_inputs, scopes_nft),
     )
   }
 }

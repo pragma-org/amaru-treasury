@@ -46,7 +46,7 @@ fn run_as(scope: Scope, txs: List<Transaction>) {
 
 // Assess the frequency of O.K. vs K.O. scenarii, ensuring that we maintain a
 // reasonable distribution as we complexify scenarii down the line.
-test prop_permissions_distribution(
+test prop_permissions_scenarii_distribution(
   outcome via scenario.report_coverage(
     // We reasonably expect the same coverage for all scopes.
     default_state(Scope.Ledger),

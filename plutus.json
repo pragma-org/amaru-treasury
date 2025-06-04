@@ -21,9 +21,9 @@
       },
       "parameters": [
         {
-          "title": "scopes_ref",
+          "title": "scopes_nft",
           "schema": {
-            "$ref": "#/definitions/aiken~1crypto~1ScriptHash"
+            "$ref": "#/definitions/cardano~1assets~1PolicyId"
           }
         },
         {
@@ -43,9 +43,9 @@
       },
       "parameters": [
         {
-          "title": "scopes_ref",
+          "title": "scopes_nft",
           "schema": {
-            "$ref": "#/definitions/aiken~1crypto~1ScriptHash"
+            "$ref": "#/definitions/cardano~1assets~1PolicyId"
           }
         },
         {
@@ -248,6 +248,10 @@
           ]
         }
       ]
+    },
+    "cardano/assets/PolicyId": {
+      "title": "PolicyId",
+      "dataType": "bytes"
     },
     "cardano/transaction/OutputReference": {
       "title": "OutputReference",

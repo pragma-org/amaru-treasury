@@ -14,5 +14,5 @@ jobs:
         with:
           version: v1.1.17
       - run: aiken fmt --check
-      - run: aiken check -D
+      - run: aiken check -D -P relative-to-tests
       - run: aiken build

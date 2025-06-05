@@ -45,6 +45,12 @@ fail_when_missing "REGISTRY_IX" ${REGISTRY_IX:-}
 
 REGISTRY_UTXO="d8799f5820${REGISTRY_TX}${REGISTRY_IX}ff"
 
+step "Seed UTxO" "$REGISTRY_TX#$REGISTRY_IX"
+OUT=build/registry-seed.json
+echo "{ \"transactionId\": \"$REGISTRY_TX\", \"outputIndex\": $(echo $REGISTRY_IX | sed 's/^0*\([0-9]*\)$/\1/') }" > $OUT
+step "Saved As" $OUT
+
+
 aiken build -D --env $ENV
 
 echo -e "\033[1mBuild minting transaction?\033[0m (requires a running cardano-node)" >&2
@@ -109,6 +115,7 @@ fi
 step "Change" $CHANGE_ADDR
 
 OUT=build/mint-registries.tx.json
+
 
 CLI_OUT=$(cardano-cli conway transaction build \
    $NETWORK_FLAG \

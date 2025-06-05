@@ -48,6 +48,13 @@ to_bytestring_term () {
   echo "(con data (B #$1))"
 }
 
+# Wrap some integer into a Data Integer UPLC constant.
+#
+# Usage: to_integer_term [INT]
+to_integer_term () {
+  echo "(con data (I $1))"
+}
+
 # Export an aiken function into some temporary file for evaluation. Return the file.
 #
 # Usage: aiken_export [MODULE] [FN_IDENTIFIER]

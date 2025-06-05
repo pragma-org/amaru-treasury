@@ -19,7 +19,7 @@ use aiken/collection/list
 use aiken/crypto.{ScriptHash}
 use cardano/address.{Credential}
 use cardano/assets.{Value}
-use cardano/transaction.{Input}
+use cardano/transaction.{Input, Output, OutputReference}
 
 /// Find all inputs locked by the given credential.
 pub fn locked_by(inputs: List<Input>, credential: Credential) -> List<Input> {
@@ -27,6 +27,21 @@ pub fn locked_by(inputs: List<Input>, credential: Credential) -> List<Input> {
     inputs,
     fn(input) { input.output.address.payment_credential == credential },
   )
+}
+
+/// Find the output corresponding to an output reference in a list of input.
+///
+/// Fails when no matching output is found.
+pub fn resolve(inputs: List<Input>, utxo_ref: OutputReference) -> Output {
+  when inputs is {
+    [] -> fail
+    [head, ..tail] ->
+      if head.output_reference == utxo_ref {
+        head.output
+      } else {
+        resolve(tail, utxo_ref)
+      }
+  }
 }
 
 /// Traverse all inputs searching for script-locked UTxOs. Return the script

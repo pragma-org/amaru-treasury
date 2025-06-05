@@ -20,6 +20,8 @@ use cardano/assets.{AssetName, PolicyId}
 use cardano/script_context.{ScriptContext}
 use cardano/transaction.{Datum, Input, Output, OutputReference, Transaction}
 use config
+use inputs
+use outputs
 use registry.{Registry, with_inline_registry}
 use scope.{Scope, Scopes, with_inline_scopes}
 use sundae/multisig
@@ -40,29 +42,17 @@ validator scopes(seed: OutputReference) {
     utxo: OutputReference,
     self: Transaction,
   ) {
-    expect must_be_approved_by_general_assembly(self)
-
-    let output =
-      forwarding_output(
-        resolve_input(self.inputs, utxo).address.payment_credential,
-        config.scopes_token_name,
-        self.outputs,
-      )
-
-    with_inline_scopes(output.datum, fn(_) { True })?
+    let asset_name = config.scopes_token_name
+    let with_state =
+      with_inline_scopes(_, fn(_) { True })
+    spend(asset_name, with_state, utxo, self)
   }
 
   mint(_redeemer: Data, policy_id: PolicyId, self: Transaction) {
-    or {
-      mint_one(
-        seed,
-        policy_id,
-        config.scopes_token_name,
-        with_inline_scopes(_, fn(_) { True }),
-        self,
-      )?,
-      burn_one(policy_id, config.scopes_token_name, self)?,
-    }
+    let asset_name = config.scopes_token_name
+    let with_state =
+      with_inline_scopes(_, fn(_) { True })
+    mint_or_burn(seed, asset_name, with_state, policy_id, self)
   }
 
   // Allow other types of operations (e.g. stake delegation) at the
@@ -85,30 +75,17 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
     utxo: OutputReference,
     self: Transaction,
   ) {
-    expect must_be_approved_by_general_assembly(self)
-
-    let output =
-      forwarding_output(
-        resolve_input(self.inputs, utxo).address.payment_credential,
-        scope.to_bytearray(scope),
-        self.outputs,
-      )
-
-    with_inline_registry(output.datum, fn(_) { True })?
+    let asset_name = scope.to_bytearray(scope)
+    let with_state =
+      with_inline_registry(_, fn(_) { True })
+    spend(asset_name, with_state, utxo, self)
   }
 
   mint(_redeemer: Data, policy_id: PolicyId, self: Transaction) {
     let asset_name = scope.to_bytearray(scope)
-    or {
-      mint_one(
-        seed,
-        policy_id,
-        asset_name,
-        with_inline_registry(_, fn(_) { True }),
-        self,
-      )?,
-      burn_one(policy_id, asset_name, self)?,
-    }
+    let with_state =
+      with_inline_registry(_, fn(_) { True })
+    mint_or_burn(seed, asset_name, with_state, policy_id, self)
   }
 
   // Allow other types of operations (e.g. stake delegation) at the
@@ -120,7 +97,7 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
 }
 
 /// Ensures a transaction is properly authenticated by the admin credentials (i.e. the GA).
-pub fn must_be_approved_by_general_assembly(tx: Transaction) -> Bool {
+fn must_be_approved_by_general_assembly(tx: Transaction) -> Bool {
   multisig.satisfied(
     admin,
     tx.extra_signatories,
@@ -129,51 +106,47 @@ pub fn must_be_approved_by_general_assembly(tx: Transaction) -> Bool {
   )
 }
 
-/// Find the output corresponding to an output reference in a list of input.
-///
-/// Fails when no matching output is found.
-fn resolve_input(inputs: List<Input>, utxo_ref: OutputReference) -> Output {
-  when inputs is {
-    [] -> fail
-    [head, ..tail] ->
-      if head.output_reference == utxo_ref {
-        head.output
-      } else {
-        resolve_input(tail, utxo_ref)
-      }
-  }
-}
-
-/// Find the output (if any), that forward the state from an original input.
-fn forwarding_output(
-  destination: Credential,
+/// A spending policy for trapped tokens, parameterized by an asset name and
+/// a function to assert the shape of the output's datum.
+fn spend(
   asset_name: AssetName,
-  outputs: List<Output>,
-) -> Output {
-  when outputs is {
-    [] -> {
-      trace @"missing forwarding output": destination
-      fail
-    }
-    [head, ..tail] -> {
-      let to_script = head.address.payment_credential == destination
-      let has_token =
-        fn() {
-          expect Credential.Script(policy_id) = destination
-          assets.quantity_of(head.value, policy_id, asset_name) == 1
-        }
-      if to_script && has_token() {
-        // We need not to check for the tail here because the token is guaranteed to be unique.
-        // Thus, it cannot be found in more than one output. We can stop at the first one.
-        head
-      } else {
-        forwarding_output(destination, asset_name, tail)
-      }
-    }
+  with_state: fn(Datum) -> Bool,
+  utxo: OutputReference,
+  self: Transaction,
+) -> Bool {
+  expect must_be_approved_by_general_assembly(self)
+
+  expect Credential.Script(own_script) =
+    inputs.resolve(self.inputs, utxo).address.payment_credential
+
+  or {
+    // either the token is burnt;
+    (assets.tokens(self.mint, own_script) != dict.empty)?,
+    // or the output is forwarded.
+    {
+      let output = outputs.forwarding_nft(own_script, asset_name, self.outputs)
+      with_state(output.datum)?
+    },
   }
 }
 
-fn mint_one(
+/// A minting or burning policy. It ensures that minting can only happen once
+/// (piggybacking on UTxO's spending uniqueness) and for a quantity of exactly
+/// one token.
+fn mint_or_burn(
+  seed: OutputReference,
+  asset_name: AssetName,
+  with_state: fn(Datum) -> Bool,
+  policy_id: PolicyId,
+  self: Transaction,
+) -> Bool {
+  or {
+    mint(seed, policy_id, asset_name, with_state, self)?,
+    burn(policy_id, asset_name, self)?,
+  }
+}
+
+fn mint(
   seed: OutputReference,
   policy_id: PolicyId,
   asset_name: AssetName,
@@ -220,7 +193,7 @@ fn mint_one(
   }
 }
 
-fn burn_one(policy_id: PolicyId, asset_name: AssetName, self: Transaction) {
+fn burn(policy_id: PolicyId, asset_name: AssetName, self: Transaction) {
   let must_burn_token =
     self.mint
       |> assets.tokens(policy_id)

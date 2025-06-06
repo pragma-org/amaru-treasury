@@ -16,18 +16,15 @@ use aiken/cbor
 use aiken/crypto.{ScriptHash}
 use aiken/primitive/bytearray
 use cardano/address.{Credential}
+use cardano/assets.{PolicyId}
 use cardano/transaction.{Datum}
-
-/// A script hash registry matching Sundae's treasury contract.
-pub type Registry {
-  treasury: Credential,
-  vendor: Credential,
-}
+use sundae/multisig
+use types.{ScriptHashRegistry, TreasuryConfiguration, TreasuryPermissions}
 
 pub fn export_registry(treasury: ScriptHash) {
   expect bytearray.length(treasury) == 28
   cbor.serialise(
-    Registry {
+    ScriptHashRegistry {
       treasury: Credential.Script(treasury),
       vendor: Credential.Script(
         #"00000000000000000000000000000000000000000000000000000000",
@@ -36,12 +33,34 @@ pub fn export_registry(treasury: ScriptHash) {
   )
 }
 
+pub fn export_treasury_configuration(
+  registry_token: PolicyId,
+  scope_owner: ScriptHash,
+  expiration: Int,
+) -> ByteArray {
+  expect bytearray.length(registry_token) == 28
+  expect bytearray.length(scope_owner) == 28
+  cbor.serialise(
+    TreasuryConfiguration {
+      registry_token,
+      permissions: TreasuryPermissions {
+        reorganize: multisig.Script(scope_owner),
+        sweep: multisig.Script(scope_owner),
+        fund: multisig.AnyOf([]),
+        disburse: multisig.Script(scope_owner),
+      },
+      expiration,
+      payout_upperbound: 0,
+    },
+  )
+}
+
 /// Assert (or fail) that a given datum is inline and has an expected shape.
 pub fn with_inline_registry(
   datum: Datum,
-  return: fn(Registry) -> result,
+  return: fn(ScriptHashRegistry) -> result,
 ) -> result {
   expect Datum.InlineDatum(data) = datum
-  expect registry: Registry = data
+  expect registry: ScriptHashRegistry = data
   return(registry)
 }

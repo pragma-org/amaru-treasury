@@ -12,14 +12,12 @@
 //// See the License for the specific language governing permissions and
 //// limitations under the License.
 
-use aiken/collection/list.{for_each}
 use aiken/crypto.{ScriptHash, VerificationKeyHash, blake2b_256}
 use aiken/fuzz
 use aiken/primitive/bytearray
-use cardano/address.{Address}
-use cardano/assets.{Value, from_lovelace}
+use cardano/address
 use cardano/fuzz as cardano
-use cardano/transaction.{Input, Output}
+use cardano/transaction.{Input, Output, ScriptPurpose, Spend}
 use inputs.{expect_single_script}
 
 fn generate(seed: Int, fuzzer: Fuzzer<a>, map: fn(a) -> b) -> b {
@@ -28,24 +26,11 @@ fn generate(seed: Int, fuzzer: Fuzzer<a>, map: fn(a) -> b) -> b {
   map(a)
 }
 
-test prop_locked_by(inputs via fuzz.list(cardano.input())) {
-  let input <- for_each(inputs)
-  let locked = inputs.locked_by(inputs, input.output.address.payment_credential)
-  expect and {
-      list.length(locked) >= 1,
-      list.all(locked, list.has(inputs, _)),
-    }
-}
-
-fn locked_by_script(script: ScriptHash, value: Value) -> fn(Input) -> Input {
+fn locked_by_script(script: ScriptHash) -> fn(Input) -> Input {
   fn(input) {
     Input {
       ..input,
-      output: Output {
-        ..input.output,
-        address: address.from_script(script),
-        value: value,
-      },
+      output: Output { ..input.output, address: address.from_script(script) },
     }
   }
 }
@@ -62,81 +47,111 @@ fn locked_by_key(key: VerificationKeyHash) -> fn(Input) -> Input {
   }
 }
 
+fn spend(input: Input) -> fn(Data) -> Pair<ScriptPurpose, Data> {
+  fn(redeemer) { Pair(Spend(input.output_reference), redeemer) }
+}
+
 test expect_single_script_trivial() {
+  let input_1 = generate(1, cardano.input(), locked_by_script("foo"))
+
+  let redeemer_1 = generate(1, fuzz.data(), spend(input_1))
+
+  let script_hash, redeemer <- expect_single_script([input_1], [redeemer_1])
+
+  and {
+    script_hash == "foo",
+    redeemer == redeemer_1.2nd,
+  }
+}
+
+test expect_single_script_only_scripts() {
+  let input_1 = generate(1, cardano.input(), locked_by_script("foo"))
+  let input_2 = generate(2, cardano.input(), locked_by_script("foo"))
+  let input_3 = generate(3, cardano.input(), locked_by_script("foo"))
+
+  let redeemer_1 =
+    generate(1, fuzz.data(), fn(r) { Pair(Spend(input_1.output_reference), r) })
+  let redeemer_2 =
+    generate(1, fuzz.data(), fn(r) { Pair(Spend(input_2.output_reference), r) })
+  let redeemer_3 =
+    generate(1, fuzz.data(), fn(r) { Pair(Spend(input_3.output_reference), r) })
+
   let
     script_hash,
-    balance,
+    redeemer,
   <-
     expect_single_script(
-      [generate(1, cardano.input(), locked_by_script("foo", from_lovelace(42)))],
+      [input_1, input_2, input_3],
+      [redeemer_1, redeemer_2, redeemer_3],
     )
 
   and {
     script_hash == "foo",
-    balance == assets.from_lovelace(42),
+    redeemer == redeemer_1.2nd,
+    redeemer == redeemer_2.2nd,
+    redeemer == redeemer_3.2nd,
   }
 }
 
-test expect_single_script_ada_only() {
+test expect_single_script_mixed_scripts_and_keys() {
+  let input_1 = generate(1, cardano.input(), locked_by_script("foo"))
+  let input_2 = generate(2, cardano.input(), locked_by_key("foo"))
+  let input_3 = generate(3, cardano.input(), locked_by_script("foo"))
+
+  let redeemer_1 = generate(1, fuzz.data(), spend(input_3))
+  let redeemer_3 = generate(1, fuzz.data(), spend(input_1))
+
   let
     script_hash,
-    balance,
-  <-
-    expect_single_script(
-      [
-        generate(1, cardano.input(), locked_by_script("foo", from_lovelace(42))),
-        generate(2, cardano.input(), locked_by_key("")),
-        generate(3, cardano.input(), locked_by_script("foo", from_lovelace(14))),
-      ],
-    )
+    redeemer,
+  <- expect_single_script([input_1, input_2, input_3], [redeemer_1, redeemer_3])
 
   and {
     script_hash == "foo",
-    balance == assets.from_lovelace(56),
+    redeemer == redeemer_1.2nd,
+    redeemer == redeemer_3.2nd,
   }
 }
 
-test expect_single_script_with_assets() {
-  let
-    script_hash,
-    balance,
-  <-
-    expect_single_script(
-      [
-        generate(1, cardano.input(), locked_by_key("")),
-        generate(
-          2,
-          cardano.input(),
-          locked_by_script("foo", from_lovelace(42) |> assets.add("bar", "", 1)),
-        ),
-        generate(3, cardano.input(), locked_by_script("foo", from_lovelace(14))),
-      ],
-    )
+test expect_single_script_no_scripts() fail {
+  let input_1 = generate(1, cardano.input(), locked_by_key("foo"))
+  let input_2 = generate(2, cardano.input(), locked_by_key("bar"))
+  let input_3 = generate(3, cardano.input(), locked_by_key("foo"))
 
-  and {
-    script_hash == "foo",
-    balance == assets.from_asset_list(
-      [Pair("", [Pair("", 56)]), Pair("bar", [Pair("", 1)])],
-    ),
-  }
+  expect_single_script([input_1, input_2, input_3], [], fn(_, _) { True })
 }
 
-test expect_single_script_multiple_scripts() fail {
+test expect_single_script_different_scripts() fail {
+  let input_1 = generate(1, cardano.input(), locked_by_key("foo"))
+  let input_2 = generate(2, cardano.input(), locked_by_key("bar"))
+  let input_3 = generate(3, cardano.input(), locked_by_key("foo"))
+
+  let redeemer_1 = generate(1, fuzz.data(), spend(input_1))
+  let redeemer_2 = generate(1, fuzz.data(), spend(input_2))
+  let redeemer_3 = generate(1, fuzz.data(), spend(input_3))
+
   expect_single_script(
-    [
-      generate(1, cardano.input(), locked_by_script("foo", from_lovelace(14))),
-      generate(2, cardano.input(), locked_by_script("bar", from_lovelace(14))),
-    ],
+    [input_1, input_2, input_3],
+    [redeemer_1, redeemer_2, redeemer_3],
     fn(_, _) { True },
   )
 }
 
-test expect_single_script_no_scripts() fail {
+test expect_single_script_different_redeemers() fail {
+  let input_1 = generate(1, cardano.input(), locked_by_key("foo"))
+  let input_2 = generate(2, cardano.input(), locked_by_key("foo"))
+
+  let redeemer_1 = generate(1, fuzz.data(), spend(input_1))
+  let redeemer_2 =
+    generate(
+      2,
+      fuzz.data() |> fuzz.such_that(fn(data) { data != redeemer_1.2nd }),
+      spend(input_2),
+    )
+
   expect_single_script(
-    [
-      generate(1, cardano.input(), locked_by_key("foo")),
-      generate(2, cardano.input(), locked_by_key("bar")),
-    ],
+    [input_1, input_2],
+    [redeemer_1, redeemer_2],
     fn(_, _) { True },
   )
 }

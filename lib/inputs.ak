@@ -16,18 +16,10 @@
 
 use aiken/collection/dict.{Dict}
 use aiken/collection/list
+use aiken/collection/pairs
 use aiken/crypto.{ScriptHash}
 use cardano/address.{Credential}
-use cardano/assets.{Value}
-use cardano/transaction.{Input, Output, OutputReference}
-
-/// Find all inputs locked by the given credential.
-pub fn locked_by(inputs: List<Input>, credential: Credential) -> List<Input> {
-  list.filter(
-    inputs,
-    fn(input) { input.output.address.payment_credential == credential },
-  )
-}
+use cardano/transaction.{Input, Output, OutputReference, ScriptPurpose}
 
 /// Find the output corresponding to an output reference in a list of input.
 ///
@@ -45,34 +37,47 @@ pub fn resolve(inputs: List<Input>, utxo_ref: OutputReference) -> Output {
 }
 
 /// Traverse all inputs searching for script-locked UTxOs. Return the script
-/// hash and the aggregated balance of assets locked by that script.
+/// hash and its redeemer.
 ///
-/// Fails if multiple UTxOs are locked by *different* script hash, or if
-/// there's no script-locked UTxO whatsoever.
+/// Fails if:
+/// - there's no script-locked UTxO whatsoever;
+/// - multiple UTxOs are locked by *different* script hash;
+/// - not all redeemers for these scripts are equal to one another.
 pub fn expect_single_script(
   inputs: List<Input>,
-  return: fn(ScriptHash, Value) -> a,
+  redeemers: Pairs<ScriptPurpose, Data>,
+  return: fn(ScriptHash, Data) -> a,
 ) -> a {
-  expect [Pair(script, balance)] =
-    collect_script_inputs(inputs)
+  expect [Pair(script, redeemer)] =
+    collect_script_inputs(inputs, redeemers)
       |> dict.to_pairs
 
-  return(script, balance)
+  return(script, redeemer)
 }
 
 /// Search inputs and collect all script hashes of script-locked payment
 /// credentials. We use a dict to de-duplicate script hashes that are found
 /// multiple times.
-fn collect_script_inputs(inputs: List<Input>) -> Dict<ScriptHash, Value> {
+fn collect_script_inputs(
+  inputs: List<Input>,
+  redeemers: Pairs<ScriptPurpose, Data>,
+) -> Dict<ScriptHash, Data> {
   let next, scripts <- list.foldl(inputs, dict.empty)
   when next.output.address.payment_credential is {
-    Credential.Script(script_hash) ->
+    Credential.Script(script_hash) -> {
+      expect Some(redeemer) =
+        pairs.get_first(redeemers, ScriptPurpose.Spend(next.output_reference))
+
       scripts
         |> dict.insert_with(
             script_hash,
-            next.output.value,
-            fn(_, left, right) { Some(assets.merge(left, right)) },
+            redeemer,
+            fn(_, left, right) {
+              expect left == right
+              Some(left)
+            },
           )
+    }
     Credential.VerificationKey(..) -> scripts
   }
 }

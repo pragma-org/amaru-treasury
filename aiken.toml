@@ -1,9 +1,9 @@
 name = "pragma-org/amaru-treasury"
-version = "0.0.0"
+version = "1.0.0"
 compiler = "v1.1.17"
 plutus = "v3"
 license = "Apache-2.0"
-description = "Aiken contracts for project 'pragma-org/amaru-scopes-management'"
+description = "Aiken contracts for project 'pragma-org/amaru-treasury'"
 
 [repository]
 user = "pragma-org"
@@ -17,7 +17,12 @@ source = "github"
 
 [[dependencies]]
 name = "SundaeSwap-finance/aicone"
-version = "504e104"
+version = "504e1049abefdaf40f294a1b94a57d236717abc6"
+source = "github"
+
+[[dependencies]]
+name = "SundaeSwap-finance/treasury-contracts"
+version = "98ca99d13c3ee306a7de43d956c3edf555e88f78"
 source = "github"
 
 [[dependencies]]
@@ -28,10 +33,6 @@ source = "github"
 [config.default]
 # The name of the scopes token. /!\ Also change in recipes/scopes.sh if edited.
 scopes_token_name = "amaru scopes"
-# The SundaeSwap order validator script hash.
-sundae_order_contract = "fa6a58bbe2d0ff05534431c8e2f0ef2cbdc1602a8456e4b13c8f3077"
-# SundaeSwap's maximum protocol fee.
-sundae_protocol_fee = 1_280_000
 # PRAGMA's general assembly members verification key hashes.
 pragma_general_assembly = [
   { bytes = "9a296a8571c597459b54ddc515668c2cd357bec3284413f4d92c67fd", encoding = "base16" },
@@ -50,8 +51,6 @@ usdm_asset_name = { bytes = "0014df105553444d", encoding = "base16" }
 [config.preview]
 # The name of the scopes token. /!\ Also change in recipes/scopes.sh if edited.
 scopes_token_name = "amaru scopes"
-sundae_order_contract = "cfad1914b599d18bffd14d2bbd696019c2899cbdd6a03325cdf680bc"
-sundae_protocol_fee = 1_280_000
 pragma_general_assembly = [
   { bytes = "7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb", encoding = "base16" },
   { bytes = "70b46e985fa50328fcb3d80594b6c5c54974a08d2c766a47570bfa36", encoding = "base16" },

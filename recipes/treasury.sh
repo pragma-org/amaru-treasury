@@ -78,21 +78,20 @@ step "Saved as" $OUT
 ## ---------- Treasury config
 
 echo "" >&2
-cd treasury-contracts
-
-aiken build -D
 
 # 31st December 2025, 23:59::59
 EXPIRATION=1767182399000
 
-FN=$(aiken_export "types" "export_treasury_configuration")
+FN=$(aiken_export "registry" "export_treasury_configuration")
 TREASURY_CONFIG=$(eval_uplc $FN \
   "$(to_bytestring_term $REGISTRY_HASH)" \
   "$(to_bytestring_term $SCOPE_OWNER)" \
   "$(to_integer_term $EXPIRATION)" \
 )
-BLUEPRINT=$(aiken blueprint apply -v treasury $TREASURY_CONFIG)
 
+cd treasury-contracts
+aiken build -D
+BLUEPRINT=$(aiken blueprint apply -v treasury $TREASURY_CONFIG)
 cd ..
 
 echo $TREASURY_CONFIG | tr [:lower:] [:upper:] | basenc -d --base16 > build/treasury-configuration-$SCOPE.cbor

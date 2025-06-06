@@ -24,10 +24,10 @@ use cardano/transaction.{
   Datum, InlineDatum, Input, Output, OutputReference, ScriptPurpose, Transaction,
 }
 use config
-use registry.{Registry}
 use scope.{Scope, Scopes}
 use sundae/multisig.{MultisigScript}
 use traps as handlers
+use types.{ScriptHashRegistry as Registry}
 
 // ----------------------------------------------------------------------------
 // ----- Config
@@ -486,7 +486,7 @@ fn scenario_mint_inputs_no_seed_utxo(st: State) -> Fuzzer<(State, List<Input>)> 
         list_with(
           fuzz.list_between(cardano.input(), 0, 2),
           {
-            let id <- and_then(fuzz.bytearray_between(32, 32))
+            let id <- and_then(cardano.transaction_id())
             let input <-
               and_then(cardano.input_with(return(seed), cardano.output()))
             return(
@@ -859,7 +859,7 @@ fn registry() -> Fuzzer<Registry> {
 }
 
 fn multisig_script() -> Fuzzer<MultisigScript> {
-  fuzz.map(fuzz.bytearray_between(28, 28), multisig.Signature)
+  fuzz.map(cardano.verification_key_hash(), multisig.Signature)
 }
 
 fn list_with(rest: Fuzzer<List<a>>, elem: Fuzzer<a>) -> Fuzzer<List<a>> {

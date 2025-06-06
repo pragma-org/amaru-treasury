@@ -22,9 +22,10 @@ use cardano/transaction.{Datum, Input, Output, OutputReference, Transaction}
 use config
 use inputs
 use outputs
-use registry.{Registry, with_inline_registry}
+use registry.{with_inline_registry}
 use scope.{Scope, Scopes, with_inline_scopes}
 use sundae/multisig
+use types.{ScriptHashRegistry as Registry}
 
 const admin =
   config.pragma_general_assembly

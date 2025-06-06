@@ -14,28 +14,10 @@
 
 // A collection of utilities over transaction outputs.
 
-use aiken/collection/list
 use aiken/crypto.{ScriptHash}
 use cardano/address.{Address, Credential}
-use cardano/assets.{AssetName, Value}
+use cardano/assets.{AssetName}
 use cardano/transaction.{Output}
-
-/// Sum up all assets on the outputs held at an address using a selection
-/// function. The selection function may crash the program if it meets
-/// unnacceptable conditions.
-pub fn total_at(outputs: List<Output>, zero: Value, at: Address) -> Value {
-  outputs
-    |> list.reduce(
-        zero,
-        fn(total, output) {
-          if output.address == at {
-            assets.merge(total, output.value)
-          } else {
-            total
-          }
-        },
-      )
-}
 
 /// Find the output (if any), that forward an NFT from an original
 /// script-locked input.

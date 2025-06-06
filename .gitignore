@@ -1,6 +1,5 @@
 # Aiken compilation artifacts
 artifacts/
+aiken.lock
 # Aiken's project working directory
 build/
-# Aiken's default documentation export
-docs/

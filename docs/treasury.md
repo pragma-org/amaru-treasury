@@ -3,7 +3,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="../.github/img/treasury-state-diagram-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="../.github/img/treasury-state-diagram-light.svg" />
-  <img alt="State diagram" src="../.github/img/treasury-state-diagram-dark.svg" height="200" />
+  <img alt="State diagram" src="../.github/img/treasury-state-diagram-dark.svg" height="500" />
 </picture>
 
 ## Functionality

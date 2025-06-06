@@ -12,6 +12,7 @@
 //// See the License for the specific language governing permissions and
 //// limitations under the License.
 
+use aiken/collection/dict
 use aiken/collection/list.{for_each}
 use aiken/crypto.{ScriptHash, VerificationKeyHash}
 use aiken/fuzz.{and_then, constant as return}
@@ -208,11 +209,35 @@ const all_failures: List<String> =
 
 fn post_conditions(txs: List<Transaction>) {
   let len = list.length(txs)
+
   []
     |> scenario.classify(@"· immediate burn", len == 2)
     |> scenario.classify(@"· at least one update", len >= 3)
     |> scenario.classify(@"· more than one update", len > 3)
+    |> scenario.classify(
+        @"· consumes marginal UTxOs",
+        has_marginal_utxos(list.drop(txs, 1)),
+      )
     |> for_each(fuzz.label)
+}
+
+fn has_marginal_utxos(txs: List<Transaction>) {
+  when txs is {
+    [] -> False
+    [head, ..tail] -> {
+      let input <- list.any(head.inputs)
+      let is_script =
+        input.output.address.payment_credential == Credential.Script(
+          validator_hash,
+        )
+      let has_token =
+        assets.tokens(input.output.value, validator_hash) != dict.empty
+      or {
+        is_script && !has_token,
+        has_marginal_utxos(tail),
+      }
+    }
+  }
 }
 
 // ----------------------------------------------------------------------------

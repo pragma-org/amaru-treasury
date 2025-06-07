@@ -56,11 +56,11 @@ See also [docs/traps.md](./docs/traps.md).
 
 #### Validators
 
-See [aiken.toml](./aiken.toml)
+See [aiken.toml](./aiken.toml#L33-L44)
 
 #### Makefile
 
-See [Makefile](./Makefile).
+See [Makefile](./Makefile#L3-L27).
 
 ### Running
 

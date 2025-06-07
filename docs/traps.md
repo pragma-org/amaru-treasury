@@ -31,16 +31,16 @@
        }
        ```
 
-       > [!NOTE]
-       >
-       > A `MultisigScript` is a supercharged native-script that is also
-       > capable of holding a script. It is defined and exported by the
-       > [`aicone`](https://github.com/SundaeSwap-finance/aicone) library.
-
 - Ensure proper lifecycle of the tracking NFT:
   - trap the token at the script's address when minting;
   - verify the integrity of the datum when minting;
   - allow burning when authorized.
+
+> [!NOTE]
+>
+> A `MultisigScript` is a supercharged native-script that is also capable of
+> deferring logic to a script. It is defined and exported by the
+> [`aicone`](https://github.com/SundaeSwap-finance/aicone) library.
 
 ## Parameters
 

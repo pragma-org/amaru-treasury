@@ -12,6 +12,12 @@ We recognize the following capabilities of this contract:
 4. **Contingency refund/closing/failsafe**: any leftovers from scopes or from the contingency budget can be sent back to the Cardano treasury after an ageed-upon delay.
 5. **Credential rotation**: In case of lost credentials or the departure of a scope owner, a mechanism allows the rotation of credentials to a new scope owner upon approval by all (5 out of 5) PRAGMA members.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/img/treasury-overview-dark.jpg" />
+  <source media="(prefers-color-scheme: light)" srcset=".github/img/treasury-overview-light.jpg" />
+  <img alt="Overview" src=".github/img/treasury-overview-dark.jpg" />
+</picture>
+
 ### How does it work?
 
 Each Amaru treasury contract comprises of 4 validators, each with specific role. One of them, the scopes, is shared across all treasuries. Others are specific to each scope.
@@ -54,13 +60,17 @@ See also [docs/traps.md](./docs/traps.md).
 
 ### Configuring
 
-#### Validators
+> [!NOTE]
+> The scopes (ledger, consensus, mercenaries, marketing, contingency) are pre-defined and not configurable.
 
-See [aiken.toml](./aiken.toml#L33-L44)
-
-#### Makefile
-
-See [Makefile](./Makefile#L3-L27).
+| What                       | Where                              |
+| ---                        | ---                                |
+| PRAGMA's admin keys        | [aiken.toml](./aiken.toml#L33-L44) |
+| On-chain scopes asset name | [aiken.toml](./aiken.toml#L33-L44) |
+| Network                    | [Makefile](./Makefile#L3-L27)      |
+| Seed UTxO for scopes NFT   | [Makefile](./Makefile#L3-L27)      |
+| Seed UTxO for registry NFT | [Makefile](./Makefile#L3-L27)      |
+| Initial scopes owners      | [Makefile](./Makefile#L3-L27)      |
 
 ### Running
 

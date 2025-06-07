@@ -110,6 +110,8 @@ echo -e "\033[1mBuild minting transaction?\033[0m (requires a running cardano-no
 ask_to_continue
 fail_when_missing "CARDANO_NODE_SOCKET_PATH" ${CARDANO_NODE_SOCKET_PATH:-}
 
+SCOPES_TOKEN_NAME=$(get_toml "aiken.toml" "config.$ENV" "scopes_token_name" | tr -d "\n" | basenc --base16 -w 0)
+
 if [[ $NETWORK == "mainnet" ]]; then
   NETWORK_FLAG="--mainnet"
   ADDRESS=$(bech32 addr <<< "71$HASH")
@@ -136,9 +138,6 @@ echo $SCOPES | tr [:lower:] [:upper:] | basenc -d --base16 > $TMP/datum.cbor
 echo -e "{\n  \"type\": \"PlutusScriptV3\",\n  \"description\": \"\",\n  \"cborHex\": \"$SCRIPT\"\n}" > $TMP/script.cbor
 
 OUT=build/mint-scopes.tx.json
-
-# FIXME: Should match config in aiken.toml
-SCOPES_TOKEN_NAME=$(echo -n "amaru scopes" | basenc --base16 -w 0)
 
 CLI_OUT=$(cardano-cli conway transaction build \
   $NETWORK_FLAG \

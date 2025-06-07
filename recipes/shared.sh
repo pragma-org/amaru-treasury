@@ -41,6 +41,19 @@ ask_to_continue () {
     done
 }
 
+# Get a value from a toml file.
+#
+# Usage: get_toml [FILENAME] [SECTION] [KEY]
+get_toml() {
+  get_section() {
+    local file="$1"
+    local section="$2"
+      sed -n "/^\[$section\]/,/^\[/p" "$file" | sed '$d'
+    }
+
+    get_section "$1" "$2" | grep "^$3 " | sed 's/^.*=.*"\([^"]*\)".*$/\1/'
+}
+
 # Wrap some base16 payload into a Data Bytestring UPLC constant.
 #
 # Usage: to_bytestring_term [STRING]

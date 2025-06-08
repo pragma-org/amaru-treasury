@@ -11,6 +11,7 @@
 //// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //// See the License for the specific language governing permissions and
 //// limitations under the License.
+////
 
 use aiken/collection/dict
 use aiken/collection/list.{for_each}
@@ -76,7 +77,7 @@ test prop_scopes_scenarii_distribution(
 // Ensures we eventually cover all K.O. scenarii.
 test scopes_ko_coverage() {
   scenario.check_coverage(
-    all_failures,
+    all_scopes_failures,
     scenario.ko(default_state(config.scopes_token_name, KindScopes), step),
   )
 }
@@ -136,7 +137,7 @@ test prop_registry_scenarii_distribution(
 // Ensures we eventually cover all K.O. scenarii.
 test registry_ko_coverage() {
   scenario.check_coverage(
-    all_failures,
+    all_registry_failures,
     scenario.ko(
       default_state(scope.to_bytearray(default_scope), KindRegistry),
       step,
@@ -192,15 +193,24 @@ const missing_datum: String = @"· missing inline datum"
 
 const malformed_datum: String = @"· malformed datum"
 
+const altered_datum: String = @"· altered datum"
+
 // -------------------------------------------------------------------
 // ----- Failing scenarii :: All
 // -------------------------------------------------------------------
 
-const all_failures: List<String> =
+const all_scopes_failures: List<String> =
   [
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
     not_burning, unauthorized_update, missing_token, escaping_token,
     missing_datum, malformed_datum,
+  ]
+
+const all_registry_failures: List<String> =
+  [
+    unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
+    not_burning, unauthorized_update, missing_token, escaping_token,
+    missing_datum, malformed_datum, altered_datum,
   ]
 
 // ----------------------------------------------------------------------------
@@ -277,7 +287,7 @@ const weights =
     scenario_outputs: 230,
     scenario_mint: 210,
     scenario_burn: 230,
-    scenario_signatories: 235,
+    scenario_signatories: 230,
   }
 
 // ----------------------------------------------------------------------------
@@ -301,7 +311,7 @@ fn step(st: State) -> Fuzzer<Scenario<State>> {
         if toss > 200 {
           step_burn(st, utxo)
         } else {
-          step_update_scopes(st, utxo)
+          step_update(st, utxo)
         }
       }
     }
@@ -363,10 +373,7 @@ fn step_mint(st: State) -> Fuzzer<Scenario<State>> {
 /// Once initialized, we should be able to update scopes in the contract as
 /// many times as necessary. The update has roughly the same constraints as the
 /// mint regarding the outputs, so we can re-use a lot of the scenarii.
-fn step_update_scopes(
-  st: State,
-  own_resolved_input: Output,
-) -> Fuzzer<Scenario<State>> {
+fn step_update(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
   let own_input =
     OutputReference { transaction_id: "own_input", output_index: 0 }
 
@@ -435,7 +442,7 @@ fn step_burn(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
 
   let (st, extra_signatories) <-
     scenario.fork_if_and_then(
-      st.labels != [],
+      st.labels == [],
       weights.scenario_signatories,
       fn() { scenario_signatories_baseline(st) },
       fn() { scenario_signatories_missing(st, unauthorized_burn) },
@@ -545,12 +552,33 @@ fn scenario_update_inputs_baseline(
             {
               // Allow inputs to be locked by a our script. Although only one can have the state token.
               // This demonstrates that we can collect UTxO sent by mistake to the contract.
-              let our_input <- fuzz.map(cardano.input())
+              let our_input <- fuzz.and_then(cardano.input())
+
+              let output = our_input.output
+
+              // Sometimes, create fake UTxO that have datums of the right
+              // shape, but don't hold the NFT.
+              let datum <-
+                fuzz.map(
+                  fuzz.either(
+                    return(output.datum),
+                    fuzz.map(
+                      when st.kind is {
+                        KindScopes -> fuzz.map(scopes(), fn(s) { as_data(s) })
+                        KindRegistry ->
+                          fuzz.map(registry(), fn(r) { as_data(r) })
+                      },
+                      InlineDatum,
+                    ),
+                  ),
+                )
+
               Input {
                 ..our_input,
                 output: Output {
-                  ..our_input.output,
+                  ..output,
                   address: address.from_script(validator_hash),
+                  datum: datum,
                 },
               }
             },
@@ -607,14 +635,6 @@ fn output_value_baseline(asset_name: AssetName) -> Fuzzer<Value> {
   )
 }
 
-fn output_datum_baseline(kind: Kind) -> Fuzzer<Datum> {
-  when kind is {
-    KindScopes -> fuzz.map(scopes(), fn(datum) { InlineDatum(as_data(datum)) })
-    KindRegistry ->
-      fuzz.map(registry(), fn(datum) { InlineDatum(as_data(datum)) })
-  }
-}
-
 fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
   let output <-
     and_then(
@@ -627,7 +647,7 @@ fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
         } else {
           output_value_baseline(st.asset_name)
         },
-        output_datum_baseline(st.kind),
+        output_datum_baseline(st),
         cardano.reference_script(),
       ),
     )
@@ -660,7 +680,7 @@ fn scenario_outputs_escaping_token(st: State) -> Fuzzer<(State, List<Output>)> {
     cardano.output_with(
       cardano.address(),
       output_value_baseline(st.asset_name),
-      output_datum_baseline(st.kind),
+      output_datum_baseline(st),
       cardano.reference_script(),
     )
 
@@ -671,41 +691,100 @@ fn scenario_outputs_escaping_token(st: State) -> Fuzzer<(State, List<Output>)> {
 }
 
 fn scenario_outputs_malformed_datum(st: State) -> Fuzzer<(State, List<Output>)> {
+  let (st, datum) <-
+    and_then(
+      when st.kind is {
+        KindScopes -> scenario_datum_malformed_scopes(st)
+        KindRegistry ->
+          when st.utxo is {
+            None -> scenario_datum_malformed_registry(st)
+            Some(output) -> scenario_datum_altered_registry(st, output.datum)
+          }
+      },
+    )
+
   let output =
     cardano.output_with(
       output_address_baseline(),
       output_value_baseline(st.asset_name),
-      fuzz.map(
-        fuzz.such_that(
-          fuzz.data(),
-          when st.kind is {
-            KindScopes ->
-              fn(data: Data) {
-                if data is _: Scopes {
-                  False
-                } else {
-                  True
-                }
-              }
-            KindRegistry ->
-              fn(data: Data) {
-                if data is _: Registry {
-                  False
-                } else {
-                  True
-                }
-              }
-          },
-        ),
-        InlineDatum,
-      ),
+      return(datum),
       cardano.reference_script(),
     )
 
   let outputs <-
     and_then(list_with(fuzz.list_between(cardano.output(), 0, 2), output))
 
-  return((State { ..st, labels: [malformed_datum, ..st.labels] }, outputs))
+  return((st, outputs))
+}
+
+// ------------------------------------------------------------------
+// ----- Generators :: Datums
+// ------------------------------------------------------------------
+
+fn output_datum_baseline(st: State) -> Fuzzer<Datum> {
+  when st.kind is {
+    KindScopes ->
+      // No restriction exists on scopes, they can change arbitrarily.
+      fuzz.map(scopes(), fn(datum) { InlineDatum(as_data(datum)) })
+    KindRegistry ->
+      when st.utxo is {
+        // When there's no previous output, the datum can be any registry whatsoever.
+        None -> fuzz.map(registry(), fn(datum) { InlineDatum(as_data(datum)) })
+        // If the state is already initialized, we must reuse the datum.
+        Some(output) -> return(output.datum)
+      }
+  }
+}
+
+fn scenario_datum_malformed_scopes(st: State) -> Fuzzer<(State, Datum)> {
+  let datum <-
+    fuzz.map(
+      fuzz.such_that(
+        fuzz.data(),
+        fn(data: Data) {
+          if data is _: Scopes {
+            False
+          } else {
+            True
+          }
+        },
+      ),
+    )
+
+  (State { ..st, labels: [malformed_datum, ..st.labels] }, InlineDatum(datum))
+}
+
+fn scenario_datum_malformed_registry(st: State) -> Fuzzer<(State, Datum)> {
+  let datum <-
+    fuzz.map(
+      fuzz.such_that(
+        fuzz.data(),
+        fn(data: Data) {
+          if data is _: Registry {
+            False
+          } else {
+            True
+          }
+        },
+      ),
+    )
+
+  (State { ..st, labels: [malformed_datum, ..st.labels] }, InlineDatum(datum))
+}
+
+fn scenario_datum_altered_registry(
+  st: State,
+  current_datum: Datum,
+) -> Fuzzer<(State, Datum)> {
+  let datum <-
+    fuzz.map(
+      fuzz.such_that(
+        registry(),
+        fn(data: Registry) { InlineDatum(as_data(data)) != current_datum },
+      ),
+    )
+
+  (State { ..st, labels: [altered_datum, ..st.labels] }, InlineDatum(datum))
 }
 
 // ------------------------------------------------------------------

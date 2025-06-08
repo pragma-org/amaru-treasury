@@ -45,7 +45,13 @@ validator scopes(seed: OutputReference) {
   ) {
     let asset_name = config.scopes_token_name
     let with_state =
-      with_inline_scopes(_, fn(_) { True })
+      fn(_, new_datum) {
+        // Allow updates, but enforces that the new datum is at least:
+        //
+        // (a) present;
+        // (b) of the right shape.
+        with_inline_scopes(new_datum, fn(_) { True })
+      }
     spend(asset_name, with_state, utxo, self)
   }
 
@@ -69,6 +75,8 @@ validator scopes(seed: OutputReference) {
 ///
 /// Fundamentally, this is a trap-like contract, which manages an NFT (used by other contracts
 /// to locate the state), and a state attached to the same UTxO that owns the state.
+///
+/// Unlike the 'scopes' validator, modification of the registry aren't allowed.
 validator treasury_registry(seed: OutputReference, scope: Scope) {
   spend(
     _datum: Option<Data<Registry>>,
@@ -77,8 +85,19 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
     self: Transaction,
   ) {
     let asset_name = scope.to_bytearray(scope)
+
     let with_state =
-      with_inline_registry(_, fn(_) { True })
+      fn(old_datum: Option<Datum>, new_datum: Datum) {
+        or {
+          // Note that we need not to re-assert the shape of the new datum
+          // here, because it is checked during minting, and we do not allow
+          // the slightest change anyway.
+          (old_datum == Some(new_datum))?,
+          // Allow spending from marginal UTxOs.
+          (old_datum == None)?,
+        }
+      }
+
     spend(asset_name, with_state, utxo, self)
   }
 
@@ -111,14 +130,15 @@ fn must_be_approved_by_general_assembly(tx: Transaction) -> Bool {
 /// a function to assert the shape of the output's datum.
 fn spend(
   asset_name: AssetName,
-  with_state: fn(Datum) -> Bool,
+  with_state: fn(Option<Datum>, Datum) -> Bool,
   utxo: OutputReference,
   self: Transaction,
 ) -> Bool {
   expect must_be_approved_by_general_assembly(self)
 
-  expect Credential.Script(own_script) =
-    inputs.resolve(self.inputs, utxo).address.payment_credential
+  let own_input = inputs.resolve(self.inputs, utxo)
+
+  expect Credential.Script(own_script) = own_input.address.payment_credential
 
   or {
     // either the token is burnt;
@@ -126,7 +146,17 @@ fn spend(
     // or the output is forwarded.
     {
       let output = outputs.forwarding_nft(own_script, asset_name, self.outputs)
-      with_state(output.datum)?
+
+      // Retrieve the managed datum, if any. We only trust the datum that is trapped with
+      // the NFT.
+      let own_datum =
+        if assets.quantity_of(own_input.value, own_script, asset_name) == 1 {
+          Some(own_input.datum)
+        } else {
+          None
+        }
+
+      with_state(own_datum, output.datum)?
     },
   }
 }

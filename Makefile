@@ -7,15 +7,15 @@ NETWORK ?= preview
 #
 # Must have enough ADA to cover for the transaction fee (~0.3 ADA) and the
 # min-UTxO deposit that will hold the scopes datum (2 ADA)
-SCOPES_SEED_TX ?= 1c07e698ba1ae04cb35aeec32bcb839c7d383b3e2273a0326205e2a3981a9a4f
+SCOPES_SEED_TX ?= 6be590477b9338f840a1c27c6990e091e1ef96ead4c8f27b62b8964fb01450a2
 SCOPES_SEED_IX ?= 01
 
 # A (spendable) UTxO reference to seed the treasury registries.
 #
-# Must have enough ADA to cover for the transaction fee (~0.6 ADA) and the
-# min-UTxO deposits that will hold each registry (2 ADA x 4 = 8 ADA).
-REGISTRY_SEED_TX ?= 666c84705006c796f74e3410114244ceddc88041141b7d17bc81846b20386edd
-REGISTRY_SEED_IX ?= 01
+# Must have enough ADA to cover for the transaction fee (~0.75 ADA) and the
+# min-UTxO deposits that will hold each registry (2 ADA x 5 = 10 ADA).
+REGISTRY_SEED_TX ?= 5836e1b87e0e7e9d9bac9bba1ea93fcc9afca79433e42367db864f879a1aee12
+REGISTRY_SEED_IX ?= 05
 
 # The public key hash of the (initial) ledger scope owner
 OWNER_LEDGER ?= 7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb

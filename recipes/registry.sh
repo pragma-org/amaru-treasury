@@ -45,15 +45,15 @@ fail_when_missing "REGISTRY_IX" ${REGISTRY_IX:-}
 
 REGISTRY_UTXO="d8799f5820${REGISTRY_TX}${REGISTRY_IX}ff"
 
+step "Building" "all registries"
+aiken build -D --env $ENV
+
 step "Seed UTxO" "$REGISTRY_TX#$REGISTRY_IX"
 OUT=build/registry-seed.json
 echo "{ \"transactionId\": \"$REGISTRY_TX\", \"outputIndex\": $(echo $REGISTRY_IX | sed 's/^0*\([0-9]*\)$/\1/') }" > $OUT
 step "Saved As" $OUT
 
-
-aiken build -D --env $ENV
-
-echo -e "\033[1mBuild minting transaction?\033[0m (requires a running cardano-node)" >&2
+echo -e "\n\033[1mBuild minting transaction?\033[0m (requires a running cardano-node)" >&2
 ask_to_continue
 fail_when_missing "CARDANO_NODE_SOCKET_PATH" ${CARDANO_NODE_SOCKET_PATH:-}
 
@@ -120,7 +120,6 @@ step "Change" $CHANGE_ADDR
 
 OUT=build/mint-registries.tx.json
 
-
 CLI_OUT=$(cardano-cli conway transaction build \
    $NETWORK_FLAG \
    --tx-in "$REGISTRY_TX#$REGISTRY_IX" \
@@ -135,7 +134,7 @@ CLI_OUT=$(cardano-cli conway transaction build \
    --tx-out-inline-datum-cbor-file $TMP/datum-marketing.cbor \
    --tx-out "$ADDRESS_CONTINGENCY+2000000+1 $HASH_CONTINGENCY.$TOKEN_NAME_CONTINGENCY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-contingency.cbor \
-   --mint "1 $HASH_LEDGER.$TOKEN_NAME_LEDGER+1 $HASH_CONSENSUS.$TOKEN_NAME_CONSENSUS+1 $HASH_MERCENARIES.$TOKEN_NAME_MERCENARIES+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING+1 $HASH_CONSENSUS.$TOKEN_NAME_CONTINGENCY" \
+   --mint "1 $HASH_LEDGER.$TOKEN_NAME_LEDGER+1 $HASH_CONSENSUS.$TOKEN_NAME_CONSENSUS+1 $HASH_MERCENARIES.$TOKEN_NAME_MERCENARIES+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING+1 $HASH_CONTINGENCY.$TOKEN_NAME_CONTINGENCY" \
    --mint-script-file $TMP/script-ledger.cbor \
    --mint-redeemer-value "[]" \
    --mint-script-file $TMP/script-consensus.cbor \

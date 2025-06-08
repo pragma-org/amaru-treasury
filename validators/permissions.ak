@@ -14,7 +14,8 @@
 
 use cardano/address.{Credential}
 use cardano/assets.{PolicyId}
-use cardano/script_context.{ScriptContext}
+use cardano/certificate.{RegisterCredential}
+use cardano/script_context.{ScriptContext, ScriptInfo}
 use cardano/transaction.{Transaction}
 use inputs.{expect_single_script}
 use scope.{
@@ -75,10 +76,20 @@ validator permissions(scopes_nft: PolicyId, scope: Scope) {
   // used 'as a remote module' by the main treasury script.
   else(ctx: ScriptContext) {
     let ScriptContext { transaction, .. } = ctx
-    approved_by_owner(
-      transaction,
-      scope,
-      expect_scopes(transaction.reference_inputs, scopes_nft),
-    )
+    or {
+      when ctx.info is {
+        ScriptInfo.Publishing {
+          // To ease UX for setting up the contract, allows registering stake credential without any signer.
+          certificate: RegisterCredential { .. },
+          ..
+        } -> True
+        _ -> False
+      },
+      approved_by_owner(
+        transaction,
+        scope,
+        expect_scopes(transaction.reference_inputs, scopes_nft),
+      ),
+    }
   }
 }

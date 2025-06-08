@@ -84,12 +84,20 @@ See also [docs/traps.md](./docs/traps.md).
 
 1. `make scopes`
 
-   This initialize the scope owners (from the Makefile's configuration) and prepare a minting transaction to publish them on-chain.
+   This initialize the scope owners (from the Makefile's configuration) and
+   prepare a minting transaction to publish them on-chain.
+
    The transaction must be signed and submitted through your own means.
 
 2. `make permissions`
 
-   Build each _permissions_ validators, each used to manage a treasury.
+   Build each _permissions_ validators, each used to manage a treasury. Once
+   all the permissions scripts have been prepared, the command will offer to
+   build a transaction to register them on-chain as stake credentials.
+
+   This is necessary to make them usable in the treasury but, it is NOT
+   necessary in order to setup the treasury so you may ignore this step for
+   now.
 
 3. `make treasury`
 
@@ -97,5 +105,9 @@ See also [docs/traps.md](./docs/traps.md).
 
 4. `make registry`
 
-   Prepare a minting transaction to publish all registries on-chain.
+   Prepare a minting transaction to publish all registries on-chain. Note that
+   the registry and the treasury are bound to each other, and the treasury is
+   parameterized by the permissions. If you change any of those, you must
+   rebuild the entire sequence.
+
    The transaction must be signed and submitted through your own means.

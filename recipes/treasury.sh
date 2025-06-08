@@ -56,6 +56,7 @@ REGISTRY_UTXO="d8799f5820${REGISTRY_TX}${REGISTRY_IX}ff"
 
 ## ---------- Registry
 
+step "Building" "$SCOPE's treasury registry"
 aiken build -D --env $ENV
 
 step "Applying" "parameters"
@@ -78,6 +79,12 @@ step "Saved as" $OUT
 ## ---------- Treasury config
 
 echo "" >&2
+step "Building" "$SCOPE's treasury"
+
+EXPIRATION=$(get_toml "aiken.toml" "config.$ENV" "expiration" | tr -d "\n")
+EXPIRATION=$(($EXPIRATION))
+step "Expiration" "$(human_readable_timestamp $EXPIRATION)"
+echo "{ \"expiration\": $EXPIRATION }" > build/treasury-configuration.json
 
 FN=$(aiken_export "registry" "export_treasury_configuration")
 TREASURY_CONFIG=$(eval_uplc $FN \
@@ -92,11 +99,6 @@ BLUEPRINT=$(aiken blueprint apply -v treasury $TREASURY_CONFIG)
 cd ..
 
 echo $TREASURY_CONFIG | tr [:lower:] [:upper:] | basenc -d --base16 > build/treasury-configuration-$SCOPE.cbor
-
-EXPIRATION=$(get_toml "aiken.toml" "config.$ENV" "expiration" | tr -d "\n")
-EXPIRATION=$(($EXPIRATION))
-echo "Expiration $(human_readable_timestamp $EXPIRATION)"
-echo "{ \"expiration\": $EXPIRATION }" > build/treasury-configuration.json
 
 ## ---------- Treasury config
 

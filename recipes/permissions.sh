@@ -24,7 +24,7 @@ Usage: ${0##*/} [NETWORK] [SCOPE]
 
 Arguments:
   NETWORK      Target network (preview | mainnet)
-  SCOPE        Which scope to create permissions for (ledger, consensus, mercenaries or marketing)
+  SCOPE        Which scope to create permissions for (ledger, consensus, mercenaries, marketing or contingency)
 
 Example:
   ${0##*/} preview ledger 5bc659e149349b7d1d23493c7b7276a2ac83ad07c4249c125d3b1f49

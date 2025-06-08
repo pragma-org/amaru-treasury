@@ -25,6 +25,7 @@ pub type Scope {
   Consensus
   Mercenaries
   Marketing
+  Contingency
 }
 
 pub fn to_bytearray(self: Scope) -> ByteArray {
@@ -33,9 +34,12 @@ pub fn to_bytearray(self: Scope) -> ByteArray {
     Consensus -> "consensus"
     Mercenaries -> "mercenaries"
     Marketing -> "marketing"
+    Contingency -> "contingency"
   }
 }
 
+/// A dynamic scopes definition to be stored on-chain (inline datum). Note that
+/// the contingency scope governing rules are derived from the others.
 pub type Scopes {
   ledger: MultisigScript,
   consensus: MultisigScript,
@@ -105,6 +109,15 @@ pub fn approved_by_owner(
       Consensus -> scopes.consensus
       Mercenaries -> scopes.mercenaries
       Marketing -> scopes.marketing
+      Contingency ->
+        multisig.AnyOf(
+          [
+            scopes.ledger,
+            scopes.consensus,
+            scopes.mercenaries,
+            scopes.marketing,
+          ],
+        )
     },
     self.extra_signatories,
     self.validity_range,
@@ -156,6 +169,15 @@ pub fn approved_by_owner_and_someone_else(
             multisig.AnyOf(
               [scopes.ledger, scopes.consensus, scopes.mercenaries],
             ),
+          ],
+        )
+      Contingency ->
+        multisig.AllOf(
+          [
+            scopes.ledger,
+            scopes.consensus,
+            scopes.mercenaries,
+            scopes.marketing,
           ],
         )
     },

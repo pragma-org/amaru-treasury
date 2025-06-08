@@ -79,9 +79,6 @@ step "Saved as" $OUT
 
 echo "" >&2
 
-# 31st December 2025, 23:59::59
-EXPIRATION=1767182399000
-
 FN=$(aiken_export "registry" "export_treasury_configuration")
 TREASURY_CONFIG=$(eval_uplc $FN \
   "$(to_bytestring_term $REGISTRY_HASH)" \
@@ -95,6 +92,10 @@ BLUEPRINT=$(aiken blueprint apply -v treasury $TREASURY_CONFIG)
 cd ..
 
 echo $TREASURY_CONFIG | tr [:lower:] [:upper:] | basenc -d --base16 > build/treasury-configuration-$SCOPE.cbor
+
+EXPIRATION=$(get_toml "aiken.toml" "config.$ENV" "expiration" | tr -d "\n")
+EXPIRATION=$(($EXPIRATION))
+echo "Expiration $(human_readable_timestamp $EXPIRATION)"
 echo "{ \"expiration\": $EXPIRATION }" > build/treasury-configuration.json
 
 ## ---------- Treasury config

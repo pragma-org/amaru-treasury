@@ -15,6 +15,7 @@
 use aiken/builtin
 use aiken/collection/dict
 use aiken/collection/list
+use aiken/interval.{is_entirely_after}
 use cardano/address.{Credential, Script}
 use cardano/assets.{AssetName, PolicyId}
 use cardano/script_context.{ScriptContext}
@@ -172,8 +173,8 @@ fn mint_or_burn(
   self: Transaction,
 ) -> Bool {
   or {
-    mint(seed, policy_id, asset_name, with_state, self)?,
     burn(policy_id, asset_name, self)?,
+    mint(seed, policy_id, asset_name, with_state, self)?,
   }
 }
 
@@ -184,6 +185,13 @@ fn mint(
   expect_datum: fn(Datum) -> Bool,
   self: Transaction,
 ) {
+  // Just a sanity check to ensure that the expiration date is in the future,
+  // prior to bootstrapping the validator. It's pretty easy to shoot oneself in
+  // the foot between seconds / milliseconds.
+  //
+  // So this deserves a small check during the mint procedure.
+  expect config.expiration > 1749400000000
+
   // Ensure uniqueness by claiming an output reference; this ensures
   // other checks are sound since minting can only happen once.
   let must_spend_seed_utxo =
@@ -231,8 +239,13 @@ fn burn(policy_id: PolicyId, asset_name: AssetName, self: Transaction) {
       |> dict.to_pairs
       |> builtin.equals_data([Pair(asset_name, -1)])
 
+  let must_have_expired =
+    self.validity_range
+      |> is_entirely_after(config.expiration)
+
   and {
     must_be_approved_by_general_assembly(self)?,
+    must_have_expired?,
     must_burn_token?,
   }
 }

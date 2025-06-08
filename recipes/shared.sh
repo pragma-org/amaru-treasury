@@ -48,10 +48,10 @@ get_toml() {
   get_section() {
     local file="$1"
     local section="$2"
-      sed -n "/^\[$section\]/,/^\[/p" "$file" | sed '$d'
-    }
+    sed -n "/^\[$section\]/,/^\[/p" "$file" | sed '$d'
+  }
 
-    get_section "$1" "$2" | grep "^$3 " | sed 's/^.*=.*"\([^"]*\)".*$/\1/'
+  get_section "$1" "$2" | grep "^$3 " | sed 's/^.*=.*\("\)\([0-9]*[^"]*\)\("\).*$/\2/'
 }
 
 # Wrap some base16 payload into a Data Bytestring UPLC constant.
@@ -134,8 +134,11 @@ scope_to_constr () {
     "marketing")
       echo "d87c80"
       ;;
+    "contingency")
+      echo "d87d80"
+      ;;
     *)
-      echo -e "\033[91munsupported scope: must be one of 'ledger', 'consensus', 'mercenaries' or 'marketing'\033[0m" >&2
+      echo -e "\033[91munsupported scope: must be one of 'ledger', 'consensus', 'mercenaries', 'marketing' or 'contingency'\033[0m" >&2
       exit 1
       ;;
   esac
@@ -146,4 +149,15 @@ scope_to_constr () {
 # Usage: script_size [VALIDATOR]
 script_size () {
   echo $(($(echo $1 | jq -r '.compiledCode' | wc -c)/2))
+}
+
+# Convert a POSIX (millis) timestamp back to a human readable date.
+#
+# Usage: human_readable_timestamp [TIMESTAMP]
+human_readable_timestamp () {
+  if [ "$(uname)" == "Darwin" ]; then
+    date -r $(($1 / 1000))
+  else
+    date -d "@$(($1 / 1000))"
+  fi
 }

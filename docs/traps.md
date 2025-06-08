@@ -34,7 +34,7 @@
 - Ensure proper lifecycle of the tracking NFT:
   - trap the token at the script's address when minting;
   - verify the integrity of the datum when minting;
-  - allow burning when authorized.
+  - allow burning when authorized and after the agreen-upon expiration date.
 
 > [!NOTE]
 >
@@ -48,7 +48,9 @@
 
 1. `seed: OutputReference`: a UTxO to be consumed during minting, ensuring uniqueness of the execution and of the policy id (script hash).
 
-2. `scope: Scope`: a scope (ledger, consensus, mercenaries, marketing) used to define an the minted asset's name. Forcing an extra parameter just for an asset name may seem superfluous but it is necessary to allow having one distinct registry per scope. This way, they can each point to a different treasury script.
+2. `scope: Scope`: a scope (ledger, consensus, mercenaries, marketing or contingency) used to define an the minted asset's name. Forcing an extra parameter just for an asset name may seem superfluous but it is necessary to allow having one distinct registry per scope. This way, they can each point to a different treasury script.
+
+Unlike the `Scopes` trap, the registry cannot be updated to different values once it has been created.
 
 ### Scopes
 

@@ -43,12 +43,12 @@ help:
 scopes: prerequisites ## Compile the scopes script, and prepare its initial minting transaction.
 	@recipes/scopes.sh $(NETWORK) $(SCOPES_SEED_TX) $(SCOPES_SEED_IX) $(OWNERS)
 
-permissions: permissions-ledger permissions-consensus permissions-mercenaries permissions-marketing ## Compile all permissions scripts for all scopes.
+permissions: permissions-ledger permissions-consensus permissions-mercenaries permissions-marketing permissions-contingency ## Compile all permissions scripts for all scopes.
 
 permissions-%: prerequisites ## Compile the permissions script for a single scope.
 	@recipes/permissions.sh $(NETWORK) $*
 
-treasury: treasury-ledger treasury-consensus treasury-mercenaries treasury-marketing ## Compile all teasury scripts for all scopes.
+treasury: treasury-ledger treasury-consensus treasury-mercenaries treasury-marketing treasury-contingency ## Compile all teasury scripts for all scopes.
 
 treasury-%: prerequisites ## Compile the treasury script for a single scope.
 	@recipes/treasury.sh $(NETWORK) $* $(REGISTRY_SEED_TX) $(REGISTRY_SEED_IX)

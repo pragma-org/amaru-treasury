@@ -45,6 +45,9 @@ const mercenaries: VerificationKeyHash = #"4eecedad15"
 
 const marketing: VerificationKeyHash = #"4ad3e716"
 
+const all_owners: List<VerificationKeyHash> =
+  [ledger, consensus, mercenaries, marketing]
+
 // ----------------------------------------------------------------------------
 // ----- Properties
 // ----------------------------------------------------------------------------
@@ -155,6 +158,24 @@ test prop_permissions_marketing_standard_ko(
   run_as(Scope.Marketing, ko)
 }
 
+// -------------------------------------------------------------------
+// ----- Properties :: Contingency
+// -------------------------------------------------------------------
+
+test prop_permissions_contingency_standard_ok(
+  ok via scenario.ok(default_state(Scope.Contingency), step),
+) {
+  run_as(Scope.Contingency, ok)
+  for_each(ok, post_conditions)
+}
+
+test prop_permissions_contingency_standard_ko(
+  (labels, ko) via scenario.ko(default_state(Scope.Contingency), step),
+) fail {
+  for_each(list.unique(labels), fuzz.label)
+  run_as(Scope.Contingency, ko)
+}
+
 // ----------------------------------------------------------------------------
 // ----- Failing scenarii
 // ----------------------------------------------------------------------------
@@ -176,7 +197,8 @@ const malformed_scopes: String = @"· malformed scopes datum"
 const all_failures: List<String> =
   [
     no_script_inputs, mixed_scripts_inputs, mixed_spend_redeemers,
-    missing_scope_owner, missing_scopes, malformed_scopes,
+    missing_scope_owner, insufficient_signatories, missing_scopes,
+    malformed_scopes,
   ]
 
 // ----------------------------------------------------------------------------
@@ -307,7 +329,7 @@ fn step(st: State) -> Fuzzer<Scenario<State>> {
       scenario.fork2_and_then(
         weights.scenario_signatories,
         fn() { scenario_signatories_baseline(st, action) },
-        fn() { scenario_signatories_missing_owner(st) },
+        fn() { scenario_signatories_missing_owner(st, action) },
         fn() { scenario_signatories_missing_other(st, action) },
       )
 
@@ -614,6 +636,7 @@ fn scenario_signatories_baseline(
                 and_then(non_empty_sublist([ledger, consensus, mercenaries]))
               return([marketing, ..others])
             }
+            Scope.Contingency -> return(all_owners)
           }
 
         TreasurySpendRedeemer.Reorganize ->
@@ -622,6 +645,7 @@ fn scenario_signatories_baseline(
             Scope.Consensus -> return([consensus])
             Scope.Mercenaries -> return([mercenaries])
             Scope.Marketing -> return([marketing])
+            Scope.Contingency -> non_empty_sublist(all_owners)
           }
 
         TreasurySpendRedeemer.Fund { .. } -> {
@@ -638,15 +662,27 @@ fn scenario_signatories_missing_other(
   st: State,
   action: TreasurySpendRedeemer,
 ) -> Fuzzer<(State, List<VerificationKeyHash>)> {
-  let tail <- fuzz.map(fuzz.list(cardano.verification_key_hash()))
+  let tail <- fuzz.and_then(fuzz.list(cardano.verification_key_hash()))
 
-  let signatories =
-    when st.scope is {
-      Scope.Ledger -> [ledger, ..tail]
-      Scope.Consensus -> [consensus, ..tail]
-      Scope.Mercenaries -> [mercenaries, ..tail]
-      Scope.Marketing -> [marketing, ..tail]
-    }
+  let signatories <-
+    fuzz.map(
+      when st.scope is {
+        Scope.Ledger -> return([ledger, ..tail])
+        Scope.Consensus -> return([consensus, ..tail])
+        Scope.Mercenaries -> return([mercenaries, ..tail])
+        Scope.Marketing -> return([marketing, ..tail])
+        Scope.Contingency -> {
+          let owners <-
+            fuzz.map(
+              fuzz.such_that(
+                fuzz.sublist(all_owners),
+                fn(sub) { sub != all_owners },
+              ),
+            )
+          list.concat(owners, tail)
+        }
+      },
+    )
 
   when action is {
     TreasurySpendRedeemer.Disburse { .. } | TreasurySpendRedeemer.SweepTreasury ->
@@ -654,7 +690,17 @@ fn scenario_signatories_missing_other(
         State { ..st, labels: [insufficient_signatories, ..st.labels] },
         signatories,
       )
-    TreasurySpendRedeemer.Reorganize -> (st, signatories)
+    TreasurySpendRedeemer.Reorganize ->
+      // Any owner can re-organize, but for the Contingency scope, we at least need
+      // one of them.
+      if st.scope == Scope.Contingency && signatories == tail {
+        (
+          State { ..st, labels: [insufficient_signatories, ..st.labels] },
+          signatories,
+        )
+      } else {
+        (st, signatories)
+      }
     TreasurySpendRedeemer.Fund { .. } -> {
       trace @"unsupported action": action
       fail
@@ -664,6 +710,7 @@ fn scenario_signatories_missing_other(
 
 fn scenario_signatories_missing_owner(
   st: State,
+  action: TreasurySpendRedeemer,
 ) -> Fuzzer<(State, List<VerificationKeyHash>)> {
   let signatories <-
     fuzz.map(
@@ -672,6 +719,20 @@ fn scenario_signatories_missing_owner(
         Scope.Consensus -> fuzz.sublist([ledger, mercenaries, marketing])
         Scope.Mercenaries -> fuzz.sublist([ledger, consensus, marketing])
         Scope.Marketing -> fuzz.sublist([ledger, consensus, mercenaries])
+        Scope.Contingency ->
+          when action is {
+            TreasurySpendRedeemer.Disburse { .. } |
+            TreasurySpendRedeemer.SweepTreasury ->
+              fuzz.such_that(
+                fuzz.sublist(all_owners),
+                fn(sub) { sub != all_owners },
+              )
+            TreasurySpendRedeemer.Reorganize -> return([])
+            TreasurySpendRedeemer.Fund { .. } -> {
+              trace @"unsupported action": action
+              fail
+            }
+          }
       },
     )
 

@@ -18,6 +18,7 @@ use aiken/collection/list.{for_each}
 use aiken/crypto.{ScriptHash, VerificationKeyHash}
 use aiken/fuzz.{and_then, constant as return}
 use aiken/fuzz/scenario.{Label, Scenario}
+use aiken/interval.{Interval}
 use cardano/address.{Address, Credential}
 use cardano/assets.{AssetName, Value}
 use cardano/fuzz as cardano
@@ -179,6 +180,8 @@ const unauthorized_burn: String = @"· unauthorized burn"
 
 const not_burning: String = @"· not burning anything"
 
+const burn_before: String = @"· burn before"
+
 // -------------------------------------------------------------------
 // ----- Failing scenarii :: Update
 // -------------------------------------------------------------------
@@ -202,14 +205,14 @@ const altered_datum: String = @"· altered datum"
 const all_scopes_failures: List<String> =
   [
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
-    not_burning, unauthorized_update, missing_token, escaping_token,
+    not_burning, burn_before, unauthorized_update, missing_token, escaping_token,
     missing_datum, malformed_datum,
   ]
 
 const all_registry_failures: List<String> =
   [
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
-    not_burning, unauthorized_update, missing_token, escaping_token,
+    not_burning, burn_before, unauthorized_update, missing_token, escaping_token,
     missing_datum, malformed_datum, altered_datum,
   ]
 
@@ -278,6 +281,7 @@ type Weights {
   scenario_outputs: Int,
   scenario_mint: Int,
   scenario_burn: Int,
+  scenario_validity: Int,
   scenario_signatories: Int,
 }
 
@@ -287,6 +291,7 @@ const weights =
     scenario_outputs: 230,
     scenario_mint: 210,
     scenario_burn: 230,
+    scenario_validity: 230,
     scenario_signatories: 230,
   }
 
@@ -440,6 +445,14 @@ fn step_burn(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
       fn() { scenario_burn_none(st) },
     )
 
+  let (st, validity_range) <-
+    scenario.fork_if_and_then(
+      st.labels == [],
+      weights.scenario_validity,
+      fn() { scenario_validity_range_baseline(st) },
+      fn() { scenario_validity_range_before(st) },
+    )
+
   let (st, extra_signatories) <-
     scenario.fork_if_and_then(
       st.labels == [],
@@ -457,6 +470,7 @@ fn step_burn(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
         inputs: inputs,
         extra_signatories: extra_signatories,
         mint: mint,
+        validity_range: validity_range,
         redeemers: [mint_or_burn, ..spend_redeemers(inputs)],
       },
     ),
@@ -867,6 +881,28 @@ fn scenario_burn_none(st: State) -> Fuzzer<(State, Value)> {
     )
 
   return((State { ..st, labels: [not_burning, ..st.labels] }, mint))
+}
+
+// ------------------------------------------------------------------
+// ----- Generators :: Validity Range
+// ------------------------------------------------------------------
+
+fn scenario_validity_range_baseline(st: State) -> Fuzzer<(State, Interval<Int>)> {
+  let lower_bound <- fuzz.map(fuzz.int_at_least(config.expiration))
+
+  (st, interval.entirely_after(lower_bound))
+}
+
+fn scenario_validity_range_before(st: State) -> Fuzzer<(State, Interval<Int>)> {
+  let validity_range <-
+    fuzz.map(
+      fuzz.either(
+        fuzz.one_of([interval.everything, interval.after(config.expiration)]),
+        fuzz.map(fuzz.int_between(0, config.expiration), interval.before),
+      ),
+    )
+
+  (State { ..st, labels: [burn_before, ..st.labels] }, validity_range)
 }
 
 // ------------------------------------------------------------------

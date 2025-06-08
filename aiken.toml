@@ -34,6 +34,9 @@ source = "github"
 # The name of the scopes token. /!\ Also change in recipes/scopes.sh if edited.
 scopes_token_name = "amaru scopes"
 
+# Expiration time (POSIX time in *milliseconds*). Currently set to December 31st 2025, midnight.
+expiration = 1767182399000
+
 # PRAGMA's general assembly members verification key hashes.
 pragma_general_assembly = [
   { bytes = "9a296a8571c597459b54ddc515668c2cd357bec3284413f4d92c67fd", encoding = "base16" },
@@ -46,6 +49,9 @@ pragma_general_assembly = [
 [config.preview]
 # The name of the scopes token. /!\ Also change in recipes/scopes.sh if edited.
 scopes_token_name = "amaru scopes"
+
+# Expiration time (POSIX time in *milliseconds*). Currently set to 13rd June 2025, 07:00:00 A.M. GMT.
+expiration = 1749798000000
 
 # PRAGMA's general assembly members verification key hashes.
 pragma_general_assembly = [

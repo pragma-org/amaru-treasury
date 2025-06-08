@@ -86,6 +86,8 @@ HASH_MERCENARIES=$(registry "mercenaries")
 TOKEN_NAME_MERCENARIES=$(echo -n "mercenaries" | basenc --base16 -w 0)
 HASH_MARKETING=$(registry "marketing")
 TOKEN_NAME_MARKETING=$(echo -n "marketing" | basenc --base16 -w 0)
+HASH_CONTINGENCY=$(registry "contingency")
+TOKEN_NAME_CONTINGENCY=$(echo -n "contingency" | basenc --base16 -w 0)
 
 if [[ $NETWORK == "mainnet" ]]; then
   NETWORK_FLAG="--mainnet"
@@ -93,12 +95,14 @@ if [[ $NETWORK == "mainnet" ]]; then
   ADDRESS_CONSENSUS=$(bech32 addr <<< "71$HASH_CONSENSUS")
   ADDRESS_MERCENARIES=$(bech32 addr <<< "71$HASH_MERCENARIES")
   ADDRESS_MARKETING=$(bech32 addr <<< "71$HASH_MARKETING")
+  ADDRESS_CONTINGENCY=$(bech32 addr <<< "71$HASH_CONTINGENCY")
 else
   NETWORK_FLAG="--testnet-magic 2"
   ADDRESS_LEDGER=$(bech32 addr_test <<< "70$HASH_LEDGER")
   ADDRESS_CONSENSUS=$(bech32 addr_test <<< "70$HASH_CONSENSUS")
   ADDRESS_MERCENARIES=$(bech32 addr_test <<< "70$HASH_MERCENARIES")
   ADDRESS_MARKETING=$(bech32 addr_test <<< "70$HASH_MARKETING")
+  ADDRESS_CONTINGENCY=$(bech32 addr_test <<< "70$HASH_CONTINGENCY")
 fi
 
 CHANGE_ADDR=$(cardano-cli conway query utxo \
@@ -129,7 +133,9 @@ CLI_OUT=$(cardano-cli conway transaction build \
    --tx-out-inline-datum-cbor-file $TMP/datum-mercenaries.cbor \
    --tx-out "$ADDRESS_MARKETING+2000000+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING" \
    --tx-out-inline-datum-cbor-file $TMP/datum-marketing.cbor \
-   --mint "1 $HASH_LEDGER.$TOKEN_NAME_LEDGER+1 $HASH_CONSENSUS.$TOKEN_NAME_CONSENSUS+1 $HASH_MERCENARIES.$TOKEN_NAME_MERCENARIES+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING" \
+   --tx-out "$ADDRESS_CONTINGENCY+2000000+1 $HASH_CONTINGENCY.$TOKEN_NAME_CONTINGENCY" \
+   --tx-out-inline-datum-cbor-file $TMP/datum-contingency.cbor \
+   --mint "1 $HASH_LEDGER.$TOKEN_NAME_LEDGER+1 $HASH_CONSENSUS.$TOKEN_NAME_CONSENSUS+1 $HASH_MERCENARIES.$TOKEN_NAME_MERCENARIES+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING+1 $HASH_CONSENSUS.$TOKEN_NAME_CONTINGENCY" \
    --mint-script-file $TMP/script-ledger.cbor \
    --mint-redeemer-value "[]" \
    --mint-script-file $TMP/script-consensus.cbor \
@@ -137,6 +143,8 @@ CLI_OUT=$(cardano-cli conway transaction build \
    --mint-script-file $TMP/script-mercenaries.cbor \
    --mint-redeemer-value "[]" \
    --mint-script-file $TMP/script-marketing.cbor \
+   --mint-redeemer-value "[]" \
+   --mint-script-file $TMP/script-contingency.cbor \
    --mint-redeemer-value "[]" \
    --change-address $CHANGE_ADDR \
    --out-file $OUT)

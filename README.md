@@ -20,7 +20,7 @@ We recognize the following capabilities of this contract:
 
 ### How does it work?
 
-Each Amaru treasury contract comprises of 4 validators, each with specific role. One of them, the scopes, is shared across all treasuries. Others are specific to each scope. We have summarized the setup and flow in a [high-level diagram (PDF)](https://github.com/user-attachments/files/20646499/Amaru.Treasury-3.pdf).
+Each Amaru treasury contract comprises of 4 validators, each with specific role. One of them, the scopes, is shared across all treasuries. Others are specific to each scope. We have summarized the setup and flow in a [high-level diagram (PDF)](./docs/overview.pdf).
 
 #### Treasury
 

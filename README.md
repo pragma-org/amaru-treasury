@@ -6,7 +6,7 @@ The [Amaru](https://github.com/pragma-org/amaru) maintainer committee ensures **
 
 We recognize the following capabilities of this contract:
 
-1. **Standard withdrawal**: A scope owner initiates and asks another scope owner for money to be withdrawn from his scope.
+1. **Standard withdrawal**: A scope owner initiates money withdrawal from their treasury, with another scope owner approval.
 2. **Contingency withdrawal**: A scope owner asks all other scope owners to withdraw an amount from the contingency funds.
 3. **Scope reconciliation**: A scope owner asks other scope owners for a change of ownership (or a reallocation of budget).
 4. **Contingency refund/closing/failsafe**: any leftovers from scopes or from the contingency budget can be sent back to the Cardano treasury after an ageed-upon delay.
@@ -44,7 +44,7 @@ See also [docs/traps.md](./docs/traps.md).
 
 #### Scopes
 
-To allow dynamically changing the scope owners for each scope (in case of a key loss or actual change of owner), we must store scope owners credential at a datum on-chain, identified by a specific NFT. The minting policy and management of that NFT is guarded by the registry validator. Burning is authorized only after the expiration date.
+To allow dynamically changing the scope owners for each scope (in case of a key loss or actual change of owner), we must store scope owners credential at a datum on-chain, identified by a specific NFT. The minting policy and management of that NFT is guarded by the scopes validator, overseen by PRAGMA. Burning is authorized only after the expiration date.
 
 See also [docs/traps.md](./docs/traps.md).
 

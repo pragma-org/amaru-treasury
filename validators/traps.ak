@@ -85,7 +85,7 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
     utxo: OutputReference,
     self: Transaction,
   ) {
-    let asset_name = scope.to_bytearray(scope)
+    let asset_name = types.registry_token_name()
 
     let with_state =
       fn(old_datum: Option<Datum>, new_datum: Datum) {
@@ -103,7 +103,8 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
   }
 
   mint(_redeemer: Data, policy_id: PolicyId, self: Transaction) {
-    let asset_name = scope.to_bytearray(scope)
+    trace @"scope": scope
+    let asset_name = types.registry_token_name()
     let with_state =
       with_inline_registry(_, fn(_) { True })
     mint_or_burn(seed, asset_name, with_state, policy_id, self)

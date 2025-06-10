@@ -78,16 +78,12 @@ registry () {
   jq -r ".validators[0].hash" build/registry-$SCOPE.plutus.json
 }
 
+TOKEN_NAME_REGISTRY=$(echo -n "REGISTRY" | basenc --base16 -w 0)
 HASH_LEDGER=$(registry "ledger")
-TOKEN_NAME_LEDGER=$(echo -n "ledger" | basenc --base16 -w 0)
 HASH_CONSENSUS=$(registry "consensus")
-TOKEN_NAME_CONSENSUS=$(echo -n "consensus" | basenc --base16 -w 0)
 HASH_MERCENARIES=$(registry "mercenaries")
-TOKEN_NAME_MERCENARIES=$(echo -n "mercenaries" | basenc --base16 -w 0)
 HASH_MARKETING=$(registry "marketing")
-TOKEN_NAME_MARKETING=$(echo -n "marketing" | basenc --base16 -w 0)
 HASH_CONTINGENCY=$(registry "contingency")
-TOKEN_NAME_CONTINGENCY=$(echo -n "contingency" | basenc --base16 -w 0)
 
 if [[ $NETWORK == "mainnet" ]]; then
   NETWORK_FLAG="--mainnet"
@@ -124,17 +120,17 @@ CLI_OUT=$(cardano-cli conway transaction build \
    $NETWORK_FLAG \
    --tx-in "$REGISTRY_TX#$REGISTRY_IX" \
    --tx-in-collateral "$REGISTRY_TX#$REGISTRY_IX" \
-   --tx-out "$ADDRESS_LEDGER+2000000+1 $HASH_LEDGER.$TOKEN_NAME_LEDGER" \
+   --tx-out "$ADDRESS_LEDGER+2000000+1 $HASH_LEDGER.$TOKEN_NAME_REGISTRY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-ledger.cbor \
-   --tx-out "$ADDRESS_CONSENSUS+2000000+1 $HASH_CONSENSUS.$TOKEN_NAME_CONSENSUS" \
+   --tx-out "$ADDRESS_CONSENSUS+2000000+1 $HASH_CONSENSUS.$TOKEN_NAME_REGISTRY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-consensus.cbor \
-   --tx-out "$ADDRESS_MERCENARIES+2000000+1 $HASH_MERCENARIES.$TOKEN_NAME_MERCENARIES" \
+   --tx-out "$ADDRESS_MERCENARIES+2000000+1 $HASH_MERCENARIES.$TOKEN_NAME_REGISTRY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-mercenaries.cbor \
-   --tx-out "$ADDRESS_MARKETING+2000000+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING" \
+   --tx-out "$ADDRESS_MARKETING+2000000+1 $HASH_MARKETING.$TOKEN_NAME_REGISTRY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-marketing.cbor \
-   --tx-out "$ADDRESS_CONTINGENCY+2000000+1 $HASH_CONTINGENCY.$TOKEN_NAME_CONTINGENCY" \
+   --tx-out "$ADDRESS_CONTINGENCY+2000000+1 $HASH_CONTINGENCY.$TOKEN_NAME_REGISTRY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-contingency.cbor \
-   --mint "1 $HASH_LEDGER.$TOKEN_NAME_LEDGER+1 $HASH_CONSENSUS.$TOKEN_NAME_CONSENSUS+1 $HASH_MERCENARIES.$TOKEN_NAME_MERCENARIES+1 $HASH_MARKETING.$TOKEN_NAME_MARKETING+1 $HASH_CONTINGENCY.$TOKEN_NAME_CONTINGENCY" \
+   --mint "1 $HASH_LEDGER.$TOKEN_NAME_REGISTRY+1 $HASH_CONSENSUS.$TOKEN_NAME_REGISTRY+1 $HASH_MERCENARIES.$TOKEN_NAME_REGISTRY+1 $HASH_MARKETING.$TOKEN_NAME_REGISTRY+1 $HASH_CONTINGENCY.$TOKEN_NAME_REGISTRY" \
    --mint-script-file $TMP/script-ledger.cbor \
    --mint-redeemer-value "[]" \
    --mint-script-file $TMP/script-consensus.cbor \

@@ -106,7 +106,7 @@ const default_registry_handler =
 
 test prop_registry_ok(
   ok via scenario.ok(
-    default_state(scope.to_bytearray(default_scope), KindRegistry),
+    default_state(types.registry_token_name(), KindRegistry),
     step,
   ),
 ) {
@@ -116,7 +116,7 @@ test prop_registry_ok(
 
 test prop_registry_ko(
   (labels, ko) via scenario.ko(
-    default_state(scope.to_bytearray(default_scope), KindRegistry),
+    default_state(types.registry_token_name(), KindRegistry),
     step,
   ),
 ) fail {
@@ -128,7 +128,7 @@ test prop_registry_ko(
 // reasonable distribution as we complexify scenarii down the line.
 test prop_registry_scenarii_distribution(
   outcome via scenario.report_coverage(
-    default_state(scope.to_bytearray(default_scope), KindRegistry),
+    default_state(types.registry_token_name(), KindRegistry),
     step,
   ),
 ) {
@@ -139,10 +139,7 @@ test prop_registry_scenarii_distribution(
 test registry_ko_coverage() {
   scenario.check_coverage(
     all_registry_failures,
-    scenario.ko(
-      default_state(scope.to_bytearray(default_scope), KindRegistry),
-      step,
-    ),
+    scenario.ko(default_state(types.registry_token_name(), KindRegistry), step),
   )
 }
 

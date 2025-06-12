@@ -28,16 +28,6 @@ pub type Scope {
   Contingency
 }
 
-pub fn to_bytearray(self: Scope) -> ByteArray {
-  when self is {
-    Ledger -> "ledger"
-    Consensus -> "consensus"
-    Mercenaries -> "mercenaries"
-    Marketing -> "marketing"
-    Contingency -> "contingency"
-  }
-}
-
 /// A dynamic scopes definition to be stored on-chain (inline datum). Note that
 /// the contingency scope governing rules are derived from the others.
 pub type Scopes {

@@ -17,7 +17,7 @@
   <source media="(prefers-color-scheme: dark)" srcset="../.github/img/treasury-state-diagram-dark.svg" />
   <source media="(prefers-color-scheme: light)" srcset="../.github/img/treasury-state-diagram-light.svg" />
   <img alt="State diagram" src="../.github/img/treasury-state-diagram-dark.svg" width="500" />
-</picture>  
+</picture>
 </td>
 </tr>
 </tbody>
@@ -26,9 +26,10 @@
 ## Functionality
 
 - Manage funds coming from either UTxO or a reward account enforcing only specific operations with clear semantic:
-  - Reorganize: allows to collect and combine multiple sources (e.g. multiple UTxOs) back into another distribution with at least as much assets. This is typically used to merge several UTxOs back into one for easier treasury management.
-  - Sweep: after an agreed-upon expiration date, allows sending all ADA leftovers (unconsumed budget) back to the Cardano's treasury. Any native asset (e.g. USDM), is kept within the contract.
-  - Disburse: allow payment of funds (ADA or native assets) into an arbitrary address.
+  - **Reorganize**: allows to collect and combine multiple sources (e.g. multiple UTxOs) back into another distribution with at least as much assets. This is typically used to merge several UTxOs back into one for easier treasury management.
+  - **Sweep**: after an agreed-upon expiration date, allows sending all ADA leftovers (unconsumed budget) back to the Cardano's treasury. Any native asset (e.g. USDM), is kept within the contract.
+  - **Disburse**: allow payment of funds (ADA or native assets) into an arbitrary address.
+    <img height="480" width="auto" src="./treasury/disburse.jpg" alt="Disburse diagram" />
 
 - Each operation is also delegating authorization to a _permission_ script (pre-configured at compile time), which can take the form of a multisig or, another script execution (through the withdraw-0 pattern).
 

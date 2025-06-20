@@ -18,6 +18,10 @@ We recognize the following capabilities of this contract:
   <img alt="Overview" src=".github/img/treasury-overview-dark.jpg" />
 </picture>
 
+### Auditing
+
+We keep [a journal](./journal) transactions happening around this treasury setup.
+
 ### How does it work?
 
 Each Amaru treasury contract comprises of 4 validators, each with specific role. One of them, the scopes, is shared across all treasuries. Others are specific to each scope. We have summarized the setup and flow in a [high-level diagram (PDF)](./docs/overview.pdf). We use a few symbols and arrows in the diagram, refer to [docs/README.md#legend](./docs/README.md#legend) to understand their meaning.

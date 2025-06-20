@@ -11,6 +11,36 @@
 
 ## Transactions
 
+| ID           | [`8f1fc137efac1923f414dbc6dff29fd07b92b873018b8ea66d33ef16de3d0d12`][] |
+| :---         | ---:                                                                   |
+| Type         | N/A                                                                    |
+| Delta amount | +2.000000 ADA +8.410131 USDM                                           |
+| Agreement?   | N/A                                                                    |
+
+Result of the previous swap being credited back to the account alongside a deposit amount that was sent with the order to account for the minimum ada value on UTxO. 
+
+---
+
+| ID           | [`848adba4c45372e388bdf96d585d85cd056ea7819c8a810810b47551b39024d3`][] |
+| :---         | ---:                                                                   |
+| Type         | `disburse`                                                             |
+| Delta amount | -14.000000 ADA                                                         |
+| Agreement?   | N/A                                                                    |
+
+Experimenting with a swap from ADA to USDM using a decentralized order book (SundaeSwap). The funds spent in this context were sent to the script address from an external source. This transaction is only meant to test the final setup in real conditions. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures). The destination for the swap is the treasury itself.
+
+---
+
+| ID           | [`1da3917f4ceb275781773250137d240d09c9038f2c7682c18dcfc033445d74f4`][] |
+| :---         | ---:                                                                   |
+| Type         | N/A                                                                    |
+| Delta amount | +14.000000 ADA                                                         |
+| Agreement?   | N/A                                                                    |
+
+Sending some funds from an external account into the treasury account to try out the smart contract in real conditions prior to any real treasury withdrawal.
+
+---
+
 | ID           | [`ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe`][] |
 | :---         | ---:                                                                   |
 | Type         | `initialize`                                                           |
@@ -49,5 +79,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`]: https://cardanoscan.io/stakeKey/stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g
 [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`]: https://explorer.cardano.org/address/addr1xxnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pna8je58s4gvuy0v32pmj07p5msst42y77zfgsqsvmz0ur8sjjwfw8
 
+[`8f1fc137efac1923f414dbc6dff29fd07b92b873018b8ea66d33ef16de3d0d12`]: https://explorer.cardnao.org/tx/8f1fc137efac1923f414dbc6dff29fd07b92b873018b8ea66d33ef16de3d0d12
+[`1da3917f4ceb275781773250137d240d09c9038f2c7682c18dcfc033445d74f4`]: https://explorer.cardnao.org/tx/1da3917f4ceb275781773250137d240d09c9038f2c7682c18dcfc033445d74f4
+[`848adba4c45372e388bdf96d585d85cd056ea7819c8a810810b47551b39024d3`]: https://explorer.cardnao.org/tx/848adba4c45372e388bdf96d585d85cd056ea7819c8a810810b47551b39024d3
 [`cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7`]: https://explorer.cardano.org/tx/cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7
 [`ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe`]: https://explorer.cardano.org/tx/ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe

@@ -10,6 +10,8 @@ This folder contains financial journals for each of the managed treasuries:
 
 Each journal is structured in a similar fashion and record transactions coming in and out of the treasuries. The aim is both to keep a human-readable trace of transactions happening around those accounts, as well as to ease the work of a financial auditors (or anyone really interested in auditing the trail of transactions). The next section describes the format of those journaling files.
 
+There's an additional journal for recording [miscellaneous](./misc.md) transactions related to Amaru treasury management.
+
 ## Preamble
 
 Each sub-journal shall present the following information as preamble:

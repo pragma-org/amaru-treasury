@@ -161,6 +161,8 @@ fn spend(
     {
       let output = outputs.forwarding_nft(own_script, asset_name, self.outputs)
 
+      expect output.reference_script == None
+
       // Retrieve the managed datum, if any. We only trust the datum that is trapped with
       // the NFT.
       let own_datum =
@@ -206,6 +208,7 @@ fn mint(
           fn(sum, output) {
             if output.address.payment_credential == Script(policy_id) {
               expect expect_datum(output.datum)?
+              expect output.reference_script == None
               sum + assets.quantity_of(output.value, policy_id, asset_name)
             } else {
               sum

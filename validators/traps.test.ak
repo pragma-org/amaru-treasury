@@ -195,6 +195,8 @@ const malformed_datum: String = @"· malformed datum"
 
 const altered_datum: String = @"· altered datum"
 
+const include_ref_script: String = @"· output with reference script"
+
 // -------------------------------------------------------------------
 // ----- Failing scenarii :: All
 // -------------------------------------------------------------------
@@ -203,14 +205,14 @@ const all_scopes_failures: List<String> =
   [
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
     not_burning, burn_before, unauthorized_update, missing_token, escaping_token,
-    missing_datum, malformed_datum,
+    missing_datum, malformed_datum, include_ref_script,
   ]
 
 const all_registry_failures: List<String> =
   [
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
     not_burning, burn_before, unauthorized_update, missing_token, escaping_token,
-    missing_datum, malformed_datum, altered_datum,
+    missing_datum, malformed_datum, altered_datum, include_ref_script,
   ]
 
 // ----------------------------------------------------------------------------
@@ -339,13 +341,14 @@ fn step_mint(st: State) -> Fuzzer<Scenario<State>> {
     )
 
   let (st, outputs) <-
-    scenario.fork3_if_and_then(
+    scenario.fork4_if_and_then(
       st.labels == [],
       weights.scenario_outputs,
       fn() { scenario_outputs_baseline(st) },
       fn() { scenario_outputs_missing_datum(st) },
       fn() { scenario_outputs_escaping_token(st) },
       fn() { scenario_outputs_malformed_datum(st) },
+      fn() { scenario_outputs_ref_script(st) },
     )
 
   let (st, mint) <-
@@ -390,13 +393,14 @@ fn step_update(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>>
     )
 
   let (st, outputs) <-
-    scenario.fork3_if_and_then(
+    scenario.fork4_if_and_then(
       st.labels == [],
       weights.scenario_outputs,
       fn() { scenario_outputs_baseline(st) },
       fn() { scenario_outputs_missing_datum(st) },
       fn() { scenario_outputs_escaping_token(st) },
       fn() { scenario_outputs_malformed_datum(st) },
+      fn() { scenario_outputs_ref_script(st) },
     )
 
   let (st, extra_signatories) <-
@@ -646,22 +650,23 @@ fn output_value_baseline(asset_name: AssetName) -> Fuzzer<Value> {
   )
 }
 
+fn output_baseline(st: State) -> Fuzzer<Output> {
+  cardano.output_with(
+    output_address_baseline(),
+    // if the token is missing from inputs, it can't possibly be in the
+    // outputs (phase-1 rule).
+    if list.has(st.labels, missing_token) {
+      cardano.value(assets.zero)
+    } else {
+      output_value_baseline(st.asset_name)
+    },
+    output_datum_baseline(st),
+    return(None),
+  )
+}
+
 fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
-  let output <-
-    and_then(
-      cardano.output_with(
-        output_address_baseline(),
-        // if the token is missing from inputs, it can't possibly be in the
-        // outputs (phase-1 rule).
-        if list.has(st.labels, missing_token) {
-          cardano.value(assets.zero)
-        } else {
-          output_value_baseline(st.asset_name)
-        },
-        output_datum_baseline(st),
-        cardano.reference_script(),
-      ),
-    )
+  let output <- and_then(output_baseline(st))
 
   let outputs <-
     and_then(
@@ -669,6 +674,29 @@ fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
     )
 
   return((State { ..st, utxo: Some(output) }, outputs))
+}
+
+fn scenario_outputs_ref_script(st: State) -> Fuzzer<(State, List<Output>)> {
+  let output <- and_then(output_baseline(st))
+  let script_hash <- and_then(cardano.script_hash())
+
+  let output = Output { ..output, reference_script: Some(script_hash) }
+
+  let outputs <-
+    and_then(
+      list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
+    )
+
+  return(
+    (
+      State {
+        ..st,
+        utxo: Some(output),
+        labels: [include_ref_script, ..st.labels],
+      },
+      outputs,
+    ),
+  )
 }
 
 fn scenario_outputs_missing_datum(st: State) -> Fuzzer<(State, List<Output>)> {

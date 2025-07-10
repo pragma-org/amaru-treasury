@@ -197,6 +197,8 @@ const altered_datum: String = @"· altered datum"
 
 const include_ref_script: String = @"· output with reference script"
 
+const garbage_tokens: String = @"· output with garbage tokens"
+
 // -------------------------------------------------------------------
 // ----- Failing scenarii :: All
 // -------------------------------------------------------------------
@@ -205,7 +207,7 @@ const all_scopes_failures: List<String> =
   [
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
     not_burning, burn_before, unauthorized_update, missing_token, escaping_token,
-    missing_datum, malformed_datum, include_ref_script,
+    missing_datum, malformed_datum, include_ref_script, garbage_tokens,
   ]
 
 const all_registry_failures: List<String> =
@@ -213,6 +215,7 @@ const all_registry_failures: List<String> =
     unexpected_mint, minted_too_many, unseeded_mint, unauthorized_burn,
     not_burning, burn_before, unauthorized_update, missing_token, escaping_token,
     missing_datum, malformed_datum, altered_datum, include_ref_script,
+    garbage_tokens,
   ]
 
 // ----------------------------------------------------------------------------
@@ -286,8 +289,8 @@ type Weights {
 
 const weights =
   Weights {
-    scenario_inputs: 240,
-    scenario_outputs: 230,
+    scenario_inputs: 245,
+    scenario_outputs: 235,
     scenario_mint: 210,
     scenario_burn: 230,
     scenario_validity: 230,
@@ -348,7 +351,13 @@ fn step_mint(st: State) -> Fuzzer<Scenario<State>> {
       fn() { scenario_outputs_missing_datum(st) },
       fn() { scenario_outputs_escaping_token(st) },
       fn() { scenario_outputs_malformed_datum(st) },
-      fn() { scenario_outputs_ref_script(st) },
+      fn() {
+        scenario.fork(
+          128,
+          fn() { scenario_outputs_ref_script(st) },
+          fn() { scenario_outputs_garbage_tokens(st) },
+        )
+      },
     )
 
   let (st, mint) <-
@@ -400,7 +409,13 @@ fn step_update(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>>
       fn() { scenario_outputs_missing_datum(st) },
       fn() { scenario_outputs_escaping_token(st) },
       fn() { scenario_outputs_malformed_datum(st) },
-      fn() { scenario_outputs_ref_script(st) },
+      fn() {
+        scenario.fork(
+          128,
+          fn() { scenario_outputs_ref_script(st) },
+          fn() { scenario_outputs_garbage_tokens(st) },
+        )
+      },
     )
 
   let (st, extra_signatories) <-
@@ -642,8 +657,9 @@ fn output_address_baseline() -> Fuzzer<Address> {
 }
 
 fn output_value_baseline(asset_name: AssetName) -> Fuzzer<Value> {
+  let lovelace <- and_then(cardano.lovelace())
   cardano.value_with(
-    assets.zero,
+    lovelace,
     return([validator_hash]),
     fn(_policy_id) { return(asset_name) },
     fn(_policy_id, _asset_name) { return(1) },
@@ -674,6 +690,32 @@ fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
     )
 
   return((State { ..st, utxo: Some(output) }, outputs))
+}
+
+fn scenario_outputs_garbage_tokens(st: State) -> Fuzzer<(State, List<Output>)> {
+  let output <- and_then(output_baseline(st))
+
+  let poisoned_value <-
+    and_then(
+      fuzz.such_that(
+        cardano.value(output.value),
+        fn(value) { list.length(assets.policies(value)) > 2 },
+      ),
+    )
+
+  let output = Output { ..output, value: poisoned_value }
+
+  let outputs <-
+    and_then(
+      list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
+    )
+
+  return(
+    (
+      State { ..st, labels: [garbage_tokens, ..st.labels], utxo: Some(output) },
+      outputs,
+    ),
+  )
 }
 
 fn scenario_outputs_ref_script(st: State) -> Fuzzer<(State, List<Output>)> {

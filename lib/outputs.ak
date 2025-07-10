@@ -12,11 +12,12 @@
 //// See the License for the specific language governing permissions and
 //// limitations under the License.
 
+use aiken/collection/dict
 // A collection of utilities over transaction outputs.
 
 use aiken/crypto.{ScriptHash}
 use cardano/address.{Address, Credential}
-use cardano/assets.{AssetName}
+use cardano/assets.{AssetName, Value}
 use cardano/transaction.{Output}
 
 /// Find the output (if any), that forward an NFT from an original
@@ -25,7 +26,7 @@ use cardano/transaction.{Output}
 /// Fails if there's no forwarding output.
 pub fn forwarding_nft(
   destination: ScriptHash,
-  asset_name: AssetName,
+  expected_asset_name: AssetName,
   outputs: List<Output>,
 ) -> Output {
   when outputs is {
@@ -36,15 +37,31 @@ pub fn forwarding_nft(
     [head, ..tail] -> {
       let to_script =
         head.address.payment_credential == Credential.Script(destination)
-      let has_token =
-        fn() { assets.quantity_of(head.value, destination, asset_name) == 1 }
-      if to_script && has_token() {
+      if to_script && expect_nft(head.value, destination, expected_asset_name) {
         // We need not to check for the tail here because the token is guaranteed to be unique.
         // Thus, it cannot be found in more than one output. We can stop at the first one.
         head
       } else {
-        forwarding_nft(destination, asset_name, tail)
+        forwarding_nft(destination, expected_asset_name, tail)
       }
     }
+  }
+}
+
+/// Expect a given NFT at the value, allowing (and expecting) some ada but /
+/// nothing else. This prevents administrator to inadvertently send undesired
+/// tokens to smart-contract controlled outputs.
+pub fn expect_nft(
+  value: Value,
+  expected_policy: ScriptHash,
+  expected_asset_name: AssetName,
+) -> Bool {
+  let pairs = value |> assets.to_dict |> dict.to_pairs
+  expect [_ada, Pair(policy, assets)] = pairs
+  expect [Pair(asset_name, quantity)] = assets |> dict.to_pairs
+  and {
+    (policy == expected_policy)?,
+    (asset_name == expected_asset_name)?,
+    (quantity == 1)?,
   }
 }

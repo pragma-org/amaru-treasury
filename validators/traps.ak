@@ -209,7 +209,8 @@ fn mint(
             if output.address.payment_credential == Script(policy_id) {
               expect expect_datum(output.datum)?
               expect output.reference_script == None
-              sum + assets.quantity_of(output.value, policy_id, asset_name)
+              expect outputs.expect_nft(output.value, policy_id, asset_name)
+              sum + 1
             } else {
               sum
             }

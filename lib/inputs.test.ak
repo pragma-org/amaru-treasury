@@ -56,12 +56,9 @@ test expect_single_script_trivial() {
 
   let redeemer_1 = generate(1, fuzz.data(), spend(input_1))
 
-  let script_hash, redeemer <- expect_single_script([input_1], [redeemer_1])
+  let redeemer = expect_single_script([input_1], [redeemer_1])
 
-  and {
-    script_hash == "foo",
-    redeemer == redeemer_1.2nd,
-  }
+  redeemer == redeemer_1.2nd
 }
 
 test expect_single_script_only_scripts() {
@@ -76,17 +73,13 @@ test expect_single_script_only_scripts() {
   let redeemer_3 =
     generate(1, fuzz.data(), fn(r) { Pair(Spend(input_3.output_reference), r) })
 
-  let
-    script_hash,
-    redeemer,
-  <-
+  let redeemer =
     expect_single_script(
       [input_1, input_2, input_3],
       [redeemer_1, redeemer_2, redeemer_3],
     )
 
   and {
-    script_hash == "foo",
     redeemer == redeemer_1.2nd,
     redeemer == redeemer_2.2nd,
     redeemer == redeemer_3.2nd,
@@ -101,13 +94,10 @@ test expect_single_script_mixed_scripts_and_keys() {
   let redeemer_1 = generate(1, fuzz.data(), spend(input_3))
   let redeemer_3 = generate(1, fuzz.data(), spend(input_1))
 
-  let
-    script_hash,
-    redeemer,
-  <- expect_single_script([input_1, input_2, input_3], [redeemer_1, redeemer_3])
+  let redeemer =
+    expect_single_script([input_1, input_2, input_3], [redeemer_1, redeemer_3])
 
   and {
-    script_hash == "foo",
     redeemer == redeemer_1.2nd,
     redeemer == redeemer_3.2nd,
   }
@@ -118,7 +108,7 @@ test expect_single_script_no_scripts() fail {
   let input_2 = generate(2, cardano.input(), locked_by_key("bar"))
   let input_3 = generate(3, cardano.input(), locked_by_key("foo"))
 
-  expect_single_script([input_1, input_2, input_3], [], fn(_, _) { True })
+  expect _: Data = expect_single_script([input_1, input_2, input_3], [])
 }
 
 test expect_single_script_different_scripts() fail {
@@ -130,11 +120,11 @@ test expect_single_script_different_scripts() fail {
   let redeemer_2 = generate(1, fuzz.data(), spend(input_2))
   let redeemer_3 = generate(1, fuzz.data(), spend(input_3))
 
-  expect_single_script(
-    [input_1, input_2, input_3],
-    [redeemer_1, redeemer_2, redeemer_3],
-    fn(_, _) { True },
-  )
+  expect _: Data =
+    expect_single_script(
+      [input_1, input_2, input_3],
+      [redeemer_1, redeemer_2, redeemer_3],
+    )
 }
 
 test expect_single_script_different_redeemers() fail {
@@ -149,9 +139,6 @@ test expect_single_script_different_redeemers() fail {
       spend(input_2),
     )
 
-  expect_single_script(
-    [input_1, input_2],
-    [redeemer_1, redeemer_2],
-    fn(_, _) { True },
-  )
+  expect _: Data =
+    expect_single_script([input_1, input_2], [redeemer_1, redeemer_2])
 }

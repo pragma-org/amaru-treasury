@@ -23,10 +23,9 @@ use cardano/transaction.{Datum, Input, Output, OutputReference, Transaction}
 use config
 use inputs
 use outputs
-use registry.{with_inline_registry}
-use scope.{Scope, Scopes, with_inline_scopes}
+use scope.{Scope, Scopes, expect_inline_scopes}
 use sundae/multisig
-use types.{ScriptHashRegistry as Registry}
+use types.{ScriptHashRegistry as Registry, ScriptHashRegistry}
 
 const admin =
   config.pragma_general_assembly
@@ -45,22 +44,25 @@ validator scopes(seed: OutputReference) {
     self: Transaction,
   ) {
     let asset_name = config.scopes_token_name
+
     let with_state =
       fn(_, new_datum) {
         // Allow updates, but enforces that the new datum is at least:
         //
         // (a) present;
         // (b) of the right shape.
-        with_inline_scopes(new_datum, fn(_) { True })
+        expect_inline_scopes(new_datum)
       }
+
     spend(asset_name, with_state, utxo, self)
   }
 
   mint(_redeemer: Data, policy_id: PolicyId, self: Transaction) {
     let asset_name = config.scopes_token_name
-    let with_state =
-      with_inline_scopes(_, fn(_) { True })
-    mint_or_burn(seed, asset_name, with_state, policy_id, self)
+    or {
+      burn(policy_id, asset_name, self)?,
+      mint(seed, policy_id, asset_name, expect_inline_scopes, self)?,
+    }
   }
 
   // Allow other types of operations (e.g. stake delegation) at the
@@ -105,9 +107,19 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
   mint(_redeemer: Data, policy_id: PolicyId, self: Transaction) {
     trace @"scope": scope
     let asset_name = types.registry_token_name()
-    let with_state =
-      with_inline_registry(_, fn(_) { True })
-    mint_or_burn(seed, asset_name, with_state, policy_id, self)
+
+    // Assert (or fail) that a given datum is inline and has an expected shape.
+    let expect_script_registry =
+      fn(datum: Datum) {
+        expect Datum.InlineDatum(data) = datum
+        expect _: ScriptHashRegistry = data
+        True
+      }
+
+    or {
+      burn(policy_id, asset_name, self)?,
+      mint(seed, policy_id, asset_name, expect_script_registry, self)?,
+    }
   }
 
   // Allow other types of operations (e.g. stake delegation) at the
@@ -160,22 +172,6 @@ fn spend(
 
       with_state(own_datum, output.datum)?
     },
-  }
-}
-
-/// A minting or burning policy. It ensures that minting can only happen once
-/// (piggybacking on UTxO's spending uniqueness) and for a quantity of exactly
-/// one token.
-fn mint_or_burn(
-  seed: OutputReference,
-  asset_name: AssetName,
-  with_state: fn(Datum) -> Bool,
-  policy_id: PolicyId,
-  self: Transaction,
-) -> Bool {
-  or {
-    burn(policy_id, asset_name, self)?,
-    mint(seed, policy_id, asset_name, with_state, self)?,
   }
 }
 

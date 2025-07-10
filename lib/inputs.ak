@@ -36,8 +36,8 @@ pub fn resolve(inputs: List<Input>, utxo_ref: OutputReference) -> Output {
   }
 }
 
-/// Traverse all inputs searching for script-locked UTxOs. Return the script
-/// hash and its redeemer.
+/// Traverse all inputs searching for script-locked UTxOs. Return the
+/// associated redeemer.
 ///
 /// Fails if:
 /// - there's no script-locked UTxO whatsoever;
@@ -46,13 +46,12 @@ pub fn resolve(inputs: List<Input>, utxo_ref: OutputReference) -> Output {
 pub fn expect_single_script(
   inputs: List<Input>,
   redeemers: Pairs<ScriptPurpose, Data>,
-  return: fn(ScriptHash, Data) -> a,
-) -> a {
-  expect [Pair(script, redeemer)] =
+) -> Data {
+  expect [Pair(_, redeemer)] =
     collect_script_inputs(inputs, redeemers)
       |> dict.to_pairs
 
-  return(script, redeemer)
+  redeemer
 }
 
 /// Search inputs and collect all script hashes of script-locked payment

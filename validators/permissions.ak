@@ -44,10 +44,7 @@ validator permissions(scopes_nft: PolicyId, scope: Scope) {
   // Credentials for scope owners are defined dynamically, as a UTxO's
   // state owned by another validator.
   withdraw(_redeemer: Data, _credential: Credential, self: Transaction) {
-    let
-      _treasury_script,
-      redeemer,
-    <- expect_single_script(self.inputs, self.redeemers)
+    let redeemer = expect_single_script(self.inputs, self.redeemers)
 
     expect redeemer: TreasurySpendRedeemer = redeemer
 

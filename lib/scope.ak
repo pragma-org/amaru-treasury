@@ -60,11 +60,16 @@ pub fn export_scopes(
   )
 }
 
-/// Assert (or fail) that a given datum is inline and has an expected shape.
+/// Assert (or fail) that a given datum is inline and has an expected shape; returning the Scopes.
 pub fn with_inline_scopes(datum: Datum, return: fn(Scopes) -> result) -> result {
   expect Datum.InlineDatum(data) = datum
   expect scopes: Scopes = data
   return(scopes)
+}
+
+/// Assert (or fail) that a given datum is inline and has an expected shape.
+pub fn expect_inline_scopes(datum: Datum) -> Bool {
+  with_inline_scopes(datum, fn(_) { True })
 }
 
 /// Look for an input holding a scopes NFT, and return the held `Scopes`.

@@ -1,3 +1,6 @@
 [submodule "treasury-contracts"]
 	path = treasury-contracts
 	url = git@github.com:KtorZ/treasury-contracts.git
+[submodule "audit"]
+	path = audit
+	url = https://github.com/txpipe-shop/amaru-treasury-audit

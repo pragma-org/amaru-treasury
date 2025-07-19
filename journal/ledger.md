@@ -11,6 +11,20 @@
 
 ## Transactions
 
+| ID           | [`415e986796f63dacb18cb75dcfa299fbbe0910c44b6a10efbd153fcc322177f9`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                               disburse |
+| Delta amount |                                                           -100,250 ADA |
+| Agreement?   |                                                                    N/A |
+
+Securing half of the budget to USDM, while the price of ADA is reasonably high for the period.
+
+We cannot get a hold of the entire budget in USDM, because there's simply not enough liquidity on Cardano at the moment. But, the budget was planned with a rate of $0.5 per ADA; so we can currently secure more USDM with less ADA, which de-risk the devaluation of the budget due to price fluctuations. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures). 
+
+The final destination for the swap is the (ledger) treasury itself.
+
+---
+
 | ID           | [`a6fa866a87f15301d0fef1f0d4729a3ededc717b0059b05ba51ce43dc8009f1d`][] |
 | :----------- | ---------------------------------------------------------------------: |
 | Type         |                                                             initialize |

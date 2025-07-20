@@ -17,7 +17,7 @@
 | Delta amount |                                                           +100,000 ADA |
 | Agreement?   |                                                                    N/A |
 
-Withdrawal from the reward account of 500,000 ADA received by the treasury withdrawal governance action, and locked at the treasury smart contract.
+Withdrawal from the reward account of 100,000 ADA received by the treasury withdrawal governance action, and locked at the treasury smart contract.
 
 ---
 

@@ -103,6 +103,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 
 [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`]: https://cardanoscan.io/stakeKey/stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g
 [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`]: https://explorer.cardano.org/address/addr1xxnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pna8je58s4gvuy0v32pmj07p5msst42y77zfgsqsvmz0ur8sjjwfw8
+
+[`415e986796f63dacb18cb75dcfa299fbbe0910c44b6a10efbd153fcc322177f9`]: https://explorer.cardano.org/tx/415e986796f63dacb18cb75dcfa299fbbe0910c44b6a10efbd153fcc322177f9
 [`a6fa866a87f15301d0fef1f0d4729a3ededc717b0059b05ba51ce43dc8009f1d`]: https://explorer.cardano.org/tx/a6fa866a87f15301d0fef1f0d4729a3ededc717b0059b05ba51ce43dc8009f1d
 [`8f1fc137efac1923f414dbc6dff29fd07b92b873018b8ea66d33ef16de3d0d12`]: https://explorer.cardano.org/tx/8f1fc137efac1923f414dbc6dff29fd07b92b873018b8ea66d33ef16de3d0d12
 [`1da3917f4ceb275781773250137d240d09c9038f2c7682c18dcfc033445d74f4`]: https://explorer.cardano.org/tx/1da3917f4ceb275781773250137d240d09c9038f2c7682c18dcfc033445d74f4

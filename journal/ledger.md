@@ -48,7 +48,7 @@ Withdrawal from the reward account of 300,000 ADA received by the treasury withd
 | ID           | [`8f1fc137efac1923f414dbc6dff29fd07b92b873018b8ea66d33ef16de3d0d12`][] |
 | :----------- | ---------------------------------------------------------------------: |
 | Type         |                                                                    N/A |
-| Delta amount |                                           +2.000000 ADA +8.410131 USDM |
+| Delta amount |                                          +8.410131 USDM, +2.000000 ADA |
 | Agreement?   |                                                                    N/A |
 
 Result of the previous swap being credited back to the account alongside a deposit amount that was sent with the order to account for the minimum ada value on UTxO.

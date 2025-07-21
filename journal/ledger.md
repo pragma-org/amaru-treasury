@@ -8,8 +8,31 @@
 | Treasury's stake address | [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][] |
 | Treasury's address       |                    [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][] |
 | Initial allocation       |                                                          ₳300,000 |
+| Current balance          |                                 `₳168,756.714`<br/>`$101,041.173` |
 
 ## Transactions
+
+| ID           | [`93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                                    N/A |
+| Delta amount |                                        +25,780.315769 USDM, +2.306 ADA |
+| Agreement?   |                                                                    N/A |
+
+Result of the previous swap being credited back to the account alongside a deposit amount that was sent with the order to account for the minimum ada value on UTxO.
+
+---
+
+| ID           | [`f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                             `disburse` |
+| Delta amount |                                                            -31,000 ADA |
+| Agreement?   |                                                                    N/A |
+
+Securing another chunk of the budget to USDM, while the price of ADA is reasonably high for the period.
+
+The final destination for the swap is the (ledger) treasury itself.
+
+---
 
 | ID           | [`77de6d15a3a7f0e173e2ae3a95e78fd3f830ff1de7e925bf752970de3f0ca082`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -114,7 +137,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`]: https://cardanoscan.io/stakeKey/stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g
 [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`]: https://explorer.cardano.org/address/addr1xxnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pna8je58s4gvuy0v32pmj07p5msst42y77zfgsqsvmz0ur8sjjwfw8
 
-
+[`93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946`]: https://explorer.cardano.org/tx/93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946
+[`f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed`]: https://explorer.cardano.org/tx/f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed
 [`77de6d15a3a7f0e173e2ae3a95e78fd3f830ff1de7e925bf752970de3f0ca082`]: https://explorer.cardano.org/tx/77de6d15a3a7f0e173e2ae3a95e78fd3f830ff1de7e925bf752970de3f0ca082
 [`415e986796f63dacb18cb75dcfa299fbbe0910c44b6a10efbd153fcc322177f9`]: https://explorer.cardano.org/tx/415e986796f63dacb18cb75dcfa299fbbe0910c44b6a10efbd153fcc322177f9
 [`a6fa866a87f15301d0fef1f0d4729a3ededc717b0059b05ba51ce43dc8009f1d`]: https://explorer.cardano.org/tx/a6fa866a87f15301d0fef1f0d4729a3ededc717b0059b05ba51ce43dc8009f1d

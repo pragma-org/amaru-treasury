@@ -8,8 +8,34 @@
 | Treasury's stake address | [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`][] |
 | Treasury's address       |                    [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`][] |
 | Initial allocation       |                                                          ₳100,000 |
+| Current balance          |                                 `₳68,752.306`<br/>`$25,860.787612` |
 
 ## Transactions
+
+
+| ID           | [`4502637f0ad3ff5ea948027270cb9e09b7bb9768bc3d26adc81918499229a902`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                                    N/A |
+| Delta amount |                                        +25,860.787612 USDM, +2.306 ADA |
+| Agreement?   |                                                                    N/A |
+
+Result of the previous swap being credited back to the account alongside a deposit amount that was sent with the order to account for the minimum ada value on UTxO.
+
+---
+
+| ID           | [`60d4c29d273f822ddf6e3365387273d3eccd0f9ee442442b62b7f907787f0ee9`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                             `disburse` |
+| Delta amount |                                                            -31,250 ADA |
+| Agreement?   |                                                                    N/A |
+
+Securing a third of the budget, while the price of ADA is reasonably high for the period.
+
+We cannot get a hold of the entire budget in USDM, because there's simply not enough liquidity on Cardano at the moment. But, the budget was planned with a rate of $0.5 per ADA; so we can currently secure more USDM with less ADA, which de-risk the devaluation of the budget due to price fluctuations. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures). 
+
+The final destination for the swap is the (marketing) treasury itself.
+
+---
 
 | ID           | [`0290a5665bb01d0296b9be5b35e9e77a3db750d7a76df8ba1847adc3ef77a5e3`][] |
 | :----------- | ---------------------------------------------------------------------: |

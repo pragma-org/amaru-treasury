@@ -8,9 +8,39 @@
 | Treasury's stake address | [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`][] |
 | Treasury's address       |                    [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`][] |
 | Initial allocation       |                                                          ₳100,000 |
-| Current balance          |                                 `₳68,752.306`<br/>`$25,860.787612` |
+| Current balance          |                                 `₳39,765.85593`<br/>`$50,445.080578` |
 
 ## Transactions
+
+| ID           | [`977f4c921c1dff2799148048e8d604c682c8d44433fbb059e810c7306f4eb9bd`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                                    N/A |
+| Delta amount |                                         +4,883.289360 USDM, +2.408 ADA |
+| Agreement?   |                                                                    N/A |
+
+Result of the last swap going through.
+
+---
+
+| ID           | [`402bda8c137d980fad7ecb9c920e2031e1c079c568dc4d03564d1f308876da15`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                                    N/A |
+| Delta amount |                                        +19,701.003606 USDM, +9.836 ADA |
+| Agreement?   |                                                                    N/A |
+
+Result of 4 swaps going through.
+
+---
+
+| ID           | [`30e1eeb78af4817906813be8564a7c04f9bcbe8282d7db2c350da5185e4558ee`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                             `disburse` |
+| Delta amount |                                                            -29,000 ADA |
+| Agreement?   |                                                                    N/A |
+
+Securing another 25k USDM to have the value of the budget (50k$) on stablecoins with 5 swaps of +₳ 5,803.28.
+
+---
 
 
 | ID           | [`4502637f0ad3ff5ea948027270cb9e09b7bb9768bc3d26adc81918499229a902`][] |
@@ -86,6 +116,9 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`]: https://cardanoscan.io/stakeKey/stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y
 [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`]: https://explorer.cardano.org/address/addr1xxrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9vxpms0d0vzxkzz4yy2lkrde9yufjw6h46tp9juxe9c6v2shcjss3
 
+[`977f4c921c1dff2799148048e8d604c682c8d44433fbb059e810c7306f4eb9bd`]: https://explorer.cardano.org/tx/977f4c921c1dff2799148048e8d604c682c8d44433fbb059e810c7306f4eb9bd
+[`402bda8c137d980fad7ecb9c920e2031e1c079c568dc4d03564d1f308876da15`]: https://explorer.cardano.org/tx/402bda8c137d980fad7ecb9c920e2031e1c079c568dc4d03564d1f308876da15
+[`30e1eeb78af4817906813be8564a7c04f9bcbe8282d7db2c350da5185e4558ee`]: https://explorer.cardano.org/tx/30e1eeb78af4817906813be8564a7c04f9bcbe8282d7db2c350da5185e4558ee
 [`4502637f0ad3ff5ea948027270cb9e09b7bb9768bc3d26adc81918499229a902`]: https://explorer.cardano.org/tx/4502637f0ad3ff5ea948027270cb9e09b7bb9768bc3d26adc81918499229a902
 [`60d4c29d273f822ddf6e3365387273d3eccd0f9ee442442b62b7f907787f0ee9`]: https://explorer.cardano.org/tx/60d4c29d273f822ddf6e3365387273d3eccd0f9ee442442b62b7f907787f0ee9
 [`0290a5665bb01d0296b9be5b35e9e77a3db750d7a76df8ba1847adc3ef77a5e3`]: https://explorer.cardano.org/tx/0290a5665bb01d0296b9be5b35e9e77a3db750d7a76df8ba1847adc3ef77a5e3

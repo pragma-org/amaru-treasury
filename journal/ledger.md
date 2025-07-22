@@ -8,9 +8,19 @@
 | Treasury's stake address | [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][] |
 | Treasury's address       |                    [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][] |
 | Initial allocation       |                                                          ₳300,000 |
-| Current balance          |                                 `₳168,756.714`<br/>`$101,041.173` |
+| Current balance          |                               `₳168,757.99407`<br/>`$101,041.173` |
 
 ## Transactions
+
+| ID           | [`4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                                    N/A |
+| Delta amount |                                          +1 ledger@amaru, +1.28007 ADA |
+| Agreement?   |                                                                    N/A |
+
+Minting a sub-handle NFT to facilitate tracking of the ledger treasury by external parties.
+
+---
 
 | ID           | [`93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -137,6 +147,7 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`]: https://cardanoscan.io/stakeKey/stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g
 [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`]: https://explorer.cardano.org/address/addr1xxnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pna8je58s4gvuy0v32pmj07p5msst42y77zfgsqsvmz0ur8sjjwfw8
 
+[`4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f`]: https://explorer.cardano.org/tx/4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f
 [`93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946`]: https://explorer.cardano.org/tx/93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946
 [`f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed`]: https://explorer.cardano.org/tx/f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed
 [`77de6d15a3a7f0e173e2ae3a95e78fd3f830ff1de7e925bf752970de3f0ca082`]: https://explorer.cardano.org/tx/77de6d15a3a7f0e173e2ae3a95e78fd3f830ff1de7e925bf752970de3f0ca082

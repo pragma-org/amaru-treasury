@@ -2,13 +2,14 @@
 
 ## Preamble
 
-| Maintainer(s)            |                                              [Matthias Benkort][] |
-| :----------------------- | ----------------------------------------------------------------: |
-| Credential               |        `7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb` |
-| Treasury's stake address | [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][] |
-| Treasury's address       |                    [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][] |
-| Initial allocation       |                                                          ₳300,000 |
-| Current balance          |                               `₳168,757.99407`<br/>`$101,041.173` |
+| Maintainer(s)            |                                                                               [Matthias Benkort][] |
+| :----------------------- | -------------------------------------------------------------------------------------------------: |
+| Owner's credential       |                                         `7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb` |
+| Treasury's script hash   |                                         `a7966878550ce11ec8a83b93fc1a6e105d544f78494401066c4fe0cf` |
+| Treasury's stake address |                                  [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][] |
+| Treasury's address       | [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][]<br/>[`ledger@amaru`](https://pool.pm/$ledger@amaru) |
+| Initial allocation       |                                                                                         `₳300,000` |
+| Current balance          |                                                                `₳168,757.99407`<br/>`$101,041.173` |
 
 ## Transactions
 

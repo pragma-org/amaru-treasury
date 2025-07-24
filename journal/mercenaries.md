@@ -11,6 +11,26 @@
 
 ## Transactions
 
+| ID           | [`197b673435395a88fb8287cb5ac8ab23b2ea9721d63411208efd029f11aea93e + 18 others`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                                    N/A |
+| Delta amount |                                    +46.324018 ADA, +80,240.643956 USDM |
+| Agreement?   |                                                                    N/A |
+
+Execution of the previous 20 swaps, across multiple transactions at an average rate of 0.8024 USDM per ADA.
+
+---
+
+| ID           | [`3cf9f4f352cf918f1ae7255a8fbb3b61c7d68236e4f56d810d9dad7f11f211f4`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         |                                                               disburse |
+| Delta amount |                                                           -100,000 ADA |
+| Agreement?   |                                                                    N/A |
+
+Disbursing funds into 20 separate swaps, each of 5k ADA for at least 4k USDM. This split minimizes slippage, while securing 32% of the budget in a stable fiat backed stablecoin.
+
+---
+
 | ID           | [`dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266`][] |
 | :----------- | ---------------------------------------------------------------------: |
 | Type         |                                                             initialize |
@@ -59,6 +79,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 
 [`stake17xrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yqhgk7k8`]: https://cardanoscan.io/stakeKey/stake17xrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yqhgk7k8
 [`addr1xxrh74lqhhxgzelf...3fkpz7rggqpymr9r`]: https://explorer.cardano.org/address/addr1xxrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yy80at7p0wvs9n7npx7upfd3htngmhlcz8lsz3fkpz7rggqpymr9r
+[`197b673435395a88fb8287cb5ac8ab23b2ea9721d63411208efd029f11aea93e + 18 others`]: https://explorer.cardano.org/tx/197b673435395a88fb8287cb5ac8ab23b2ea9721d63411208efd029f11aea93e
+[`3cf9f4f352cf918f1ae7255a8fbb3b61c7d68236e4f56d810d9dad7f11f211f4`]: https://explorer.cardano.org/tx/3cf9f4f352cf918f1ae7255a8fbb3b61c7d68236e4f56d810d9dad7f11f211f4
 [`dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266`]: https://explorer.cardano.org/tx/dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266
 [`0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c`]: https://explorer.cardano.org/tx/0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c
 [`b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857`]: https://explorer.cardano.org/tx/b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857

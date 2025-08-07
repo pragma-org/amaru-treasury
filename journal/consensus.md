@@ -14,7 +14,7 @@
 | ID           | [`429c5291c16430383e83d6057f2e4a40fbe152ee702e042ce728ef1cd24bb358 + others`][] |
 |:-------------|--------------------------------------------------------------------------------:|
 | Type         |                                                                             N/A |
-| Delta amount |                                              + 47.507211 ADA, + 141,258.93 USDM |
+| Delta amount |                                                 + ₳47.507211, + 141,258.93 USDM |
 | Agreement?   |                                                                             N/A |
 
 Execution of the previous 20 swaps, across multiple transactions at an average rate of 0.7062 USDM per ADA.
@@ -22,7 +22,7 @@ Execution of the previous 20 swaps, across multiple transactions at an average r
 | ID           | [`d5c047bbdd387f7d0b8a69d04e37c6a567c44c5ae18524bc1de55eacd69c8068`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                               disburse |
-| Delta amount |                                                           -200,000 ADA |
+| Delta amount |                                                             - ₳200,000 |
 | Agreement?   |                                                                    N/A |
 
 Disbursing funds into 20 separate swaps, each of 10k ADA for at least 7k USDM.
@@ -32,7 +32,7 @@ Disbursing funds into 20 separate swaps, each of 10k ADA for at least 7k USDM.
 | ID           | [`90f2895219e1b39811ad23aa04beacc74a559cad488cf5b55ec559214422686b`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                                    N/A |
-| Delta amount |                                                -1.28 ADA ; +73.51 USDM |
+| Delta amount |                                                  - ₳1.28 ; +73.51 USDM |
 | Agreement?   |                                                                    N/A |
 
 Canary Swap order execution
@@ -42,7 +42,7 @@ Canary Swap order execution
 | ID           | [`56b5f6c81668968bff810424df5d39daac1a736d1bede531778f408ac076fe7c`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                               disburse |
-| Delta amount |                                                               -100 ADA |
+| Delta amount |                                                                 - ₳100 |
 | Agreement?   |                                                                    N/A |
 
 Canary transaction disbursing into 1 swap for at least 70USDM.
@@ -50,9 +50,9 @@ Canary transaction disbursing into 1 swap for at least 70USDM.
 ---
 
 | ID           | [`acf08b7611ce385b9c776ad783b9d31666fa8f04a9f631d161537d52da6c7b62`][] |
-| :----------- | ---------------------------------------------------------------------: |
+|:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             initialize |
-| Delta amount |                                                           +300,000 ADA |
+| Delta amount |                                                             + ₳300,000 |
 | Agreement?   |                                                                    N/A |
 
 Withdrawal from the reward account of 300,000 ADA received by the treasury withdrawal governance action, and locked at the treasury smart contract.
@@ -60,7 +60,7 @@ Withdrawal from the reward account of 300,000 ADA received by the treasury withd
 ---
 
 | ID           | [`7068b2a950a02d43296679a2ca7f3f028504afc5a88f63e002ee09b733c533d9`][] |
-| :----------- | ---------------------------------------------------------------------: |
+|:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                           `initialize` |
 | Delta amount |                                                                      0 |
 | Agreement?   |                                                                    N/A |

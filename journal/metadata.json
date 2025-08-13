@@ -1,26 +1,36 @@
 {
   "consensus": {
+    "credential": "790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b",
     "stake_address": "stake17xd74ehu0l4d5mx0sfz4fd0r5jvw4v2jqkkfyjxrlwvnkhccrqj9l",
-    "reference": "7068b2a950a02d43296679a2ca7f3f028504afc5a88f63e002ee09b733c533d9#0"
+    "reference": "7068b2a950a02d43296679a2ca7f3f028504afc5a88f63e002ee09b733c533d9#0",
+    "registry": "e5be93f2530c51e0b1582e5a0e99ccb1235e4395a41c7196d06c4daea3eafe66#0"
   },
 
   "ledger": {
+    "credential": "7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb",
     "stake_address": "stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g",
-    "reference": "ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe#0"
+    "reference": "ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe#0",
+    "registry": "cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7#0"
   },
 
   "contingency": {
+    "credential": "e425984e24fb2c06ad676882178ddee6e47b994a589ae3d70c817c79",
     "stake_address": "stake178jztxzwynajcp4dva5gy9udmmnwg7ueffvf4c7hpjqhc7gtj5nzz",
-    "reference": "6cedda690acc6cfaba32bc4632e827a8dcbbb97973b2e5fd5c3fda3491d43fe3#0"
+    "reference": "6cedda690acc6cfaba32bc4632e827a8dcbbb97973b2e5fd5c3fda3491d43fe3#0",
+    "registry": "44ae2c263b2115023e4b137f718549fcac78c0a59b7983e918d9e79d1a503b3c#0"
   },
 
   "marketing": {
+    "credential": "f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e",
     "stake_address": "stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y",
-    "reference": "bd215c2bf7e0577d1459c1d8da7c85aafbfa8d8b7293669cfabfa5563218972d#0"
+    "reference": "bd215c2bf7e0577d1459c1d8da7c85aafbfa8d8b7293669cfabfa5563218972d#0",
+    "registry": "5697f433442317f04f539baecdf71fee01b3e8453c658a4d782648bc1e4f4490#0"
   },
 
   "mercenaries": {
+    "credential": "97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2",
     "stake_address": "stake17xrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yqhgk7k8",
-    "reference": "b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857#0"
+    "reference": "b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857#0",
+    "registry": "0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c#0"
   }
 }

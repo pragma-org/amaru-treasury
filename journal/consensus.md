@@ -9,6 +9,41 @@
 | Treasury's address       |                     [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][] |
 | Initial allocation       |                                                          ₳300,000 |
 
+## Delivered Milestones
+
+### Pankzsoft contract
+
+Contract: [ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na](ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na)
+
+#### Milestone 2
+
+Delivery of Consensus pipeline: Complete simulation testing to cover all stages and integrate with pure-stage framework
+
+* [refactor: use a prefix range to iterate over parent/child relationships](https://github.com/pragma-org/amaru/pull/478)
+* [fix: remove the use of column families in rocksdb](https://github.com/pragma-org/amaru/pull/473)
+* [refactor: move forward chain to pure stage](https://github.com/pragma-org/amaru/pull/464)
+* [feat: add a command to dump the state of the chain store](https://github.com/pragma-org/amaru/pull/459)
+* [fix: remove the pure-stage dependency in amaru-ledger](https://github.com/pragma-org/amaru/pull/450)
+* [refactor: use a chain store inside the headers tree](https://github.com/pragma-org/amaru/pull/444)
+* [refactor: move store + validate block stages to pure stage](https://github.com/pragma-org/amaru/pull/440)
+* [refactor: move the fetch block stage to pure-stage](https://github.com/pragma-org/amaru/pull/432)
+* [refactor: remove an unnecessary type parameter for stage refs](https://github.com/pragma-org/amaru/pull/421)
+* [refactor: document the simulation code](https://github.com/pragma-org/amaru/pull/418)
+
+Invoice (redacted): [ipfs://bafybeiakblvgqiy66eucta467zr435dwarhw4p4rgsbiw7qx4u3t5qyvvi](ipfs://bafybeiakblvgqiy66eucta467zr435dwarhw4p4rgsbiw7qx4u3t5qyvvi)
+
+#### Milestone 1
+
+Delivery of Ouroboros Praos: Implement correct and efficient chain selection algorithm
+
+* [refactor: store headers in a tree for chain selection](https://github.com/pragma-org/amaru/pull/372)
+* [refactor: refactor the setting of arguments from env. variables in the simulation test](https://github.com/pragma-org/amaru/pull/414)
+* [feat: reduce the processing time for chain selection and optimise rollbacks](https://github.com/pragma-org/amaru/pull/398)
+* [docs: fix the description of a chain fragment](https://github.com/pragma-org/amaru/pull/362)
+* [chore: add a make command to update the license header in source files](https://github.com/pragma-org/amaru/pull/356)
+
+Invoice (redacted): [ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy](ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy)
+
 ## Transactions
 
 | ID           | [`54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97`][] |

@@ -50,7 +50,7 @@ Invoice (redacted): [ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynk
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                           - 10.00 USDM |
-| Agreement?   |                                                                    N/A |
+| Agreement?   | [ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na][] |
 
 Canary transaction to test disbursement in USDM process.
 
@@ -151,3 +151,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`d5c047bbdd387f7d0b8a69d04e37c6a567c44c5ae18524bc1de55eacd69c8068`]: https://explorer.cardano.org/tx/d5c047bbdd387f7d0b8a69d04e37c6a567c44c5ae18524bc1de55eacd69c8068
 [`429c5291c16430383e83d6057f2e4a40fbe152ee702e042ce728ef1cd24bb358`]: https://explorer.cardano.org/tx/429c5291c16430383e83d6057f2e4a40fbe152ee702e042ce728ef1cd24bb358
 [`54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97`]: https://explorer.cardano.org/tx/54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97
+[ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na]: https://ipfs.io/ipfs/bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na

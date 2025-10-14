@@ -13,7 +13,7 @@
 
 ### Pankzsoft contract
 
-Contract: [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft-2025-09-14]
+Contract: [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft_2025_09_14]
 
 #### Milestone 2
 
@@ -50,7 +50,7 @@ Invoice (redacted): [ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynk
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                       - 16,000.00 USDM |
-| Agreement?   |             [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft-2025-09-14] |
+| Agreement?   |             [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft_2025_09_14] |
 |              |                                                                        |
 
 Disbursement of $16,000.00 in payment of invoice for completion of [Milestone 2](#milestone-2)
@@ -60,7 +60,7 @@ Disbursement of $16,000.00 in payment of invoice for completion of [Milestone 2]
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                       - 15,590.00 USDM |
-| Agreement?   |             [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft-2025-09-14] |
+| Agreement?   |             [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft_2025_09_14] |
 |              |                                                                        |
 
 Disbursement of $15,590.00 in payment of invoice for completion of [Milestone 1](#milestone-1)
@@ -69,7 +69,7 @@ Disbursement of $15,590.00 in payment of invoice for completion of [Milestone 1]
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                           - 10.00 USDM |
-| Agreement?   |             [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft-2025-09-14] |
+| Agreement?   |             [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft_2025_09_14] |
 |              |                                                                        |
 
 Canary transaction to test disbursement in USDM process.
@@ -170,6 +170,6 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`d5c047bbdd387f7d0b8a69d04e37c6a567c44c5ae18524bc1de55eacd69c8068`]: https://explorer.cardano.org/tx/d5c047bbdd387f7d0b8a69d04e37c6a567c44c5ae18524bc1de55eacd69c8068
 [`429c5291c16430383e83d6057f2e4a40fbe152ee702e042ce728ef1cd24bb358`]: https://explorer.cardano.org/tx/429c5291c16430383e83d6057f2e4a40fbe152ee702e042ce728ef1cd24bb358
 [`54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97`]: https://explorer.cardano.org/tx/54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97
-[Pankzsoft-2025-09-14]: [ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na](ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na)
+[Pankzsoft_2025_09_14]: ipfs://bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na
 [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`]: https://explorer.cardano.org/tx/79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f
 [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`]: https://explorer.cardano.org/tx/088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83

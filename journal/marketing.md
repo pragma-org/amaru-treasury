@@ -2,13 +2,14 @@
 
 ## Preamble
 
-| Maintainer(s)            |                                                 [Damien Czapla][] |
+| Maintainer(s)            | [Damien Czapla][]                                                 |
 | :----------------------- | ----------------------------------------------------------------: |
-| Credential               |        `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e` |
+| Owner's credential       | `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e`        |
+| Treasury's script hash   | `860ee0f6bd8235842a908afd86dc949c4c9dabd74b0965c364b8d315`        |
 | Treasury's stake address | [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`][] |
-| Treasury's address       |                    [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`][] |
-| Initial allocation       |                                                          ₳100,000 |
-| Current balance          |                                 `₳39,765.85593`<br/>`$50,445.080578` |
+| Treasury's address       | [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`][]                    |
+| Initial allocation       | ₳100,000                                                          |
+| Current balance          | ₳39,766 <br/> $50,445                                             |
 
 ## Transactions
 
@@ -61,7 +62,7 @@ Result of the previous swap being credited back to the account alongside a depos
 
 Securing a third of the budget, while the price of ADA is reasonably high for the period.
 
-We cannot get a hold of the entire budget in USDM, because there's simply not enough liquidity on Cardano at the moment. But, the budget was planned with a rate of $0.5 per ADA; so we can currently secure more USDM with less ADA, which de-risk the devaluation of the budget due to price fluctuations. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures). 
+We cannot get a hold of the entire budget in USDM, because there's simply not enough liquidity on Cardano at the moment. But, the budget was planned with a rate of $0.5 per ADA; so we can currently secure more USDM with less ADA, which de-risk the devaluation of the budget due to price fluctuations. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures).
 
 The final destination for the swap is the (marketing) treasury itself.
 
@@ -108,6 +109,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
   - `97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2` (mercenaries)
   - `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e` (marketing)
 - **fund**: disabled.
+
+---
 
 [Damien Czapla]: https://github.com/Dam-CZ
 

@@ -2,12 +2,14 @@
 
 ## Preamble
 
-| Maintainer(s)            |                                                 [Arnaud Bailly][] |
+| Maintainer(s)            | [Arnaud Bailly][]                                                 |
 | :----------------------- | ----------------------------------------------------------------: |
-| Credential               |        `790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b` |
+| Owner's credential       | `790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b`        |
+| Treasury's script hash   | `9beae6fc7feada6ccf824554b5e3a498eab15205ac9248c3fb993b5f`        |
 | Treasury's stake address | [`stake17xd74ehu0l4d5mx0sfz4fd0r5jvw4v2jqkkfyjxrlwvnkhccrqj9l`][] |
-| Treasury's address       |                     [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][] |
-| Initial allocation       |                                                          ₳300,000 |
+| Treasury's address       | [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][]                     |
+| Initial allocation       | ₳300,000                                                          |
+| Current balance          | ₳99,951 <br/> $109,259                                            |
 
 ## Delivered Milestones
 
@@ -55,6 +57,8 @@ Invoice (redacted): [ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynk
 
 Disbursement of $16,000.00 in payment of invoice for completion of [Milestone 2](#milestone-2)
 
+---
+
 
 | ID           | [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`][] |
 |:-------------|-----------------------------------------------------------------------:|
@@ -65,6 +69,9 @@ Disbursement of $16,000.00 in payment of invoice for completion of [Milestone 2]
 
 Disbursement of $15,590.00 in payment of invoice for completion of [Milestone 1](#milestone-1)
 
+---
+
+
 | ID           | [`54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
@@ -74,7 +81,7 @@ Disbursement of $15,590.00 in payment of invoice for completion of [Milestone 1]
 
 Canary transaction to test disbursement in USDM process.
 
-----
+---
 
 | ID           | [`429c5291c16430383e83d6057f2e4a40fbe152ee702e042ce728ef1cd24bb358 + others`][] |
 |:-------------|--------------------------------------------------------------------------------:|
@@ -83,6 +90,8 @@ Canary transaction to test disbursement in USDM process.
 | Agreement?   |                                                                             N/A |
 
 Execution of the previous 20 swaps, across multiple transactions at an average rate of 0.7062 USDM per ADA.
+
+---
 
 | ID           | [`d5c047bbdd387f7d0b8a69d04e37c6a567c44c5ae18524bc1de55eacd69c8068`][] |
 |:-------------|-----------------------------------------------------------------------:|
@@ -94,11 +103,11 @@ Disbursing funds into 20 separate swaps, each of 10k ADA for at least 7k USDM.
 
 ---
 
-| ID           | [`90f2895219e1b39811ad23aa04beacc74a559cad488cf5b55ec559214422686b`][] |
-|:-------------|-----------------------------------------------------------------------:|
-| Type         |                                                                    N/A |
-| Delta amount |                                                  - ₳1.28 ; +73.51 USDM |
-| Agreement?   |                                                                    N/A |
+| ID             | [`90f2895219e1b39811ad23aa04beacc74a559cad488cf5b55ec559214422686b`][]   |
+| :------------- | -----------------------------------------------------------------------: |
+| Type           | N/A                                                                      |
+| Delta amount   | - ₳1.28, +73.51 USDM                                                     |
+| Agreement?     | N/A                                                                      |
 
 Canary Swap order execution
 
@@ -155,6 +164,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
   - `97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2` (mercenaries)
   - `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e` (marketing)
 - **fund**: disabled.
+
+---
 
 [Arnaud Bailly]: https://github.com/abailly
 

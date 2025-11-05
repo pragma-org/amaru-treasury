@@ -4,7 +4,8 @@
 
 | Maintainer(s)            | [Matthias Benkort][], [Arnaud Bailly][], [Pi Lanningham][], [Damien Czapla][] |
 | :---                     | ---:                                                                          |
-| Credential               | `e425984e24fb2c06ad676882178ddee6e47b994a589ae3d70c817c79`[^1]                |
+| Owner's credential       | `e425984e24fb2c06ad676882178ddee6e47b994a589ae3d70c817c79`[^1]                |
+| Treasury's script hash   | `e425984e24fb2c06ad676882178ddee6e47b994a589ae3d70c817c79`                    |
 | Treasury's stake address | [`stake178jztxzwynajcp4dva5gy9udmmnwg7ueffvf4c7hpjqhc7gtj5nzz`][]             |
 | Treasury's address       | [`addr1x8jztxzwynajcp4d...3awryp03usyfpxhc`][]                                |
 | Initial allocation       | ₳300,000                                                                      |
@@ -45,6 +46,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
   - `97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2` (mercenaries)
   - `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e` (marketing)
 - **fund**: disabled.
+
+---
 
 [Matthias Benkort]: https://github.com/KtorZ
 [Arnaud Bailly]: https://github.com/abailly

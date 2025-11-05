@@ -2,14 +2,14 @@
 
 ## Preamble
 
-| Maintainer(s)            |                                                                               [Matthias Benkort][] |
-| :----------------------- | -------------------------------------------------------------------------------------------------: |
-| Owner's credential       |                                         `7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb` |
-| Treasury's script hash   |                                         `a7966878550ce11ec8a83b93fc1a6e105d544f78494401066c4fe0cf` |
-| Treasury's stake address |                                  [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][] |
+| Maintainer(s)            | [Matthias Benkort][]                                                                               |
+| :---------------         | ----------------------------------------------------------------------:                            |
+| Owner's credential       | `7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb`                                         |
+| Treasury's script hash   | `a7966878550ce11ec8a83b93fc1a6e105d544f78494401066c4fe0cf`                                         |
+| Treasury's stake address | [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][]                                  |
 | Treasury's address       | [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][]<br/>[`ledger@amaru`](https://pool.pm/$ledger@amaru) |
-| Initial allocation       |                                                                                         `₳300,000` |
-| Current balance          |                                                                `₳168,757.99407`<br/>`$101,041.173` |
+| Initial allocation       | ₳300,000                                                                                           |
+| Current balance          | ₳168,757<br/>$85,041                                                                               |
 
 ## Transactions
 
@@ -63,7 +63,7 @@ Result of the previous swap being credited back to the account alongside a depos
 
 Securing half of the budget to USDM, while the price of ADA is reasonably high for the period.
 
-We cannot get a hold of the entire budget in USDM, because there's simply not enough liquidity on Cardano at the moment. But, the budget was planned with a rate of $0.5 per ADA; so we can currently secure more USDM with less ADA, which de-risk the devaluation of the budget due to price fluctuations. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures). 
+We cannot get a hold of the entire budget in USDM, because there's simply not enough liquidity on Cardano at the moment. But, the budget was planned with a rate of $0.5 per ADA; so we can currently secure more USDM with less ADA, which de-risk the devaluation of the budget due to price fluctuations. The swap order is parameterized with an owner script which enforces the same permissions as the 'disburse' operation (3 out of 4 signatures).
 
 The final destination for the swap is the (ledger) treasury itself.
 
@@ -140,6 +140,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
   - `97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2` (mercenaries)
   - `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e` (marketing)
 - **fund**: disabled.
+
+---
 
 [Matthias Benkort]: https://github.com/KtorZ
 

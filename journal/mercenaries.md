@@ -9,6 +9,26 @@
 | Treasury's address       |                    [`addr1xxrh74lqhhxgzelf...3fkpz7rggqpymr9r`][] |
 | Initial allocation       |                                                          ₳500,000 |
 
+## Delivered Milestones
+
+### Amaru Doctor
+
+Contract: [AMC-Sundae Labs Agreement 2025-09-12][AmaruDoctor_2025_09_12]
+
+#### Milestone 1
+
+Amaru-Doctor: Node diversity workshop environment + storage traits analysis
+
+* [wip: adding otel read capabilities](https://github.com/jeluard/amaru-doctor/pull/52)
+* [wip: update amaru dep; organize scroll](https://github.com/jeluard/amaru-doctor/pull/53)
+* [wip: add DynamicList and OtelViewState for OTEL view models](https://github.com/jeluard/amaru-doctor/pull/54)
+* [wip: add update fns for TraceGraph updating](https://github.com/jeluard/amaru-doctor/pull/55)
+* [wip: add otel-based views](https://github.com/jeluard/amaru-doctor/pull/56)
+* [feat: add pool render; pause emacs keybindings](https://github.com/jeluard/amaru-doctor/pull/57)
+* [feat: add prometheus metrics reading](https://github.com/jeluard/amaru-doctor/pull/58)
+
+Invoice (redacted): [ipfs://QmZyqiVXY7oHNx5gJPdj7DBmzde3Vrapg8QouzSP2tidbE](https://ipfs.io/ipfs/QmZyqiVXY7oHNx5gJPdj7DBmzde3Vrapg8QouzSP2tidbE)
+
 ## Transactions
 
 | ID           | [`197b673435395a88fb8287cb5ac8ab23b2ea9721d63411208efd029f11aea93e + 18 others`][] |
@@ -84,3 +104,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266`]: https://explorer.cardano.org/tx/dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266
 [`0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c`]: https://explorer.cardano.org/tx/0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c
 [`b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857`]: https://explorer.cardano.org/tx/b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857
+[AmaruDoctor_2025_09_12]: https://ipfs.io/ipfs/QmQyaSb1hfyzEgSkNuDeNudiXn8uMSMbgTNUMkWEc4eMVc

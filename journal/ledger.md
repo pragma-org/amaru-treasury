@@ -13,6 +13,17 @@
 
 ## Transactions
 
+| ID           | [`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         | `disburse`                                                             |
+| Delta amount | -16,000 USDM                                                           |
+| Agreement?   | [Plutus Virtual Machine development][agreement_plutus_virtual_machine] |
+
+Disbursement of 16,000 USDM from the ledger treasury in payment of invoice Sundae Labs CON-36, for the completion of Milestone 1 as per Remunerated Contributor Agreement for _Plutus Virtual Machine V3 implementation & testing_.
+
+---
+
+
 | ID           | [`4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f`][] |
 | :----------- | ---------------------------------------------------------------------: |
 | Type         |                                                                    N/A |
@@ -150,6 +161,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`]: https://cardanoscan.io/stakeKey/stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g
 [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`]: https://explorer.cardano.org/address/addr1xxnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pna8je58s4gvuy0v32pmj07p5msst42y77zfgsqsvmz0ur8sjjwfw8
 
+[agreement_plutus_virtual_machine]: https://ipfs.io/ipfs/bafybeigqfdrxwc4msfct5xnlswwvp4voxq27z7wt57pbwpbovih45pacyi
+
 [`4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f`]: https://explorer.cardano.org/tx/4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f
 [`93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946`]: https://explorer.cardano.org/tx/93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946
 [`f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed`]: https://explorer.cardano.org/tx/f6eeb12a16c518d89f59e275268330e7ea39571feedef13dbf866ffb7a33c8ed
@@ -161,3 +174,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`848adba4c45372e388bdf96d585d85cd056ea7819c8a810810b47551b39024d3`]: https://explorer.cardano.org/tx/848adba4c45372e388bdf96d585d85cd056ea7819c8a810810b47551b39024d3
 [`cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7`]: https://explorer.cardano.org/tx/cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7
 [`ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe`]: https://explorer.cardano.org/tx/ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe
+[`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`]: https://explorer.cardano.org/tx/073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941

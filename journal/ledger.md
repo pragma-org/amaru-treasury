@@ -11,6 +11,31 @@
 | Initial allocation       | ₳300,000                                                                                           |
 | Current balance          | ₳168,757<br/>$85,041                                                                               |
 
+## Delivered Milestones
+
+#### [Phase 2 validation development][agreement_phase2_validations]
+
+##### [Milestone 1](https://ipfs.io/ipfs/bafkreicnj2f44jpgarq46plnbgnbqzx7n7pi6lr3o4euhhvdcbmcqsrsbu)
+
+<details><summary>Update Amaru to be compatible with nView by reporting the correct metrics</summary>
+
+- [Read from a PID file when targeting Amaru](https://github.com/blinklabs-io/nview/pull/363)
+- [Optionally maintain a PID file for monitoring applications](https://github.com/pragma-org/amaru/pull/472)
+- [Export NView Metrics](https://github.com/pragma-org/amaru/pull/453)
+</details>
+
+#### [Plutus Virtual Machine development][agreement_plutus_virtual_machine]
+
+##### [Milestone 1](https://ipfs.io/ipfs/bafkreifzt35jiqzmcg5kyapra3vvvbw5jcsx4ql3hu3pv2a4f2gvsqb45q)
+
+<details><summary>Plutus Virtual Machine V3 implementation & testing</summary>
+
+- [fixed SliceByteString tests 3 and 5 ](https://github.com/pragma-org/uplc/pull/13)
+- [fix remaining conformance tests](https://github.com/pragma-org/uplc/pull/18)
+- [Implement array constant with conformance tests](https://github.com/pragma-org/uplc/pull/19)
+- [implement builtins for batch 6 with conformance tests](https://github.com/pragma-org/uplc/pull/20)
+</details>
+
 ## Transactions
 
 | ID           | [`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`][] |
@@ -162,6 +187,7 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`]: https://explorer.cardano.org/address/addr1xxnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pna8je58s4gvuy0v32pmj07p5msst42y77zfgsqsvmz0ur8sjjwfw8
 
 [agreement_plutus_virtual_machine]: https://ipfs.io/ipfs/bafybeigqfdrxwc4msfct5xnlswwvp4voxq27z7wt57pbwpbovih45pacyi
+[agreement_phase2_validations]: https://ipfs.io/ipfs/bafybeigeby6fdnlbgsp2gpn3p55hruadpin7lzmisglldrv42augune54i
 
 [`4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f`]: https://explorer.cardano.org/tx/4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f
 [`93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946`]: https://explorer.cardano.org/tx/93542fcf82bac42a38dff030976851130bb5db7f8e79e6c87784b3488930c946

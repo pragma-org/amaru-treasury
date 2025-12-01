@@ -13,6 +13,40 @@
 
 ## Delivered Milestones
 
+### RKSW UG contract
+
+Contract: [AMC-RKSW UG Agreement 2025-10-01][RKSW_2025_10_01]
+
+#### Milestone 1
+
+Enhance the downstream server with a spec-compliant multiplexer implementation that will also support initiator mode later
+
+* [rk/better external effect](https://github.com/pragma-org/amaru/pull/441)
+* [chore: make RawBlock cheaply cloneable](https://github.com/pragma-org/amaru/pull/438)
+* [small improvement to implementation of pure-stage](https://github.com/pragma-org/amaru/pull/425)
+* [reinstate tracing spans for stages](https://github.com/pragma-org/amaru/pull/412)
+* [move most stages to pure_stage](https://github.com/pragma-org/amaru/pull/392)
+* [pure-stage error handling](https://github.com/pragma-org/amaru/pull/384)
+* [document how to run gh actions locally](https://github.com/pragma-org/amaru/pull/381)
+* [add EDR on Time in Amaru](https://github.com/pragma-org/amaru/pull/376)
+* [improve EDR012](https://github.com/pragma-org/amaru/pull/373)
+* [Create EDR 012-interaction-between-consensus-and-ledger.md](https://github.com/pragma-org/amaru/pull/369)
+* [persistent state vs. pure_stage](https://github.com/pragma-org/amaru/pull/366)
+* [move validate_header to pure_stage](https://github.com/pragma-org/amaru/pull/365)
+
+Invoice (redacted): [ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea](ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
+
+#### Milestone 2
+
+Implement the initiator side to enhance the pull stage with the above networking improvement and offer a principled integration in the pure-stage consensus implementation
+
+* [add short-circuit facilities for pure-stage](https://github.com/pragma-org/amaru/pull/526)
+* [make upstream connections dynamic](https://github.com/pragma-org/amaru/pull/513)
+* [signal pure-stage termination to simulation](https://github.com/pragma-org/amaru/pull/486)
+* [add muxer to amaru-network](https://github.com/pragma-org/amaru/pull/471)
+
+Invoice (redacted): [ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea](ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
+
 ### Pankzsoft contract
 
 Contract: [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft_2025_09_14]
@@ -47,6 +81,14 @@ Delivery of Ouroboros Praos: Implement correct and efficient chain selection alg
 Invoice (redacted): [ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy](ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy)
 
 ## Transactions
+
+| ID           | [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`][] |
+|:-------------|-----------------------------------------------------------------------:|
+| Type         |                                                             `disburse` |
+| Delta amount |                                                          - 44,000.00 ₳ |
+| Agreement?   |                       [AMC-RKSW Agreement 2025-10-01][RKSW_2025_10_01] |
+
+Disbursement of ₳44,000.00 in payment of invoice for completion of _Milestones 1 & 2_
 
 | ID           | [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`][] |
 |:-------------|-----------------------------------------------------------------------:|
@@ -184,3 +226,5 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [Pankzsoft_2025_09_14]: https://ipfs.io/ipfs/bafybeia7jrqjmllqozpzfmx3k3div5rsh4mgr6vscl77eujopxo7qgh6na
 [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`]: https://explorer.cardano.org/tx/79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f
 [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`]: https://explorer.cardano.org/tx/088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83
+[RKSW_2025_10_01]: https://ipfs.io/ipfs/bafybeib56kic322ncfg5jkwwp2nxhisbm7uk7ansitf4qqyik5zuhw34ga
+[`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`]: https://explorer.cardano.org/tx/d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227

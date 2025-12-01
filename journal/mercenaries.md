@@ -13,13 +13,11 @@
 
 ## Delivered Milestones
 
-### Amaru Doctor
+#### [Amaru Doctor][AmaruDoctor_2025_09_12]
 
-Contract: [AMC-Sundae Labs Agreement 2025-09-12][AmaruDoctor_2025_09_12]
+##### [Milestone 1](https://ipfs.io/ipfs/QmZyqiVXY7oHNx5gJPdj7DBmzde3Vrapg8QouzSP2tidbE)
 
-#### Milestone 1
-
-Amaru-Doctor: Node diversity workshop environment + storage traits analysis
+<details><summary>Node diversity workshop environment + storage traits analysis.</summary>
 
 * [wip: adding otel read capabilities](https://github.com/jeluard/amaru-doctor/pull/52)
 * [wip: update amaru dep; organize scroll](https://github.com/jeluard/amaru-doctor/pull/53)
@@ -28,26 +26,19 @@ Amaru-Doctor: Node diversity workshop environment + storage traits analysis
 * [wip: add otel-based views](https://github.com/jeluard/amaru-doctor/pull/56)
 * [feat: add pool render; pause emacs keybindings](https://github.com/jeluard/amaru-doctor/pull/57)
 * [feat: add prometheus metrics reading](https://github.com/jeluard/amaru-doctor/pull/58)
+</details>
 
-Invoice (redacted): [ipfs://QmZyqiVXY7oHNx5gJPdj7DBmzde3Vrapg8QouzSP2tidbE](https://ipfs.io/ipfs/QmZyqiVXY7oHNx5gJPdj7DBmzde3Vrapg8QouzSP2tidbE)
+#### [Haskell & Pallas CBOR Decoding][HaskellPallas_2025_10_20]
 
-## Delivered Milestones
+#### [Milestone 1](https://ipfs.io/ipfs/QmZ1gmXGesosFiwDTF597Qgc5o2QSZGAW5TsHqCnHUZUoH)
 
-### Haskell & Pallas CBOR Decoding
+<details><summary>Analysis of the gaps between Haskell & Pallas CBOR codecs</summary>
 
-Contract: [AMC-Sundae Labs Agreement 2025-10-20][HaskellPallas_2025_10_20]
-
-#### Milestone 1
-
-Analysis of the gaps between Haskell & Pallas CBOR codecs
-
-* [Repository](https://github.com/rrruko/pallas-primitives-codec-notes/)
-  * [Initial analysis](https://github.com/rrruko/pallas-primitives-codec-notes/commit/22ee6a23232ff8495eadc06d11066952ff3f3d0f)
-  * [Conway cost models](https://github.com/rrruko/pallas-primitives-codec-notes/commit/dc3cf273daee17ac8298cc4414600c8e8f202315)
-  * [Babbage notes](https://github.com/rrruko/pallas-primitives-codec-notes/commit/d8da20347729133f2f3a02be252d789b34954f80)
-  * [WIP Alonzo](https://github.com/rrruko/pallas-primitives-codec-notes/commit/75fe38d81ce0dde3b7cc0e7aaa40e15649f7a983)
-
-Invoice (redacted): [ipfs://QmZ1gmXGesosFiwDTF597Qgc5o2QSZGAW5TsHqCnHUZUoH](https://ipfs.io/ipfs/QmZ1gmXGesosFiwDTF597Qgc5o2QSZGAW5TsHqCnHUZUoH)
+* [Initial analysis](https://github.com/rrruko/pallas-primitives-codec-notes/commit/22ee6a23232ff8495eadc06d11066952ff3f3d0f)
+* [Conway cost models](https://github.com/rrruko/pallas-primitives-codec-notes/commit/dc3cf273daee17ac8298cc4414600c8e8f202315)
+* [Babbage notes](https://github.com/rrruko/pallas-primitives-codec-notes/commit/d8da20347729133f2f3a02be252d789b34954f80)
+* [WIP Alonzo](https://github.com/rrruko/pallas-primitives-codec-notes/commit/75fe38d81ce0dde3b7cc0e7aaa40e15649f7a983)
+</details>
 
 ## Transactions
 
@@ -127,4 +118,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c`]: https://explorer.cardano.org/tx/0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c
 [`b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857`]: https://explorer.cardano.org/tx/b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857
 [AmaruDoctor_2025_09_12]: https://ipfs.io/ipfs/QmQyaSb1hfyzEgSkNuDeNudiXn8uMSMbgTNUMkWEc4eMVc
-[HaskellPallas_2025_09_12]: https://ipfs.io/ipfs/Qme5Nob2xDR5MVZqypNcMa9RfQBDp1UYQ1YGJREKXhRwhy
+[HaskellPallas_2025_10_20]: https://ipfs.io/ipfs/Qme5Nob2xDR5MVZqypNcMa9RfQBDp1UYQ1YGJREKXhRwhy

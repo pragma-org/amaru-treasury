@@ -13,13 +13,21 @@
 
 ## Delivered Milestones
 
-### RKSW UG contract
+#### [Implementing P2P networking for Amaru including dynamic peer selection][RKSW_2025_10_01]
 
-Contract: [AMC-RKSW UG Agreement 2025-10-01][RKSW_2025_10_01]
+##### [Milestone 2](https://ipfs.io/ipfs/bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
 
-#### Milestone 1
+<details><summary>Implement the initiator side to enhance the pull stage with the above networking improvement and offer a principled integration in the pure-stage consensus implementation.</summary>
 
-Enhance the downstream server with a spec-compliant multiplexer implementation that will also support initiator mode later
+* [add short-circuit facilities for pure-stage](https://github.com/pragma-org/amaru/pull/526)
+* [make upstream connections dynamic](https://github.com/pragma-org/amaru/pull/513)
+* [signal pure-stage termination to simulation](https://github.com/pragma-org/amaru/pull/486)
+* [add muxer to amaru-network](https://github.com/pragma-org/amaru/pull/471)
+</details>
+
+##### [Milestone 1](https://ipfs.io/ipfs/bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
+
+<details><summary>Enhance the downstream server with a spec-compliant multiplexer implementation that will also support initiator mode later.</summary>
 
 * [rk/better external effect](https://github.com/pragma-org/amaru/pull/441)
 * [chore: make RawBlock cheaply cloneable](https://github.com/pragma-org/amaru/pull/438)
@@ -33,27 +41,14 @@ Enhance the downstream server with a spec-compliant multiplexer implementation t
 * [Create EDR 012-interaction-between-consensus-and-ledger.md](https://github.com/pragma-org/amaru/pull/369)
 * [persistent state vs. pure_stage](https://github.com/pragma-org/amaru/pull/366)
 * [move validate_header to pure_stage](https://github.com/pragma-org/amaru/pull/365)
+</details>
 
-Invoice (redacted): [ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea](ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
+#### [Consensus and simulation development][Pankzsoft_2025_09_14]
 
-#### Milestone 2
+##### [Milestone 2](https://ipfs.io/ipfs/bafybeiakblvgqiy66eucta467zr435dwarhw4p4rgsbiw7qx4u3t5qyvvi)
 
-Implement the initiator side to enhance the pull stage with the above networking improvement and offer a principled integration in the pure-stage consensus implementation
 
-* [add short-circuit facilities for pure-stage](https://github.com/pragma-org/amaru/pull/526)
-* [make upstream connections dynamic](https://github.com/pragma-org/amaru/pull/513)
-* [signal pure-stage termination to simulation](https://github.com/pragma-org/amaru/pull/486)
-* [add muxer to amaru-network](https://github.com/pragma-org/amaru/pull/471)
-
-Invoice (redacted): [ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea](ipfs://bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
-
-### Pankzsoft contract
-
-Contract: [AMC-Pankzsoft Agreement 2025-09-14][Pankzsoft_2025_09_14]
-
-#### Milestone 2
-
-Delivery of Consensus pipeline: Complete simulation testing to cover all stages and integrate with pure-stage framework
+<details><summary>Delivery of Consensus pipeline. Complete simulation testing to cover all stages and integrate with pure-stage framework.</summary>
 
 * [refactor: use a prefix range to iterate over parent/child relationships](https://github.com/pragma-org/amaru/pull/478)
 * [fix: remove the use of column families in rocksdb](https://github.com/pragma-org/amaru/pull/473)
@@ -65,20 +60,18 @@ Delivery of Consensus pipeline: Complete simulation testing to cover all stages 
 * [refactor: move the fetch block stage to pure-stage](https://github.com/pragma-org/amaru/pull/432)
 * [refactor: remove an unnecessary type parameter for stage refs](https://github.com/pragma-org/amaru/pull/421)
 * [refactor: document the simulation code](https://github.com/pragma-org/amaru/pull/418)
+</details>
 
-Invoice (redacted): [ipfs://bafybeiakblvgqiy66eucta467zr435dwarhw4p4rgsbiw7qx4u3t5qyvvi](ipfs://bafybeiakblvgqiy66eucta467zr435dwarhw4p4rgsbiw7qx4u3t5qyvvi)
+##### [Milestone 1](https://ipfs.io/ipfs/bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy)
 
-#### Milestone 1
-
-Delivery of Ouroboros Praos: Implement correct and efficient chain selection algorithm
+<details><summary>Delivery of Ouroboros Praos. Implement correct and efficient chain selection algorithm.</summary>
 
 * [refactor: store headers in a tree for chain selection](https://github.com/pragma-org/amaru/pull/372)
 * [refactor: refactor the setting of arguments from env. variables in the simulation test](https://github.com/pragma-org/amaru/pull/414)
 * [feat: reduce the processing time for chain selection and optimise rollbacks](https://github.com/pragma-org/amaru/pull/398)
 * [docs: fix the description of a chain fragment](https://github.com/pragma-org/amaru/pull/362)
 * [chore: add a make command to update the license header in source files](https://github.com/pragma-org/amaru/pull/356)
-
-Invoice (redacted): [ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy](ipfs://bafybeigj3sqaxoegljdqgnl64jjpai35t5rfsbdea4havq6yynku4w6tzy)
+</details>
 
 ## Transactions
 

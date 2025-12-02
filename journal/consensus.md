@@ -75,7 +75,7 @@
 
 ## Transactions
 
-| ID           | [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`][] |
+| ID           | [`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                          - 44,000.00 ₳ |
@@ -220,4 +220,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`]: https://explorer.cardano.org/tx/79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f
 [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`]: https://explorer.cardano.org/tx/088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83
 [RKSW_2025_10_01]: https://ipfs.io/ipfs/bafybeib56kic322ncfg5jkwwp2nxhisbm7uk7ansitf4qqyik5zuhw34ga
-[`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`]: https://explorer.cardano.org/tx/d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227
+[`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`]: https://explorer.cardano.org/tx/ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270

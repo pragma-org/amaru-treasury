@@ -48,7 +48,6 @@ Disbursement of 16,000 USDM from the ledger treasury in payment of invoice Sunda
 
 ---
 
-
 | ID           | [`4619d0e401e15dcd2a5afa03e8bf5b73a8ff600b1ef41c71c819f82ad7d1be5f`][] |
 | :----------- | ---------------------------------------------------------------------: |
 | Type         |                                                                    N/A |

@@ -83,6 +83,8 @@
 
 Disbursement of ₳44,000.00 in payment of invoice for completion of _Milestones 1 & 2_
 
+---
+
 | ID           | [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
@@ -94,7 +96,6 @@ Disbursement of $16,000.00 in payment of invoice for completion of [Milestone 2]
 
 ---
 
-
 | ID           | [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
@@ -105,7 +106,6 @@ Disbursement of $16,000.00 in payment of invoice for completion of [Milestone 2]
 Disbursement of $15,590.00 in payment of invoice for completion of [Milestone 1](#milestone-1)
 
 ---
-
 
 | ID           | [`54861a6532a3f270fb754dcd0a45b73034289d98755fd25627e650df9572bd97`][] |
 |:-------------|-----------------------------------------------------------------------:|

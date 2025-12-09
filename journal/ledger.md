@@ -13,7 +13,7 @@
 
 ## Delivered Milestones
 
-#### [Phase 2 validation development][agreement_phase2_validations]
+#### [Phase-2 Validation Development][agreement_phase2_validations]
 
 ##### [Milestone 1](https://ipfs.io/ipfs/bafkreicnj2f44jpgarq46plnbgnbqzx7n7pi6lr3o4euhhvdcbmcqsrsbu)
 
@@ -37,6 +37,16 @@
 </details>
 
 ## Transactions
+
+| ID           | [`b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         | `disburse`                                                             |
+| Delta amount | -16,000 USDM                                                           |
+| Agreement?   | [Phase 2 Validation Development][agreement_phase2_validations]         |
+
+Disbursement of 16,000 USDM from the ledger treasury in payment of invoice Sundae Labs CON-43, for the completion of Milestone 1 as per Remunerated Contributor Agreement for _Phase 2 validation development_.
+
+---
 
 | ID           | [`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -200,3 +210,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7`]: https://explorer.cardano.org/tx/cd25ce7b027fea4e28d5075691aa5822baa859bc74cc79db0377043bc9f383c7
 [`ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe`]: https://explorer.cardano.org/tx/ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe
 [`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`]: https://explorer.cardano.org/tx/073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941
+[`b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f`]: https://explorer.cardano.org/tx/b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f

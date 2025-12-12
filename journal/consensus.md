@@ -73,6 +73,50 @@
 * [chore: add a make command to update the license header in source files](https://github.com/pragma-org/amaru/pull/356)
 </details>
 
+#### [Consensus scope: Consensus and simulation environment development][Sundae_2025_10_01]
+
+##### [Milestone 2]()
+
+<details><summary>Integrate mempool and block forging into consensus.</summary>
+
+* [ci: use smaller simulation parameters on a push to main](https://github.com/pragma-org/amaru/pull/580)
+* [test: run the nightly simulation test once a day with larger defaults](https://github.com/pragma-org/amaru/pull/575)
+* [ci: add a nightly job to run the simulation](https://github.com/pragma-org/amaru/pull/570)
+* [feat: update the visualization of traces now that runnables are not produced anymore](https://github.com/pragma-org/amaru/pull/569)
+* [fix: fix a chain selection bug found via the simulator](https://github.com/pragma-org/amaru/pull/568)
+* [ci: persist failed data on test coverage](https://github.com/pragma-org/amaru/pull/564)
+* [test: put back the random stage execution](https://github.com/pragma-org/amaru/pull/561)
+* [docs: update the simulator readme](https://github.com/pragma-org/amaru/pull/544)
+* [feat: replay trace entries](https://github.com/pragma-org/amaru/pull/541)
+* [fix: start a trace from the pull stage](https://github.com/pragma-org/amaru/pull/540)
+* [fix: fix the chain selection algorithm to avoid sending irrelevant forks](https://github.com/pragma-org/amaru/pull/538)
+* [feat: better interleavings simulation](https://github.com/pragma-org/amaru/pull/536)
+
+</details>
+
+##### [Milestone 1]()
+
+<details><summary>Network Integration: Integrate new P2P network driver and adapt stages and simulation framework.</summary>
+
+* [test: make the select_chain tests more robust](https://github.com/pragma-org/amaru/pull/530)
+* [feat: generate better arrival times / slots for the simulation](https://github.com/pragma-org/amaru/pull/521)
+* [test: display statistics for the generation of data for the simulation](https://github.com/pragma-org/amaru/pull/517)
+* [feat: check that a received header has the correct point](https://github.com/pragma-org/amaru/pull/511)
+* [test: improve the data generation for the consensus simulation](https://github.com/pragma-org/amaru/pull/510)
+* [refactor: use HeaderHash where possible](https://github.com/pragma-org/amaru/pull/508)
+* [refactor: remove an unused chain store effect](https://github.com/pragma-org/amaru/pull/507)
+* [feat: make a full effect for validating headers](https://github.com/pragma-org/amaru/pull/503)
+* [docs: update the consensus diagram](https://github.com/pragma-org/amaru/pull/502)
+* [feat: memoized header hash](https://github.com/pragma-org/amaru/pull/501)
+* [refactor: remove store_header and store_block as separate stages](https://github.com/pragma-org/amaru/pull/500)
+* [feat: move the select_chain stage to the end of the stage graph](https://github.com/pragma-org/amaru/pull/498)
+* [test: introduce a separate config for the simulated nodes](https://github.com/pragma-org/amaru/pull/493)
+* [refactor: move validate_header effects to pure-stage](https://github.com/pragma-org/amaru/pull/489)
+* [feat: more encapsulated effects](https://github.com/pragma-org/amaru/pull/488)
+* [feat: signal pure-stage termination to simulation](https://github.com/pragma-org/amaru/pull/487)
+
+</details>
+
 ## Transactions
 
 | ID           | [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`][] |
@@ -221,3 +265,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`]: https://explorer.cardano.org/tx/088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83
 [RKSW_2025_10_01]: https://ipfs.io/ipfs/bafybeib56kic322ncfg5jkwwp2nxhisbm7uk7ansitf4qqyik5zuhw34ga
 [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`]: https://explorer.cardano.org/tx/d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227
+[Sundae_2025_10_01]: https://ipfs.io/ipfs/bafybeifembdl6i5pzhzwui2v4kzp6gmv4re4hvpbbnhmpabkzdfywo5vfm

@@ -15,6 +15,18 @@
 
 #### [Implementing P2P networking for Amaru including dynamic peer selection][RKSW_2025_10_01]
 
+##### [Milestone 3 & 4](ipfs://QmYkv27UuCU2CqShWuDVQPQLAGrrLtBsmTkSvHhwvW7Lct)
+
+<details><summary>Rewrite network stack using pure-stage.</summary>
+
+> [!NOTICE]
+> This work significantly departs from the pre-defined milestones in the initial contract with the provider.
+> The Amaru Maintainers Committee acknowledges this state of affair which is due to the inadequacy of the original envisioned networking stack for Amaru specific purposes, in particular related to the integration in the existing architecture, peer-to-peer management, responder (eg. server). This lead to the need to a complete rewrite of the networking logic which is what is currently being worked on.
+
+* [reimplement muxer using pure-stage](https://github.com/pragma-org/amaru/pull/584) _In progress_
+
+</summary>
+
 ##### [Milestone 2](https://ipfs.io/ipfs/bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
 
 <details><summary>Implement the initiator side to enhance the pull stage with the above networking improvement and offer a principled integration in the pure-stage consensus implementation.</summary>
@@ -119,7 +131,17 @@
 
 ## Transactions
 
-| ID           | [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`][] |
+| ID           | [`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`][] |
+|:-------------|-----------------------------------------------------------------------:|
+| Type         |                                                             `disburse` |
+| Delta amount |                                                          - 44,000.00 ₳ |
+| Agreement?   |                       [AMC-RKSW Agreement 2025-10-01][RKSW_2025_10_01] |
+
+Disbursement of ₳44,000.00 in payment of invoice for work in progress on _Milestones 3 & 4_
+
+---
+
+| ID           | [`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                          - 44,000.00 ₳ |
@@ -264,5 +286,6 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`]: https://explorer.cardano.org/tx/79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f
 [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`]: https://explorer.cardano.org/tx/088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83
 [RKSW_2025_10_01]: https://ipfs.io/ipfs/bafybeib56kic322ncfg5jkwwp2nxhisbm7uk7ansitf4qqyik5zuhw34ga
-[`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`]: https://explorer.cardano.org/tx/d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227
+[`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`]: https://explorer.cardano.org/tx/ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270
+[`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`]: https://explorer.cardano.org/tx/dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374
 [Sundae_2025_10_01]: https://ipfs.io/ipfs/bafybeifembdl6i5pzhzwui2v4kzp6gmv4re4hvpbbnhmpabkzdfywo5vfm

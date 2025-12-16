@@ -15,7 +15,7 @@
 
 #### [Implementing P2P networking for Amaru including dynamic peer selection][RKSW_2025_10_01]
 
-##### [Milestone 3 & 4](ipfs://QmYkv27UuCU2CqShWuDVQPQLAGrrLtBsmTkSvHhwvW7Lct)
+##### [Milestone 3 & 4](http://ipfs.io/ipfs/QmYkv27UuCU2CqShWuDVQPQLAGrrLtBsmTkSvHhwvW7Lct)
 
 <details><summary>Rewrite network stack using pure-stage.</summary>
 

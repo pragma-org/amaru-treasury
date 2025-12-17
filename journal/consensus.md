@@ -87,9 +87,16 @@
 
 #### [Consensus scope: Consensus and simulation environment development][Sundae_2025_10_01]
 
-##### [Milestone 2]()
+##### [Milestone 2](https://ipfs.io/ipfs/QmQRz47evKW1GEMBuQ15rAu9djcxbakTh9WbhePn9DwRU4)
 
-<details><summary>Integrate mempool and block forging into consensus.</summary>
+<details><summary>R&D work in preparation of mempool and relay logic implementation.</summary>
+
+> [!NOTICE]
+> This work significantly departs from the pre-defined
+> milestones in the initial contract with the provider.  The Amaru
+> Maintainers Committee acknowledges this state of affair as
+> unavoidable in such complex projects and nevertheless recognizes the
+> significance of the work accomplished.
 
 * [ci: use smaller simulation parameters on a push to main](https://github.com/pragma-org/amaru/pull/580)
 * [test: run the nightly simulation test once a day with larger defaults](https://github.com/pragma-org/amaru/pull/575)
@@ -129,8 +136,17 @@
 
 </details>
 
-
 ## Transactions
+
+| ID           |                                                 [][] |
+|:-------------|-----------------------------------------------------:|
+| Type         |                                           `disburse` |
+| Delta amount |                                     - 16,000.00 USDM |
+| Agreement?   | [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
+
+Disbursement of $16,000.00 in payment of invoice CON-58 for completion of _Milestone 2_
+
+---
 
 | ID           | [`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`][] |
 |:-------------|-----------------------------------------------------------------------:|
@@ -300,3 +316,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`]: https://explorer.cardano.org/tx/ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270
 [`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`]: https://explorer.cardano.org/tx/dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374
 [Sundae_2025_10_01]: https://ipfs.io/ipfs/bafybeifembdl6i5pzhzwui2v4kzp6gmv4re4hvpbbnhmpabkzdfywo5vfm
+[`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`]: https://explorer.cardano.org/tx/4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388

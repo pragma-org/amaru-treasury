@@ -131,17 +131,17 @@
 
 ## Transactions
 
-| ID           | [`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`][] |
+| ID           | [`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
-| Delta amount |                                                          - 44,000.00 ₳ |
-| Agreement?   |                       [AMC-RKSW Agreement 2025-10-01][RKSW_2025_10_01] |
+| Delta amount |                                                       - 16,000.00 USDM |
+| Agreement?   |                   [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
 
-Disbursement of ₳44,000.00 in payment of invoice for work in progress on _Milestones 3 & 4_
+Disbursement of $16,000.00 in payment of invoice CON-57 for completion of _Milestone 1_
 
 ---
 
-| ID           | [`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`][] |
+| ID           | [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                          - 44,000.00 ₳ |

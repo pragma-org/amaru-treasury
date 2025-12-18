@@ -19,13 +19,13 @@
 
 <details><summary>Rewrite network stack using pure-stage.</summary>
 
-> [!NOTICE]
+> [!NOTE]
 > This work significantly departs from the pre-defined milestones in the initial contract with the provider.
 > The Amaru Maintainers Committee acknowledges this state of affair which is due to the inadequacy of the original envisioned networking stack for Amaru specific purposes, in particular related to the integration in the existing architecture, peer-to-peer management, responder (eg. server). This lead to the need to a complete rewrite of the networking logic which is what is currently being worked on.
 
 * [reimplement muxer using pure-stage](https://github.com/pragma-org/amaru/pull/584) _In progress_
 
-</summary>
+</details>
 
 ##### [Milestone 2](https://ipfs.io/ipfs/bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
 

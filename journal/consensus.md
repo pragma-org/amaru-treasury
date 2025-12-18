@@ -2,18 +2,30 @@
 
 ## Preamble
 
-| Maintainer(s)            | [Arnaud Bailly][]                                                 |
-| :----------------------- | ----------------------------------------------------------------: |
-| Owner's credential       | `790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b`        |
-| Treasury's script hash   | `9beae6fc7feada6ccf824554b5e3a498eab15205ac9248c3fb993b5f`        |
+| Maintainer(s)            |                                                 [Arnaud Bailly][] |
+|:-------------------------|------------------------------------------------------------------:|
+| Owner's credential       |        `790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b` |
+| Treasury's script hash   |        `9beae6fc7feada6ccf824554b5e3a498eab15205ac9248c3fb993b5f` |
 | Treasury's stake address | [`stake17xd74ehu0l4d5mx0sfz4fd0r5jvw4v2jqkkfyjxrlwvnkhccrqj9l`][] |
-| Treasury's address       | [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][]                     |
-| Initial allocation       | ₳300,000                                                          |
-| Current balance          | ₳99,951 <br/> $109,259                                            |
+| Treasury's address       |                     [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][] |
+| Initial allocation       |                                                          ₳300,000 |
+| Current balance          |                                            ₳ 11950 <br/> $ 109258 |
 
 ## Delivered Milestones
 
 #### [Implementing P2P networking for Amaru including dynamic peer selection][RKSW_2025_10_01]
+
+##### [Milestone 3 & 4](http://ipfs.io/ipfs/QmYkv27UuCU2CqShWuDVQPQLAGrrLtBsmTkSvHhwvW7Lct)
+
+<details><summary>Rewrite network stack using pure-stage.</summary>
+
+> [!NOTE]
+> This work significantly departs from the pre-defined milestones in the initial contract with the provider.
+> The Amaru Maintainers Committee acknowledges this state of affair which is due to the inadequacy of the original envisioned networking stack for Amaru specific purposes, in particular related to the integration in the existing architecture, peer-to-peer management, responder (eg. server). This lead to the need to a complete rewrite of the networking logic which is what is currently being worked on.
+
+* [reimplement muxer using pure-stage](https://github.com/pragma-org/amaru/pull/584) _In progress_
+
+</details>
 
 ##### [Milestone 2](https://ipfs.io/ipfs/bafybeiale2rvfcgjzsomotmnh43mq6ll2xsvrjxswb6lp6ochqpouecqea)
 
@@ -73,9 +85,90 @@
 * [chore: add a make command to update the license header in source files](https://github.com/pragma-org/amaru/pull/356)
 </details>
 
+#### [Consensus scope: Consensus and simulation environment development][Sundae_2025_10_01]
+
+##### [Milestone 2](https://ipfs.io/ipfs/QmQRz47evKW1GEMBuQ15rAu9djcxbakTh9WbhePn9DwRU4)
+
+<details><summary>R&D work in preparation of mempool and relay logic implementation.</summary>
+
+> [!NOTICE]
+> This work significantly departs from the pre-defined
+> milestones in the initial contract with the provider.  The Amaru
+> Maintainers Committee acknowledges this state of affair as
+> unavoidable in such complex projects and nevertheless recognizes the
+> significance of the work accomplished.
+
+* [ci: use smaller simulation parameters on a push to main](https://github.com/pragma-org/amaru/pull/580)
+* [test: run the nightly simulation test once a day with larger defaults](https://github.com/pragma-org/amaru/pull/575)
+* [ci: add a nightly job to run the simulation](https://github.com/pragma-org/amaru/pull/570)
+* [feat: update the visualization of traces now that runnables are not produced anymore](https://github.com/pragma-org/amaru/pull/569)
+* [fix: fix a chain selection bug found via the simulator](https://github.com/pragma-org/amaru/pull/568)
+* [ci: persist failed data on test coverage](https://github.com/pragma-org/amaru/pull/564)
+* [test: put back the random stage execution](https://github.com/pragma-org/amaru/pull/561)
+* [docs: update the simulator readme](https://github.com/pragma-org/amaru/pull/544)
+* [feat: replay trace entries](https://github.com/pragma-org/amaru/pull/541)
+* [fix: start a trace from the pull stage](https://github.com/pragma-org/amaru/pull/540)
+* [fix: fix the chain selection algorithm to avoid sending irrelevant forks](https://github.com/pragma-org/amaru/pull/538)
+* [feat: better interleavings simulation](https://github.com/pragma-org/amaru/pull/536)
+
+</details>
+
+##### [Milestone 1](https://ipfs.io/ipfs/QmSHnmfJWRsnPYLa1U1NdgwunkGR2YVAXN6ts9a3HFopga)
+
+<details><summary>Network Integration: Integrate new P2P network driver and adapt stages and simulation framework.</summary>
+
+* [test: make the select_chain tests more robust](https://github.com/pragma-org/amaru/pull/530)
+* [feat: generate better arrival times / slots for the simulation](https://github.com/pragma-org/amaru/pull/521)
+* [test: display statistics for the generation of data for the simulation](https://github.com/pragma-org/amaru/pull/517)
+* [feat: check that a received header has the correct point](https://github.com/pragma-org/amaru/pull/511)
+* [test: improve the data generation for the consensus simulation](https://github.com/pragma-org/amaru/pull/510)
+* [refactor: use HeaderHash where possible](https://github.com/pragma-org/amaru/pull/508)
+* [refactor: remove an unused chain store effect](https://github.com/pragma-org/amaru/pull/507)
+* [feat: make a full effect for validating headers](https://github.com/pragma-org/amaru/pull/503)
+* [docs: update the consensus diagram](https://github.com/pragma-org/amaru/pull/502)
+* [feat: memoized header hash](https://github.com/pragma-org/amaru/pull/501)
+* [refactor: remove store_header and store_block as separate stages](https://github.com/pragma-org/amaru/pull/500)
+* [feat: move the select_chain stage to the end of the stage graph](https://github.com/pragma-org/amaru/pull/498)
+* [test: introduce a separate config for the simulated nodes](https://github.com/pragma-org/amaru/pull/493)
+* [refactor: move validate_header effects to pure-stage](https://github.com/pragma-org/amaru/pull/489)
+* [feat: more encapsulated effects](https://github.com/pragma-org/amaru/pull/488)
+* [feat: signal pure-stage termination to simulation](https://github.com/pragma-org/amaru/pull/487)
+
+</details>
+
 ## Transactions
 
-| ID           | [`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`][] |
+| ID           |                                                 [][] |
+|:-------------|-----------------------------------------------------:|
+| Type         |                                           `disburse` |
+| Delta amount |                                     - 16,000.00 USDM |
+| Agreement?   | [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
+
+Disbursement of $16,000.00 in payment of invoice CON-58 for completion of _Milestone 2_
+
+---
+
+| ID           | [`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`][] |
+|:-------------|-----------------------------------------------------------------------:|
+| Type         |                                                             `disburse` |
+| Delta amount |                                                       - 16,000.00 USDM |
+| Agreement?   |                   [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
+
+Disbursement of $16,000.00 in payment of invoice CON-57 for completion of _Milestone 1_
+
+---
+
+| ID           | [`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`][] |
+|:-------------|-----------------------------------------------------------------------:|
+| Type         |                                                             `disburse` |
+| Delta amount |                                                          - 44,000.00 ₳ |
+| Agreement?   |                       [AMC-RKSW Agreement 2025-10-01][RKSW_2025_10_01] |
+
+Disbursement of ₳44,000.00 in payment of invoice for work in progress on _Milestones 3 & 4_
+
+---
+
+| ID           | [`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`][] |
 |:-------------|-----------------------------------------------------------------------:|
 | Type         |                                                             `disburse` |
 | Delta amount |                                                          - 44,000.00 ₳ |
@@ -220,4 +313,7 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f`]: https://explorer.cardano.org/tx/79dd616f50dae7cc94ca633912bc96e8ea6de7d205d3e232ec494368c9bd453f
 [`088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83`]: https://explorer.cardano.org/tx/088c80ad8620e480de51e49c2e6c6a0d504d47e30f2255e545a2d532494cec83
 [RKSW_2025_10_01]: https://ipfs.io/ipfs/bafybeib56kic322ncfg5jkwwp2nxhisbm7uk7ansitf4qqyik5zuhw34ga
-[`d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227`]: https://explorer.cardano.org/tx/d30b9a321dbd5dd100e605a3af11a2463fce7c6b478ec5fa37662d633a1c9227
+[`ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270`]: https://explorer.cardano.org/tx/ec61841159e0067a2cc9db4ff87d1e7ca76f1fd205d45927183a384a667fd270
+[`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`]: https://explorer.cardano.org/tx/dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374
+[Sundae_2025_10_01]: https://ipfs.io/ipfs/bafybeifembdl6i5pzhzwui2v4kzp6gmv4re4hvpbbnhmpabkzdfywo5vfm
+[`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`]: https://explorer.cardano.org/tx/4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388

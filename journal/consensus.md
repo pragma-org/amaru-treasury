@@ -2,14 +2,14 @@
 
 ## Preamble
 
-| Maintainer(s)            |                                                 [Arnaud Bailly][] |
-|:-------------------------|------------------------------------------------------------------:|
-| Owner's credential       |        `790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b` |
-| Treasury's script hash   |        `9beae6fc7feada6ccf824554b5e3a498eab15205ac9248c3fb993b5f` |
-| Treasury's stake address | [`stake17xd74ehu0l4d5mx0sfz4fd0r5jvw4v2jqkkfyjxrlwvnkhccrqj9l`][] |
-| Treasury's address       |                     [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][] |
-| Initial allocation       |                                                          ₳300,000 |
-| Current balance          |                                            ₳ 11950 <br/> $ 109258 |
+| Maintainer(s)              | [Arnaud Bailly][]                                                                                       |
+| :------------------------- | ------------------------------------------------------------------:                                     |
+| Owner's credential         | `790273b642e528f620648bf494a3db052bad270ce7ee873324d0cf3b`                                              |
+| Treasury's script hash     | `9beae6fc7feada6ccf824554b5e3a498eab15205ac9248c3fb993b5f`                                              |
+| Treasury's stake address   | [`stake17xd74ehu0l4d5mx0sfz4fd0r5jvw4v2jqkkfyjxrlwvnkhccrqj9l`][]                                       |
+| Treasury's address         | [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][]<br/>[`consensus@amaru`](https://pool.pm/$consensus@amaru) |
+| Initial allocation         | ₳300,000                                                                                                |
+| Current balance            | ₳11,950 <br/> $93,259                                                                                   |
 
 ## Delivered Milestones
 

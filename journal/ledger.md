@@ -9,7 +9,7 @@
 | Treasury's stake address | [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][]                                  |
 | Treasury's address       | [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][]<br/>[`ledger@amaru`](https://pool.pm/$ledger@amaru) |
 | Initial allocation       | ₳300,000                                                                                           |
-| Current balance          | ₳168,757<br/>$85,041                                                                               |
+| Current balance          | ₳168,757<br/>$37,041                                                                               |
 
 ## Delivered Milestones
 
@@ -36,7 +36,37 @@
 - [implement builtins for batch 6 with conformance tests](https://github.com/pragma-org/uplc/pull/20)
 </details>
 
+##### [Milestone 2](https://ipfs.io/ipfs/bafkreid6dj77w2z4b4wu2ujbyq3uvmbwcg4pi7jp6jdhktdpg7dxdgatma)
+
+<details><summary>Execute and pass all the “Turbo-benchmarks” restricted to Plutus V3</summary>
+
+- [Setup Turbo Benchmarks](https://github.com/pragma-org/uplc/pull/24)
+- [Benchmarks with fixed flat decoding processing](https://github.com/pragma-org/uplc/pull/26)
+</details>
+
+##### [Milestone 3](https://ipfs.io/ipfs/bafkreid6dj77w2z4b4wu2ujbyq3uvmbwcg4pi7jp6jdhktdpg7dxdgatma)
+
+<details><summary>Implementation of Plutus V1 & V2 semantics, alongside corresponding Plutus conformance tests and Turbo-benchmarks for V1 & V2</summary>
+
+- [Add semantically scoped vm ](https://github.com/pragma-org/uplc/pull/23)
+- [implement SerialiseData ](https://github.com/pragma-org/uplc/pull/27)
+- [Include builtin in error when cost lookup fails](https://github.com/pragma-org/uplc/pull/28)
+- [Add missing builtins to lookup in Builtin Costs v2](https://github.com/pragma-org/uplc/pull/29)
+- [Added missing serialiseData term ](https://github.com/pragma-org/uplc/pull/30)
+- [flat encoding for negative integer](https://github.com/pragma-org/uplc/pull/31)
+</details>
+
 ## Transactions
+
+| ID           | [`e6dcc7015abe409540f190d93ebfed51e2ede9015ebd164dfd57daa5a5d84991`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         | `disburse`                                                             |
+| Delta amount | -32,000 USDM                                                           |
+| Agreement?   | [Plutus Virtual Machine development][agreement_plutus_virtual_machine] |
+
+Disbursement of 2x16000 USDM from the ledger treasury in payment of invoice CON-53 from Sundae Labs, for the completion of Milestone 2 & 3 as per the Remunerated Contributor Agreement for _Plutus Virtal Machine Development_.
+
+---
 
 | ID           | [`b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -44,7 +74,7 @@
 | Delta amount | -16,000 USDM                                                           |
 | Agreement?   | [Phase 2 Validation Development][agreement_phase2_validations]         |
 
-Disbursement of 16,000 USDM from the ledger treasury in payment of invoice Sundae Labs CON-43, for the completion of Milestone 1 as per Remunerated Contributor Agreement for _Phase 2 validation development_.
+Disbursement of 16,000 USDM from the ledger treasury in payment of invoice CON-43 from Sundae Labs, for the completion of Milestone 1 as per Remunerated Contributor Agreement for _Phase 2 validation development_.
 
 ---
 
@@ -54,7 +84,7 @@ Disbursement of 16,000 USDM from the ledger treasury in payment of invoice Sunda
 | Delta amount | -16,000 USDM                                                           |
 | Agreement?   | [Plutus Virtual Machine development][agreement_plutus_virtual_machine] |
 
-Disbursement of 16,000 USDM from the ledger treasury in payment of invoice Sundae Labs CON-36, for the completion of Milestone 1 as per Remunerated Contributor Agreement for _Plutus Virtual Machine V3 implementation & testing_.
+Disbursement of 16,000 USDM from the ledger treasury in payment of invoice from CON-36 Sundae Labs, for the completion of Milestone 1 as per Remunerated Contributor Agreement for _Plutus Virtual Machine Development_
 
 ---
 
@@ -211,3 +241,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe`]: https://explorer.cardano.org/tx/ec641b987f10cc6d7751c63a3ae383e5b09007833446424959376c1c0f67a4fe
 [`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`]: https://explorer.cardano.org/tx/073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941
 [`b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f`]: https://explorer.cardano.org/tx/b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f
+[`e6dcc7015abe409540f190d93ebfed51e2ede9015ebd164dfd57daa5a5d84991`]: https://explorer.cardano.org/tx/e6dcc7015abe409540f190d93ebfed51e2ede9015ebd164dfd57daa5a5d84991

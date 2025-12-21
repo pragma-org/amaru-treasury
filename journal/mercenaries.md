@@ -2,14 +2,14 @@
 
 ## Preamble
 
-| Maintainer(s)            | [Pi Lanningham][]                                                 |
-| :----------------------- | ----------------------------------------------------------------: |
-| Owner's credential       | `97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2`        |
-| Treasury's script hash   | `877f57e0bdcc8167e984dee052d8dd7346effc08ff80a29b045e1a10`        |
-| Treasury's stake address | [`stake17xrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yqhgk7k8`][] |
-| Treasury's address       | [`addr1xxrh74lqhhxgzelf...3fkpz7rggqpymr9r`][]                    |
-| Initial allocation       | ₳500,000                                                          |
-| Current balance          | ₳400,047 <br/> $63,760                                            |
+| Maintainer(s)            | [Pi Lanningham][]                                                                                            |
+| :----------------------- | ----------------------------------------------------------------:                                            |
+| Owner's credential       | `97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2`                                                   |
+| Treasury's script hash   | `877f57e0bdcc8167e984dee052d8dd7346effc08ff80a29b045e1a10`                                                   |
+| Treasury's stake address | [`stake17xrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yqhgk7k8`][]                                            |
+| Treasury's address       | [`addr1xxrh74lqhhxgzelf...3fkpz7rggqpymr9r`][]<br/>[`mercenaries@amaru`](https://pool.pm/$mercenaries@amaru) |
+| Initial allocation       | ₳500,000                                                                                                     |
+| Current balance          | ₳400,047 <br/> $47,761                                                                                       |
 
 ## Delivered Milestones
 

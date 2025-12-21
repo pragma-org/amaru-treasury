@@ -2,16 +2,41 @@
 
 ## Preamble
 
-| Maintainer(s)            | [Damien Czapla][]                                                 |
-| :----------------------- | ----------------------------------------------------------------: |
-| Owner's credential       | `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e`        |
-| Treasury's script hash   | `860ee0f6bd8235842a908afd86dc949c4c9dabd74b0965c364b8d315`        |
-| Treasury's stake address | [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`][] |
-| Treasury's address       | [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`][]                    |
-| Initial allocation       | ₳100,000                                                          |
-| Current balance          | ₳39,766 <br/> $50,445                                             |
+| Maintainer(s)            | [Damien Czapla][]                                                                                        |
+| :----------------------- | ----------------------------------------------------------------:                                        |
+| Owner's credential       | `f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e`                                               |
+| Treasury's script hash   | `860ee0f6bd8235842a908afd86dc949c4c9dabd74b0965c364b8d315`                                               |
+| Treasury's stake address | [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`][]                                        |
+| Treasury's address       | [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`][]<br/>[`marketing@amaru`](https://pool.pm/$marketing@amaru) |
+| Initial allocation       | ₳100,000                                                                                                 |
+| Current balance          | ₳39,766 <br/> $445                                                                                       |
+
+## Delivered Milestones
+
+#### [Node Diversity Workshop and Summit][]
+
+##### [Milestone 1](https://ipfs.io/ipfs/QmPy884FenC4Gr6d9tuwmkKJ4iVgrj6WAp2Rib9C1tTzrQ)
+
+<details><summary>Node diversity & Cardano Summit planning, facilitation and recap</summary>
+
+- https://forum.cardano.org/t/cardano-node-diversity-workshop-2-toulouse-22-23-september-2025/150304
+- https://x.com/MinswapIntern/status/1988970111022104968
+- https://x.com/andreassosilo/status/1988895839259861470
+- https://x.com/elraulito/status/1988919116837630283
+- https://x.com/btbfpark/status/1988586401974366338
+</details>
 
 ## Transactions
+
+| ID           | [`89a3f90c728486b2c4dee46ef5efec95520f5ef8a140dbbe8e550ffca9448edf`][] |
+| :----------- | ---------------------------------------------------------------------: |
+| Type         | `disburse`                                                             |
+| Delta amount | -50,000 USDM                                                           |
+| Agreement?   | [Node Diversity Workshop And Summit][]                                 |
+
+Disburse 50,000 USDM in payment of invoice from OpenTheLead for the Organisation of Node Diversity Workshop #2 and Cardano Summit 2025.
+
+---
 
 | ID           | [`977f4c921c1dff2799148048e8d604c682c8d44433fbb059e810c7306f4eb9bd`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -119,6 +144,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y`]: https://cardanoscan.io/stakeKey/stake17xrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9ggg4u5y
 [`addr1xxrqac8khkprtpp2...juxe9c6v2shcjss3`]: https://explorer.cardano.org/address/addr1xxrqac8khkprtpp2jz90mpkujjwye8dt6a9sjewrvjudx9vxpms0d0vzxkzz4yy2lkrde9yufjw6h46tp9juxe9c6v2shcjss3
 
+[Node Diversity Workshop And Summit]: https://ipfs.io/ipfs/QmbjuHaCteEtqkLwV7c4TVejcf8gzg5rTFczuxKvX7qDX6
+
 [`977f4c921c1dff2799148048e8d604c682c8d44433fbb059e810c7306f4eb9bd`]: https://explorer.cardano.org/tx/977f4c921c1dff2799148048e8d604c682c8d44433fbb059e810c7306f4eb9bd
 [`402bda8c137d980fad7ecb9c920e2031e1c079c568dc4d03564d1f308876da15`]: https://explorer.cardano.org/tx/402bda8c137d980fad7ecb9c920e2031e1c079c568dc4d03564d1f308876da15
 [`30e1eeb78af4817906813be8564a7c04f9bcbe8282d7db2c350da5185e4558ee`]: https://explorer.cardano.org/tx/30e1eeb78af4817906813be8564a7c04f9bcbe8282d7db2c350da5185e4558ee
@@ -127,3 +154,5 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`0290a5665bb01d0296b9be5b35e9e77a3db750d7a76df8ba1847adc3ef77a5e3`]: https://explorer.cardano.org/tx/0290a5665bb01d0296b9be5b35e9e77a3db750d7a76df8ba1847adc3ef77a5e3
 [`5697f433442317f04f539baecdf71fee01b3e8453c658a4d782648bc1e4f4490`]: https://explorer.cardano.org/tx/5697f433442317f04f539baecdf71fee01b3e8453c658a4d782648bc1e4f4490
 [`bd215c2bf7e0577d1459c1d8da7c85aafbfa8d8b7293669cfabfa5563218972d`]: https://explorer.cardano.org/tx/bd215c2bf7e0577d1459c1d8da7c85aafbfa8d8b7293669cfabfa5563218972d
+[`89a3f90c728486b2c4dee46ef5efec95520f5ef8a140dbbe8e550ffca9448edf`]: https://explorer.cardano.org/tx/89a3f90c728486b2c4dee46ef5efec95520f5ef8a140dbbe8e550ffca9448edf
+

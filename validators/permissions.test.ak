@@ -37,16 +37,16 @@ const validator_hash: ScriptHash =
 const scopes_nft: PolicyId =
   #"99999999999999999999999999999999999999999999999999999999"
 
-const ledger: VerificationKeyHash = #"1ed6ee"
+const core_development: VerificationKeyHash = #"1ed6ee"
 
-const consensus: VerificationKeyHash = #"c0d5ed50"
+const ops_and_use_cases: VerificationKeyHash = #"c0d5ed50"
 
-const mercenaries: VerificationKeyHash = #"4eecedad15"
+const network_compliance: VerificationKeyHash = #"4eecedad15"
 
-const marketing: VerificationKeyHash = #"4ad3e716"
+const middleware: VerificationKeyHash = #"4ad3e716"
 
 const all_owners: List<VerificationKeyHash> =
-  [ledger, consensus, mercenaries, marketing]
+  [core_development, ops_and_use_cases, network_compliance, middleware]
 
 // ----------------------------------------------------------------------------
 // ----- Properties
@@ -72,7 +72,7 @@ fn run_as(scope: Scope, txs: List<Transaction>) {
 test prop_permissions_scenarii_distribution(
   outcome via scenario.report_coverage(
     // We reasonably expect the same coverage for all scopes.
-    default_state(Scope.Ledger),
+    default_state(Scope.CoreDevelopment),
     step,
   ),
 ) {
@@ -82,80 +82,80 @@ test prop_permissions_scenarii_distribution(
 test permissions_ko_coverage() {
   scenario.check_coverage(
     all_failures,
-    scenario.ko(default_state(Scope.Ledger), step),
+    scenario.ko(default_state(Scope.CoreDevelopment), step),
   )
 }
 
 // -------------------------------------------------------------------
-// ----- Properties :: Ledger
+// ----- Properties :: CoreDevelopment
 // -------------------------------------------------------------------
 
-test prop_permissions_ledger_standard_ok(
-  ok via scenario.ok(default_state(Scope.Ledger), step),
+test prop_permissions_core_development_standard_ok(
+  ok via scenario.ok(default_state(Scope.CoreDevelopment), step),
 ) {
-  run_as(Scope.Ledger, ok)
+  run_as(Scope.CoreDevelopment, ok)
   for_each(ok, post_conditions)
 }
 
-test prop_permissions_ledger_standard_ko(
-  (labels, ko) via scenario.ko(default_state(Scope.Ledger), step),
+test prop_permissions_core_development_standard_ko(
+  (labels, ko) via scenario.ko(default_state(Scope.CoreDevelopment), step),
 ) fail {
   for_each(list.unique(labels), fuzz.label)
-  run_as(Scope.Ledger, ko)
+  run_as(Scope.CoreDevelopment, ko)
 }
 
 // -------------------------------------------------------------------
-// ----- Properties :: Consensus
+// ----- Properties :: OpsAndUseCases
 // -------------------------------------------------------------------
 
-test prop_permissions_consensus_standard_ok(
-  ok via scenario.ok(default_state(Scope.Consensus), step),
+test prop_permissions_ops_and_use_cases_standard_ok(
+  ok via scenario.ok(default_state(Scope.OpsAndUseCases), step),
 ) {
-  run_as(Scope.Consensus, ok)
+  run_as(Scope.OpsAndUseCases, ok)
   for_each(ok, post_conditions)
 }
 
-test prop_permissions_consensus_standard_ko(
-  (labels, ko) via scenario.ko(default_state(Scope.Consensus), step),
+test prop_permissions_ops_and_use_cases_standard_ko(
+  (labels, ko) via scenario.ko(default_state(Scope.OpsAndUseCases), step),
 ) fail {
   for_each(list.unique(labels), fuzz.label)
-  run_as(Scope.Consensus, ko)
+  run_as(Scope.OpsAndUseCases, ko)
 }
 
 // -------------------------------------------------------------------
-// ----- Properties :: Mercenaries
+// ----- Properties :: NetworkCompliance
 // -------------------------------------------------------------------
 
-test prop_permissions_mercenaries_standard_ok(
-  ok via scenario.ok(default_state(Scope.Mercenaries), step),
+test prop_permissions_network_compliance_standard_ok(
+  ok via scenario.ok(default_state(Scope.NetworkCompliance), step),
 ) {
-  run_as(Scope.Mercenaries, ok)
+  run_as(Scope.NetworkCompliance, ok)
   for_each(ok, post_conditions)
 }
 
-test prop_permissions_mercenaries_standard_ko(
-  (labels, ko) via scenario.ko(default_state(Scope.Mercenaries), step),
+test prop_permissions_network_compliance_standard_ko(
+  (labels, ko) via scenario.ko(default_state(Scope.NetworkCompliance), step),
 ) fail {
   for_each(list.unique(labels), fuzz.label)
-  run_as(Scope.Mercenaries, ko)
+  run_as(Scope.NetworkCompliance, ko)
 }
 
 // -------------------------------------------------------------------
-// ----- Properties :: Marketing
+// ----- Properties :: Middleware
 // -------------------------------------------------------------------
 
-test prop_permissions_marketing_standard_ok(
-  ok via scenario.ok(default_state(Scope.Marketing), step),
+test prop_permissions_middleware_standard_ok(
+  ok via scenario.ok(default_state(Scope.Middleware), step),
 ) {
-  run_as(Scope.Marketing, ok)
+  run_as(Scope.Middleware, ok)
   for_each(ok, post_conditions)
 }
 
-test prop_permissions_marketing_standard_ko(
-  (labels, ko) via scenario.ko(default_state(Scope.Marketing), step),
+test prop_permissions_middleware_standard_ko(
+  (labels, ko) via scenario.ko(default_state(Scope.Middleware), step),
 ) fail {
   for_each(list.unique(labels), fuzz.label)
-  run_as(Scope.Marketing, ko)
+  run_as(Scope.Middleware, ko)
 }
 
 // -------------------------------------------------------------------
@@ -339,11 +339,11 @@ fn step(st: State) -> Fuzzer<Scenario<State>> {
         State { ..st, done: True, labels: [] },
         Transaction {
           ..transaction.placeholder,
-          inputs: inputs,
-          reference_inputs: reference_inputs,
-          withdrawals: withdrawals,
-          extra_signatories: extra_signatories,
-          redeemers: redeemers,
+          inputs,
+          reference_inputs,
+          withdrawals,
+          extra_signatories,
+          redeemers,
         },
       ),
     )
@@ -470,10 +470,10 @@ fn scenario_scopes_datum_baseline(st: State) -> Fuzzer<(State, Data)> {
       st,
       as_data(
         Scopes {
-          ledger: multisig.Signature(ledger),
-          consensus: multisig.Signature(consensus),
-          mercenaries: multisig.Signature(mercenaries),
-          marketing: multisig.Signature(marketing),
+          core_development: multisig.Signature(core_development),
+          ops_and_use_cases: multisig.Signature(ops_and_use_cases),
+          network_compliance: multisig.Signature(network_compliance),
+          middleware: multisig.Signature(middleware),
         },
       ),
     ),
@@ -616,35 +616,51 @@ fn scenario_signatories_baseline(
         TreasurySpendRedeemer.Disburse { .. } |
         TreasurySpendRedeemer.SweepTreasury ->
           when st.scope is {
-            Scope.Ledger -> {
+            Scope.CoreDevelopment -> {
               let others <-
-                and_then(non_empty_sublist([consensus, mercenaries, marketing]))
-              return([ledger, ..others])
+                and_then(
+                  non_empty_sublist(
+                    [ops_and_use_cases, network_compliance, middleware],
+                  ),
+                )
+              return([core_development, ..others])
             }
-            Scope.Consensus -> {
+            Scope.OpsAndUseCases -> {
               let others <-
-                and_then(non_empty_sublist([ledger, mercenaries, marketing]))
-              return([consensus, ..others])
+                and_then(
+                  non_empty_sublist(
+                    [core_development, network_compliance, middleware],
+                  ),
+                )
+              return([ops_and_use_cases, ..others])
             }
-            Scope.Mercenaries -> {
+            Scope.NetworkCompliance -> {
               let others <-
-                and_then(non_empty_sublist([ledger, consensus, marketing]))
-              return([mercenaries, ..others])
+                and_then(
+                  non_empty_sublist(
+                    [core_development, ops_and_use_cases, middleware],
+                  ),
+                )
+              return([network_compliance, ..others])
             }
-            Scope.Marketing -> {
+            Scope.Middleware -> {
               let others <-
-                and_then(non_empty_sublist([ledger, consensus, mercenaries]))
-              return([marketing, ..others])
+                and_then(
+                  non_empty_sublist(
+                    [core_development, ops_and_use_cases, network_compliance],
+                  ),
+                )
+              return([middleware, ..others])
             }
             Scope.Contingency -> return(all_owners)
           }
 
         TreasurySpendRedeemer.Reorganize ->
           when st.scope is {
-            Scope.Ledger -> return([ledger])
-            Scope.Consensus -> return([consensus])
-            Scope.Mercenaries -> return([mercenaries])
-            Scope.Marketing -> return([marketing])
+            Scope.CoreDevelopment -> return([core_development])
+            Scope.OpsAndUseCases -> return([ops_and_use_cases])
+            Scope.NetworkCompliance -> return([network_compliance])
+            Scope.Middleware -> return([middleware])
             Scope.Contingency -> non_empty_sublist(all_owners)
           }
 
@@ -667,10 +683,10 @@ fn scenario_signatories_missing_other(
   let signatories <-
     fuzz.map(
       when st.scope is {
-        Scope.Ledger -> return([ledger, ..tail])
-        Scope.Consensus -> return([consensus, ..tail])
-        Scope.Mercenaries -> return([mercenaries, ..tail])
-        Scope.Marketing -> return([marketing, ..tail])
+        Scope.CoreDevelopment -> return([core_development, ..tail])
+        Scope.OpsAndUseCases -> return([ops_and_use_cases, ..tail])
+        Scope.NetworkCompliance -> return([network_compliance, ..tail])
+        Scope.Middleware -> return([middleware, ..tail])
         Scope.Contingency -> {
           let owners <-
             fuzz.map(
@@ -715,10 +731,16 @@ fn scenario_signatories_missing_owner(
   let signatories <-
     fuzz.map(
       when st.scope is {
-        Scope.Ledger -> fuzz.sublist([consensus, mercenaries, marketing])
-        Scope.Consensus -> fuzz.sublist([ledger, mercenaries, marketing])
-        Scope.Mercenaries -> fuzz.sublist([ledger, consensus, marketing])
-        Scope.Marketing -> fuzz.sublist([ledger, consensus, mercenaries])
+        Scope.CoreDevelopment ->
+          fuzz.sublist([ops_and_use_cases, network_compliance, middleware])
+        Scope.OpsAndUseCases ->
+          fuzz.sublist([core_development, network_compliance, middleware])
+        Scope.NetworkCompliance ->
+          fuzz.sublist([core_development, ops_and_use_cases, middleware])
+        Scope.Middleware ->
+          fuzz.sublist(
+            [core_development, ops_and_use_cases, network_compliance],
+          )
         Scope.Contingency ->
           when action is {
             TreasurySpendRedeemer.Disburse { .. } |

@@ -122,23 +122,23 @@ network_to_env () {
 # Usage: scope_to_constr [SCOPE]
 scope_to_constr () {
   case $1 in
-    "ledger")
+    "core_development")
       echo "d87980"
       ;;
-    "consensus")
+    "ops_and_use_cases")
       echo "d87a80"
       ;;
-    "mercenaries")
+    "network_compliance")
       echo "d87b80"
       ;;
-    "marketing")
+    "middleware")
       echo "d87c80"
       ;;
     "contingency")
       echo "d87d80"
       ;;
     *)
-      echo -e "\033[91munsupported scope: must be one of 'ledger', 'consensus', 'mercenaries', 'marketing' or 'contingency'\033[0m" >&2
+      echo -e "\033[91munsupported scope: must be one of 'core_development', 'ops_and_use_cases', 'network_compliance', 'middleware' or 'contingency'\033[0m" >&2
       exit 1
       ;;
   esac

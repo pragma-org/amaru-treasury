@@ -79,25 +79,25 @@ registry () {
 }
 
 TOKEN_NAME_REGISTRY=$(echo -n "REGISTRY" | basenc --base16 -w 0)
-HASH_LEDGER=$(registry "ledger")
-HASH_CONSENSUS=$(registry "consensus")
-HASH_MERCENARIES=$(registry "mercenaries")
-HASH_MARKETING=$(registry "marketing")
+HASH_CORE_DEVELOPMENT=$(registry "core_development")
+HASH_OPS_AND_USE_CASES=$(registry "ops_and_use_cases")
+HASH_NETWORK_COMPLIANCE=$(registry "network_compliance")
+HASH_MIDDLEWARE=$(registry "middleware")
 HASH_CONTINGENCY=$(registry "contingency")
 
 if [[ $NETWORK == "mainnet" ]]; then
   NETWORK_FLAG="--mainnet"
-  ADDRESS_LEDGER=$(bech32 addr <<< "71$HASH_LEDGER")
-  ADDRESS_CONSENSUS=$(bech32 addr <<< "71$HASH_CONSENSUS")
-  ADDRESS_MERCENARIES=$(bech32 addr <<< "71$HASH_MERCENARIES")
-  ADDRESS_MARKETING=$(bech32 addr <<< "71$HASH_MARKETING")
+  ADDRESS_CORE_DEVELOPMENT=$(bech32 addr <<< "71$HASH_CORE_DEVELOPMENT")
+  ADDRESS_OPS_AND_USE_CASES=$(bech32 addr <<< "71$HASH_OPS_AND_USE_CASES")
+  ADDRESS_NETWORK_COMPLIANCE=$(bech32 addr <<< "71$HASH_NETWORK_COMPLIANCE")
+  ADDRESS_MIDDLEWARE=$(bech32 addr <<< "71$HASH_MIDDLEWARE")
   ADDRESS_CONTINGENCY=$(bech32 addr <<< "71$HASH_CONTINGENCY")
 else
   NETWORK_FLAG="--testnet-magic 2"
-  ADDRESS_LEDGER=$(bech32 addr_test <<< "70$HASH_LEDGER")
-  ADDRESS_CONSENSUS=$(bech32 addr_test <<< "70$HASH_CONSENSUS")
-  ADDRESS_MERCENARIES=$(bech32 addr_test <<< "70$HASH_MERCENARIES")
-  ADDRESS_MARKETING=$(bech32 addr_test <<< "70$HASH_MARKETING")
+  ADDRESS_CORE_DEVELOPMENT=$(bech32 addr_test <<< "70$HASH_CORE_DEVELOPMENT")
+  ADDRESS_OPS_AND_USE_CASES=$(bech32 addr_test <<< "70$HASH_OPS_AND_USE_CASES")
+  ADDRESS_NETWORK_COMPLIANCE=$(bech32 addr_test <<< "70$HASH_NETWORK_COMPLIANCE")
+  ADDRESS_MIDDLEWARE=$(bech32 addr_test <<< "70$HASH_MIDDLEWARE")
   ADDRESS_CONTINGENCY=$(bech32 addr_test <<< "70$HASH_CONTINGENCY")
 fi
 
@@ -120,24 +120,24 @@ CLI_OUT=$(cardano-cli conway transaction build \
    $NETWORK_FLAG \
    --tx-in "$REGISTRY_TX#$REGISTRY_IX" \
    --tx-in-collateral "$REGISTRY_TX#$REGISTRY_IX" \
-   --tx-out "$ADDRESS_LEDGER+2000000+1 $HASH_LEDGER.$TOKEN_NAME_REGISTRY" \
-   --tx-out-inline-datum-cbor-file $TMP/datum-ledger.cbor \
-   --tx-out "$ADDRESS_CONSENSUS+2000000+1 $HASH_CONSENSUS.$TOKEN_NAME_REGISTRY" \
-   --tx-out-inline-datum-cbor-file $TMP/datum-consensus.cbor \
-   --tx-out "$ADDRESS_MERCENARIES+2000000+1 $HASH_MERCENARIES.$TOKEN_NAME_REGISTRY" \
-   --tx-out-inline-datum-cbor-file $TMP/datum-mercenaries.cbor \
-   --tx-out "$ADDRESS_MARKETING+2000000+1 $HASH_MARKETING.$TOKEN_NAME_REGISTRY" \
-   --tx-out-inline-datum-cbor-file $TMP/datum-marketing.cbor \
+   --tx-out "$ADDRESS_CORE_DEVELOPMENT+2000000+1 $HASH_CORE_DEVELOPMENT.$TOKEN_NAME_REGISTRY" \
+   --tx-out-inline-datum-cbor-file $TMP/datum-core_development.cbor \
+   --tx-out "$ADDRESS_OPS_AND_USE_CASES+2000000+1 $HASH_OPS_AND_USE_CASES.$TOKEN_NAME_REGISTRY" \
+   --tx-out-inline-datum-cbor-file $TMP/datum-ops_and_use_cases.cbor \
+   --tx-out "$ADDRESS_NETWORK_COMPLIANCE+2000000+1 $HASH_NETWORK_COMPLIANCE.$TOKEN_NAME_REGISTRY" \
+   --tx-out-inline-datum-cbor-file $TMP/datum-network_compliance.cbor \
+   --tx-out "$ADDRESS_MIDDLEWARE+2000000+1 $HASH_MIDDLEWARE.$TOKEN_NAME_REGISTRY" \
+   --tx-out-inline-datum-cbor-file $TMP/datum-middleware.cbor \
    --tx-out "$ADDRESS_CONTINGENCY+2000000+1 $HASH_CONTINGENCY.$TOKEN_NAME_REGISTRY" \
    --tx-out-inline-datum-cbor-file $TMP/datum-contingency.cbor \
-   --mint "1 $HASH_LEDGER.$TOKEN_NAME_REGISTRY+1 $HASH_CONSENSUS.$TOKEN_NAME_REGISTRY+1 $HASH_MERCENARIES.$TOKEN_NAME_REGISTRY+1 $HASH_MARKETING.$TOKEN_NAME_REGISTRY+1 $HASH_CONTINGENCY.$TOKEN_NAME_REGISTRY" \
-   --mint-script-file $TMP/script-ledger.cbor \
+   --mint "1 $HASH_CORE_DEVELOPMENT.$TOKEN_NAME_REGISTRY+1 $HASH_OPS_AND_USE_CASES.$TOKEN_NAME_REGISTRY+1 $HASH_NETWORK_COMPLIANCE.$TOKEN_NAME_REGISTRY+1 $HASH_MIDDLEWARE.$TOKEN_NAME_REGISTRY+1 $HASH_CONTINGENCY.$TOKEN_NAME_REGISTRY" \
+   --mint-script-file $TMP/script-core_development.cbor \
    --mint-redeemer-value "[]" \
-   --mint-script-file $TMP/script-consensus.cbor \
+   --mint-script-file $TMP/script-ops_and_use_cases.cbor \
    --mint-redeemer-value "[]" \
-   --mint-script-file $TMP/script-mercenaries.cbor \
+   --mint-script-file $TMP/script-network_compliance.cbor \
    --mint-redeemer-value "[]" \
-   --mint-script-file $TMP/script-marketing.cbor \
+   --mint-script-file $TMP/script-middleware.cbor \
    --mint-redeemer-value "[]" \
    --mint-script-file $TMP/script-contingency.cbor \
    --mint-redeemer-value "[]" \

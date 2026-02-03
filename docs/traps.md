@@ -24,10 +24,10 @@
 
        ```aiken
        pub type Scopes {
-         ledger: MultisigScript,
-         consensus: MultisigScript,
-         mercenaries: MultisigScript,
-         marketing: MultisigScript,
+         core_development: MultisigScript,
+         ops_and_use_cases: MultisigScript,
+         network_compliance: MultisigScript,
+         middleware: MultisigScript,
        }
        ```
 
@@ -48,7 +48,7 @@
 
 1. `seed: OutputReference`: a UTxO to be consumed during minting, ensuring uniqueness of the execution and of the policy id (script hash).
 
-2. `scope: Scope`: a scope (ledger, consensus, mercenaries, marketing or contingency) used to define an the minted asset's name. Forcing an extra parameter just for an asset name may seem superfluous but it is necessary to allow having one distinct registry per scope. This way, they can each point to a different treasury script.
+2. `scope: Scope`: a scope (core development, ops and use cases, network compliance, middleware or contingency) used to define an the minted asset's name. Forcing an extra parameter just for an asset name may seem superfluous but it is necessary to allow having one distinct registry per scope. This way, they can each point to a different treasury script.
 
 Unlike the `Scopes` trap, the registry cannot be updated to different values once it has been created.
 

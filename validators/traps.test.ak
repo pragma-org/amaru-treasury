@@ -99,7 +99,7 @@ fn run_scopes(txs: List<Transaction>) {
 // ----- Properties :: registry
 // ----------------------------------------------------------------------------
 
-const default_scope: Scope = Scope.Ledger
+const default_scope: Scope = Scope.CoreDevelopment
 
 const default_registry_handler =
   handlers.treasury_registry.else(seed, default_scope, _)
@@ -375,9 +375,9 @@ fn step_mint(st: State) -> Fuzzer<Scenario<State>> {
       State { ..st, labels: [] },
       Transaction {
         ..transaction.placeholder,
-        inputs: inputs,
-        outputs: outputs,
-        mint: mint,
+        inputs,
+        outputs,
+        mint,
         redeemers: [mint_or_burn],
       },
     ),
@@ -432,9 +432,9 @@ fn step_update(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>>
       State { ..st, labels: [] },
       Transaction {
         ..transaction.placeholder,
-        inputs: inputs,
-        outputs: outputs,
-        extra_signatories: extra_signatories,
+        inputs,
+        outputs,
+        extra_signatories,
         redeemers: spend_redeemers(inputs),
       },
     ),
@@ -483,10 +483,10 @@ fn step_burn(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
       State { ..st, done: True, labels: [] },
       Transaction {
         ..transaction.placeholder,
-        inputs: inputs,
-        extra_signatories: extra_signatories,
-        mint: mint,
-        validity_range: validity_range,
+        inputs,
+        extra_signatories,
+        mint,
+        validity_range,
         redeemers: [mint_or_burn, ..spend_redeemers(inputs)],
       },
     ),
@@ -608,7 +608,7 @@ fn scenario_update_inputs_baseline(
                 output: Output {
                   ..output,
                   address: address.from_script(validator_hash),
-                  datum: datum,
+                  datum,
                 },
               }
             },

@@ -65,7 +65,7 @@ See also [docs/traps.md](./docs/traps.md).
 ### Configuring
 
 > [!NOTE]
-> The scopes (ledger, consensus, mercenaries, marketing, contingency) are pre-defined and not configurable.
+> The scopes (core development, ops and use cases, network compliance and middleware integrations) are pre-defined and not configurable.
 
 | What                       | Where                              |
 | ---                        | ---                                |

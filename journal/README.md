@@ -1,18 +1,26 @@
 # Journal
 
-This folder contains financial journals for each of the managed treasuries:
+## 2026
 
-- [ledger](./ledger.md)
-- [consensus](./consensus.md)
-- [mercenaries](./mercenaries.md)
-- [marketing](./marketing.md)
-- [contingency](./contingency.md)
+Coming soon.
 
-Each journal is structured in a similar fashion and record transactions coming in and out of the treasuries. The aim is both to keep a human-readable trace of transactions happening around those accounts, as well as to ease the work of a financial auditors (or anyone really interested in auditing the trail of transactions). The next section describes the format of those journaling files.
+## 2025
 
-There's an additional journal for recording [miscellaneous](./misc.md) transactions related to Amaru treasury management.
+The [./2025](./2025) folder contains financial journals for each of the managed treasuries:
 
-## Preamble
+- [ledger](./2025/ledger.md)
+- [consensus](./2025/consensus.md)
+- [mercenaries](./2025/mercenaries.md)
+- [marketing](./2025/marketing.md)
+- [contingency](./2025/contingency.md)
+
+There's an additional journal for recording [miscellaneous](./2025/misc.md) transactions related to Amaru treasury management.
+
+## Template
+
+Each journal is structured in a similar fashion and record transactions coming in and out of the treasuries. The aim is both to keep a human-readable trace of transactions happening around those accounts, as well as to ease the work of a financial auditors (or anyone really interested in auditing the trail of transactions). The next sections describe the format of those journaling files.
+
+### Preamble
 
 Each sub-journal shall present the following information as preamble:
 
@@ -23,7 +31,7 @@ Each sub-journal shall present the following information as preamble:
 | Treasury's address       | The full delegated address corresponding to the managed treasury.                                                                |
 | Initial allocation       | An amount, in ada, corresponding to the initial treasury allocation                                                              |
 
-## Transaction
+### Transaction
 
 Transactions shall be recorded in a most-recent-first list. Each item shall be separated by `---` and presented in the following form:
 

@@ -28,10 +28,10 @@ Arguments:
   SEED_IX  Base16-encoded CBOR output index of seed UTxO
   OWNER    A blake2b-224 hash digest of an owner verification key.
   	   Repeated 4 times for each scope owner:
-	   - ledger
-	   - consensus
-	   - mercenaries
-	   - marketing
+	   - core_development
+	   - ops_and_use_cases
+	   - network_compliance
+	   - middleware
 
 Example:
   ${0##*/} preview \\
@@ -55,17 +55,17 @@ fail_when_missing "SEED_IX" ${SEED_IX:-}
 
 SEED_UTXO="d8799f5820${SEED_TX}${SEED_IX}ff"
 
-LEDGER=${4:-}
-fail_when_missing "LEDGER" ${LEDGER:-}
+CORE_DEVELOPMENT=${4:-}
+fail_when_missing "CORE_DEVELOPMENT" ${CORE_DEVELOPMENT:-}
 
-CONSENSUS=${5:-}
-fail_when_missing "CONSENSUS" ${CONSENSUS:-}
+OPS_AND_USE_CASES=${5:-}
+fail_when_missing "OPS_AND_USE_CASES" ${OPS_AND_USE_CASES:-}
 
-MERCENARIES=${6:-}
-fail_when_missing "MERCENARIES" ${MERCENARIES:-}
+NETWORK_COMPLIANCE=${6:-}
+fail_when_missing "NETWORK_COMPLIANCE" ${NETWORK_COMPLIANCE:-}
 
-MARKETING=${7:-}
-fail_when_missing "MARKETING" ${MARKETING:-}
+MIDDLEWARE=${7:-}
+fail_when_missing "MIDDLEWARE" ${MIDDLEWARE:-}
 
 aiken build -D --env $ENV
 
@@ -73,10 +73,10 @@ aiken build -D --env $ENV
 step "Building" "scopes datum"
 FN=$(aiken_export "scope" "export_scopes")
 SCOPES=$(eval_uplc $FN \
-  "$(to_bytestring_term $LEDGER)" \
-  "$(to_bytestring_term $CONSENSUS)" \
-  "$(to_bytestring_term $MERCENARIES)" \
-  "$(to_bytestring_term $MARKETING)" \
+  "$(to_bytestring_term $CORE_DEVELOPMENT)" \
+  "$(to_bytestring_term $OPS_AND_USE_CASES)" \
+  "$(to_bytestring_term $NETWORK_COMPLIANCE)" \
+  "$(to_bytestring_term $MIDDLEWARE)" \
 )
 step "Scopes" $SCOPES
 
@@ -84,10 +84,10 @@ step "Scopes" $SCOPES
 echo "" >&2
 step "Compiling" "scopes script"
 step "With" "owners"
-sub_step "Ledger" "$LEDGER"
-sub_step "Consensus" "$CONSENSUS"
-sub_step "Mercenaries" "$MERCENARIES"
-sub_step "Marketing" "$MARKETING"
+sub_step "CoreDevelopment" "$CORE_DEVELOPMENT"
+sub_step "OpsAndUseCases" "$OPS_AND_USE_CASES"
+sub_step "NetworkCompliance" "$NETWORK_COMPLIANCE"
+sub_step "Middleware" "$MIDDLEWARE"
 
 step "And" "parameters"
 sub_step "Seed UTxO" "$SEED_TX#$SEED_IX"

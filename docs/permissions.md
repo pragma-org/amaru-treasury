@@ -34,4 +34,4 @@
 
 1. `scopes_nft: PolicyId`: The policy-id / script hash of the _scopes_ script managing the scopes definitions. This is the script controlled by PRAGMA, which defines who are effectively the scope owners for each scope.
 
-2. `scope: Scope`: The actual scope (ledger, consensus, mercenaries, marketing or contingency) for that validator.
+2. `scope: Scope`: The actual scope (core development, ops and use cases, network compliance and middleware integrations) for that validator.

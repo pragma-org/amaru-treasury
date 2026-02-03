@@ -24,13 +24,13 @@ Usage: ${0##*/} [NETWORK] [SCOPE] [REGISTRY_TX] [REGISTRY_IX]
 
 Arguments:
   NETWORK      Target network (preview | mainnet)
-  SCOPE        Which scope to create permissions for (ledger, consensus, mercenaries or marketing)
+  SCOPE        Which scope to create permissions for (core_development, ops_and_use_cases, network_compliance or middleware)
   REGISTRY_TX  Base16-encoded transaction id of registry UTxO
   REGISTRY_IX  Base16-encoded CBOR output index of registry UTxO
 
 Example:
   ${0##*/} preview \\
-    ledger \\
+    core_development \\
     a8fdcc3912943ee940c0d32db88186337b8346346079e5f945b534a791c43e26 \\
     01
 EOF

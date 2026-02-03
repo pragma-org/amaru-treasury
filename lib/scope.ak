@@ -21,41 +21,41 @@ use config
 use sundae/multisig.{MultisigScript}
 
 pub type Scope {
-  Ledger
-  Consensus
-  Mercenaries
-  Marketing
+  CoreDevelopment
+  OpsAndUseCases
+  NetworkCompliance
+  Middleware
   Contingency
 }
 
 /// A dynamic scopes definition to be stored on-chain (inline datum). Note that
 /// the contingency scope governing rules are derived from the others.
 pub type Scopes {
-  ledger: MultisigScript,
-  consensus: MultisigScript,
-  mercenaries: MultisigScript,
-  marketing: MultisigScript,
+  core_development: MultisigScript,
+  ops_and_use_cases: MultisigScript,
+  network_compliance: MultisigScript,
+  middleware: MultisigScript,
 }
 
 /// Define the default scopes for bootstrapping the state. This function is used by
 /// the surrounding tooling to easily get a binary representation of the initial datum.
 pub fn export_scopes(
-  ledger: VerificationKeyHash,
-  consensus: VerificationKeyHash,
-  mercenaries: VerificationKeyHash,
-  marketing: VerificationKeyHash,
+  core_development: VerificationKeyHash,
+  ops_and_use_cases: VerificationKeyHash,
+  network_compliance: VerificationKeyHash,
+  middleware: VerificationKeyHash,
 ) {
-  expect bytearray.length(ledger) == 28
-  expect bytearray.length(consensus) == 28
-  expect bytearray.length(mercenaries) == 28
-  expect bytearray.length(marketing) == 28
+  expect bytearray.length(core_development) == 28
+  expect bytearray.length(ops_and_use_cases) == 28
+  expect bytearray.length(network_compliance) == 28
+  expect bytearray.length(middleware) == 28
 
   cbor.serialise(
     Scopes {
-      ledger: multisig.Signature(ledger),
-      consensus: multisig.Signature(consensus),
-      mercenaries: multisig.Signature(mercenaries),
-      marketing: multisig.Signature(marketing),
+      core_development: multisig.Signature(core_development),
+      ops_and_use_cases: multisig.Signature(ops_and_use_cases),
+      network_compliance: multisig.Signature(network_compliance),
+      middleware: multisig.Signature(middleware),
     },
   )
 }
@@ -100,17 +100,17 @@ pub fn approved_by_owner(
 ) -> Bool {
   multisig.satisfied(
     when scope is {
-      Ledger -> scopes.ledger
-      Consensus -> scopes.consensus
-      Mercenaries -> scopes.mercenaries
-      Marketing -> scopes.marketing
+      CoreDevelopment -> scopes.core_development
+      OpsAndUseCases -> scopes.ops_and_use_cases
+      NetworkCompliance -> scopes.network_compliance
+      Middleware -> scopes.middleware
       Contingency ->
         multisig.AnyOf(
           [
-            scopes.ledger,
-            scopes.consensus,
-            scopes.mercenaries,
-            scopes.marketing,
+            scopes.core_development,
+            scopes.ops_and_use_cases,
+            scopes.network_compliance,
+            scopes.middleware,
           ],
         )
     },
@@ -132,47 +132,65 @@ pub fn approved_by_owner_and_someone_else(
 ) -> Bool {
   multisig.satisfied(
     when scope is {
-      Ledger ->
+      CoreDevelopment ->
         multisig.AllOf(
           [
-            scopes.ledger,
+            scopes.core_development,
             multisig.AnyOf(
-              [scopes.consensus, scopes.mercenaries, scopes.marketing],
+              [
+                scopes.ops_and_use_cases,
+                scopes.network_compliance,
+                scopes.middleware,
+              ],
             ),
           ],
         )
-      Consensus ->
+      OpsAndUseCases ->
         multisig.AllOf(
           [
-            scopes.consensus,
+            scopes.ops_and_use_cases,
             multisig.AnyOf(
-              [scopes.ledger, scopes.mercenaries, scopes.marketing],
+              [
+                scopes.core_development,
+                scopes.network_compliance,
+                scopes.middleware,
+              ],
             ),
           ],
         )
-      Mercenaries ->
+      NetworkCompliance ->
         multisig.AllOf(
           [
-            scopes.mercenaries,
-            multisig.AnyOf([scopes.ledger, scopes.consensus, scopes.marketing]),
+            scopes.network_compliance,
+            multisig.AnyOf(
+              [
+                scopes.core_development,
+                scopes.ops_and_use_cases,
+                scopes.middleware,
+              ],
+            ),
           ],
         )
-      Marketing ->
+      Middleware ->
         multisig.AllOf(
           [
-            scopes.marketing,
+            scopes.middleware,
             multisig.AnyOf(
-              [scopes.ledger, scopes.consensus, scopes.mercenaries],
+              [
+                scopes.core_development,
+                scopes.ops_and_use_cases,
+                scopes.network_compliance,
+              ],
             ),
           ],
         )
       Contingency ->
         multisig.AllOf(
           [
-            scopes.ledger,
-            scopes.consensus,
-            scopes.mercenaries,
-            scopes.marketing,
+            scopes.core_development,
+            scopes.ops_and_use_cases,
+            scopes.network_compliance,
+            scopes.middleware,
           ],
         )
     },

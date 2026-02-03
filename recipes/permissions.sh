@@ -24,10 +24,10 @@ Usage: ${0##*/} [NETWORK] [SCOPE]
 
 Arguments:
   NETWORK      Target network (preview | mainnet)
-  SCOPE        Which scope to create permissions for (ledger, consensus, mercenaries, marketing or contingency)
+  SCOPE        Which scope to create permissions for (core_development, ops_and_use_cases, network_compliance, middleware or contingency)
 
 Example:
-  ${0##*/} preview ledger 5bc659e149349b7d1d23493c7b7276a2ac83ad07c4249c125d3b1f49
+  ${0##*/} preview core_development 5bc659e149349b7d1d23493c7b7276a2ac83ad07c4249c125d3b1f49
 EOF
 }
 
@@ -68,7 +68,7 @@ step "Saved as" $OUT
 echo "" >&2
 
 # Quick sanity check that all permissions scripts have been compiled with the same params...
-SCOPES=(ledger consensus mercenaries marketing contingency)
+SCOPES=(core_development ops_and_use_cases network_compliance middleware contingency)
 ALL_MATCH=true
 for s in "${SCOPES[@]}"; do
   f="build/permissions-$s.plutus.json"
@@ -134,10 +134,10 @@ if [ "$ALL_MATCH" == "true" ]; then
      $NETWORK_FLAG \
      --tx-in "$FUEL_TX#$FUEL_IX" \
      --tx-in-collateral "$FUEL_TX#$FUEL_IX" \
-     $(permissions "ledger") \
-     $(permissions "consensus") \
-     $(permissions "mercenaries") \
-     $(permissions "marketing") \
+     $(permissions "core_development") \
+     $(permissions "ops_and_use_cases") \
+     $(permissions "network_compliance") \
+     $(permissions "middleware") \
      $(permissions "contingency") \
      --change-address $CHANGE_ADDR \
      --out-file $OUT)

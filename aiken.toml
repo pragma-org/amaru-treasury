@@ -1,6 +1,6 @@
 name = "pragma-org/amaru-treasury"
 version = "1.0.0"
-compiler = "v1.1.17"
+compiler = "v1.1.21"
 plutus = "v3"
 license = "Apache-2.0"
 description = "Aiken contracts for project 'pragma-org/amaru-treasury'"
@@ -22,7 +22,7 @@ source = "github"
 
 [[dependencies]]
 name = "SundaeSwap-finance/treasury-contracts"
-version = "98ca99d13c3ee306a7de43d956c3edf555e88f78"
+version = "8a3183c929be57886214624b45ee0c43a0c19277"
 source = "github"
 
 [[dependencies]]

@@ -128,7 +128,7 @@ if [ "$ALL_MATCH" == "true" ]; then
     echo "--certificate-file $OUT_CERT --certificate-script-file $OUT_SCRIPT --certificate-redeemer-value \"[]\""
   }
 
-  OUT=build/publish-permissions.tx.json
+  OUT=build/register-permissions-as-credentials.tx.json
 
   CLI_OUT=$(cardano-cli conway transaction build \
      $NETWORK_FLAG \

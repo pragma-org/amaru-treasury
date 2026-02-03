@@ -24,7 +24,7 @@ Usage: ${0##*/} [NETWORK] [SCOPE] [REGISTRY_TX] [REGISTRY_IX]
 
 Arguments:
   NETWORK      Target network (preview | mainnet)
-  SCOPE        Which scope to create permissions for (core_development, ops_and_use_cases, network_compliance or middleware)
+  SCOPE        Which scope to create permissions for (core_development, ops_and_use_cases, network_compliance, middleware or contingency)
   REGISTRY_TX  Base16-encoded transaction id of registry UTxO
   REGISTRY_IX  Base16-encoded CBOR output index of registry UTxO
 
@@ -43,8 +43,6 @@ ENV=$(network_to_env $NETWORK)
 
 SCOPE=$2
 fail_when_missing "SCOPE" ${SCOPE:-}
-SCOPE_CONSTR=$(scope_to_constr $SCOPE)
-SCOPE_OWNER=$(jq -r ".validators[0].hash" build/permissions-$SCOPE.plutus.json)
 
 REGISTRY_TX=${3:-}
 fail_when_missing "REGISTRY_TX" ${REGISTRY_TX:-}
@@ -54,10 +52,14 @@ fail_when_missing "REGISTRY_IX" ${REGISTRY_IX:-}
 
 REGISTRY_UTXO="d8799f5820${REGISTRY_TX}${REGISTRY_IX}ff"
 
+SCOPE_CONSTR=$(scope_to_constr $SCOPE)
+
+SCOPE_OWNER=$(jq -r ".validators[0].hash" build/permissions-$SCOPE.plutus.json)
+
 ## ---------- Registry
 
 step "Building" "$SCOPE's treasury registry"
-aiken build -D --env $ENV
+aiken build --env $ENV
 
 step "Applying" "parameters"
 sub_step "Registry UTxO" "$REGISTRY_TX#$REGISTRY_IX"
@@ -94,7 +96,7 @@ TREASURY_CONFIG=$(eval_uplc $FN \
 )
 
 cd treasury-contracts
-aiken build -D
+aiken build
 BLUEPRINT=$(aiken blueprint apply -v treasury $TREASURY_CONFIG)
 cd ..
 

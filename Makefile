@@ -7,24 +7,24 @@ NETWORK ?= preview
 #
 # Must have enough ADA to cover for the transaction fee (~0.3 ADA) and the
 # min-UTxO deposit that will hold the scopes datum (2 ADA)
-SCOPES_SEED_TX ?= 6be590477b9338f840a1c27c6990e091e1ef96ead4c8f27b62b8964fb01450a2
+SCOPES_SEED_TX ?= 9632c0fd34d793033abca77c89adc6d67f3d16e167032923d2e842aab92f10f2
 SCOPES_SEED_IX ?= 01
 
 # A (spendable) UTxO reference to seed the treasury registries.
 #
 # Must have enough ADA to cover for the transaction fee (~0.75 ADA) and the
 # min-UTxO deposits that will hold each registry (2 ADA x 5 = 10 ADA).
-REGISTRY_SEED_TX ?= 5836e1b87e0e7e9d9bac9bba1ea93fcc9afca79433e42367db864f879a1aee12
+REGISTRY_SEED_TX ?= 8c43d6b8c668effa0102a1a200dc6f5a8ec21961540af062fcbce7cd5386c9d9
 REGISTRY_SEED_IX ?= 05
 
 # The public key hash of the (initial) core_development scope owner
 OWNER_CORE_DEVELOPMENT ?= 7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb
 # The public key hash of the (initial) ops_and_use_cases scope owner
-OWNER_OPS_AND_USE_CASES ?= 6db01d01e6fe2b770eea422f0323f7425ef727e487a817ac2d752a9a
+OWNER_OPS_AND_USE_CASES ?= f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e
 # The public key hash of the (initial) network_compliance scope owner
-OWNER_NETWORK_COMPLIANCE ?= 6db01d01e6fe2b770eea422f0323f7425ef727e487a817ac2d752a9a
+OWNER_NETWORK_COMPLIANCE ?= 8bd03209d227956aaf9670751e0aa2057b51c1537a43f155b24fb1c1
 # The public key hash of the (initial) middleware scope owner
-OWNER_MIDDLEWARE ?= 70b46e985fa50328fcb3d80594b6c5c54974a08d2c766a47570bfa36
+OWNER_MIDDLEWARE ?= 97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2
 
 OWNERS := $(OWNER_CORE_DEVELOPMENT) $(OWNER_OPS_AND_USE_CASES) $(OWNER_NETWORK_COMPLIANCE) $(OWNER_MIDDLEWARE)
 
@@ -44,11 +44,16 @@ scopes: prerequisites ## Compile the scopes script, and prepare its initial mint
 	@recipes/scopes.sh $(NETWORK) $(SCOPES_SEED_TX) $(SCOPES_SEED_IX) $(OWNERS)
 
 permissions: permissions-core_development permissions-ops_and_use_cases permissions-network_compliance permissions-middleware permissions-contingency ## Compile all permissions scripts for all scopes.
+	@recipes/publish-permissions-scripts.sh $(NETWORK)
 
 permissions-%: prerequisites ## Compile the permissions script for a single scope.
 	@recipes/permissions.sh $(NETWORK) $*
 
 treasury: treasury-core_development treasury-ops_and_use_cases treasury-network_compliance treasury-middleware treasury-contingency ## Compile all teasury scripts for all scopes.
+	@recipes/publish-treasury-scripts.sh $(NETWORK) core_development
+	@recipes/publish-treasury-scripts.sh $(NETWORK) ops_and_use_cases
+	@recipes/publish-treasury-scripts.sh $(NETWORK) network_compliance
+	@recipes/publish-treasury-scripts.sh $(NETWORK) middleware
 
 treasury-%: prerequisites ## Compile the treasury script for a single scope.
 	@recipes/treasury.sh $(NETWORK) $* $(REGISTRY_SEED_TX) $(REGISTRY_SEED_IX)

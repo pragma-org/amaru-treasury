@@ -9,7 +9,7 @@
 | Treasury's stake address   | [`stake17xd74ehu0l4d5mx0sfz4fd0r5jvw4v2jqkkfyjxrlwvnkhccrqj9l`][]                                       |
 | Treasury's address         | [`addr1xxd74ehu0l4d5mx0...v87ue8d0sn774ak`][]<br/>[`consensus@amaru`](https://pool.pm/$consensus@amaru) |
 | Initial allocation         | ₳300,000                                                                                                |
-| Current balance            | ₳11,950 <br/> $93,259                                                                                   |
+| Current balance            | ₳50.81 <br/> $93,259                                                                                    |
 
 ## Delivered Milestones
 
@@ -138,13 +138,13 @@
 
 ## Transactions
 
-| ID           |                                                 [][] |
-|:-------------|-----------------------------------------------------:|
-| Type         |                                           `disburse` |
-| Delta amount |                                     - 16,000.00 USDM |
-| Agreement?   | [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
+| ID             | [`9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5`][] |
+| :------------- | -----------------------------------------------------:                 |
+| Type           | `sweep`                                                                |
+| Delta amount   | -11,900 ADA                                                            |
+| Agreement?     | N/A                                                                    |
 
-Disbursement of $16,000.00 in payment of invoice CON-58 for completion of _Milestone 2_
+Sweeping of the ADA leftovers from 2025, back into Cardano's treasury.
 
 ---
 
@@ -317,3 +317,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374`]: https://explorer.cardano.org/tx/dccff813154febe90874e251a61a1d05d6872327d93847dade5dda694d30f374
 [Sundae_2025_10_01]: https://ipfs.io/ipfs/bafybeifembdl6i5pzhzwui2v4kzp6gmv4re4hvpbbnhmpabkzdfywo5vfm
 [`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`]: https://explorer.cardano.org/tx/4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388
+[`9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5`]: https://explorer.cardano.org/tx/9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5

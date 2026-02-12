@@ -8,9 +8,29 @@
 | Treasury's script hash   | `e425984e24fb2c06ad676882178ddee6e47b994a589ae3d70c817c79`                    |
 | Treasury's stake address | [`stake178jztxzwynajcp4dva5gy9udmmnwg7ueffvf4c7hpjqhc7gtj5nzz`][]             |
 | Treasury's address       | [`addr1x8jztxzwynajcp4d...3awryp03usyfpxhc`][]                                |
-| Initial allocation       | ₳300,000                                                                      |
+| Initial allocation       | ₳0                                                                            |
 
 ## Transactions
+
+| ID             | [`2d8871c264e32bef3ad728738beba5a8b4c78edccaf51e8c3ab693ff697f21fc`][] |
+| :------------- | -----------------------------------------------------:                 |
+| Type           | `sweep`                                                                |
+| Delta amount   | -300,000 ADA                                                           |
+| Agreement?     | N/A                                                                    |
+
+Sweeping of the ADA leftovers from 2025, back into Cardano's treasury.
+
+---
+
+| ID             | [`013b187998bb5a0529abe72039e3e5b09e6a3f87eae1857e460996321220345d`][] |
+| :------------- | -----------------------------------------------------:                 |
+| Type           | `withdraw`                                                             |
+| Delta amount   | +300,000 ADA                                                           |
+| Agreement?     | N/A                                                                    |
+
+Withdrawal of the allocated funds into the treasury contract address.
+
+---
 
 | ID           | [`6cedda690acc6cfaba32bc4632e827a8dcbbb97973b2e5fd5c3fda3491d43fe3`][] |
 | :---         | ---:                                                                   |
@@ -60,5 +80,8 @@ Publishing the initial registry datum identifying the treasury script. This is n
 
 [`44ae2c263b2115023e4b137f718549fcac78c0a59b7983e918d9e79d1a503b3c`]: https://explorer.cardano.org/tx/44ae2c263b2115023e4b137f718549fcac78c0a59b7983e918d9e79d1a503b3c
 [`6cedda690acc6cfaba32bc4632e827a8dcbbb97973b2e5fd5c3fda3491d43fe3`]: https://explorer.cardano.org/tx/6cedda690acc6cfaba32bc4632e827a8dcbbb97973b2e5fd5c3fda3491d43fe3
+
+[`2d8871c264e32bef3ad728738beba5a8b4c78edccaf51e8c3ab693ff697f21fc`]: https://explorer.cardano.org/tx/2d8871c264e32bef3ad728738beba5a8b4c78edccaf51e8c3ab693ff697f21fc
+[`013b187998bb5a0529abe72039e3e5b09e6a3f87eae1857e460996321220345d`]: https://explorer.cardano.org/tx/013b187998bb5a0529abe72039e3e5b09e6a3f87eae1857e460996321220345d
 
 [^1]: The credential for the contingency treasury is a native script corresponding to a `anyOf` contructor of each scope owners credentials. It is only used to lock the reference script deployed during the `initialize` step; such that it can be destroyed once the expiration date is reached. Otherwise, operations on the treasury are authorized through the set of permissions defined in the treasury script, and highlighted in the `publish` step.

@@ -9,7 +9,7 @@
 | Treasury's stake address | [`stake17xnev6rc25xwz8kg4qae8lq6dcg964z00py5gqgxd387pncv8fq8g`][]                                  |
 | Treasury's address       | [`addr1xxnev6rc25xwz8kg...qsvmz0ur8sjjwfw8`][]<br/>[`ledger@amaru`](https://pool.pm/$ledger@amaru) |
 | Initial allocation       | ₳300,000                                                                                           |
-| Current balance          | ₳168,757<br/>$37,041                                                                               |
+| Current balance          | ₳7,99<br/>$5,041                                                                                   |
 
 ## Delivered Milestones
 
@@ -57,6 +57,16 @@
 </details>
 
 ## Transactions
+
+| ID             | [`e54fdd5ad3cf91a7d34da2b9c795a1a841b9c727c44935bdc83af349e5ca080d`][] |
+| :------------- | -----------------------------------------------------:                 |
+| Type           | `sweep`                                                                |
+| Delta amount   | -168,750 ADA                                                           |
+| Agreement?     | N/A                                                                    |
+
+Sweeping of the ADA leftovers from 2025, back into Cardano's treasury.
+
+---
 
 | ID           | [`e6dcc7015abe409540f190d93ebfed51e2ede9015ebd164dfd57daa5a5d84991`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -242,3 +252,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941`]: https://explorer.cardano.org/tx/073145f5f5764735dab401e360a83a7e13ad6c1df87b742b91bc678c67d21941
 [`b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f`]: https://explorer.cardano.org/tx/b01713e2c24c7944d0d9e8144c71099c31749e7a49c0187e8b9f7a28ec37737f
 [`e6dcc7015abe409540f190d93ebfed51e2ede9015ebd164dfd57daa5a5d84991`]: https://explorer.cardano.org/tx/e6dcc7015abe409540f190d93ebfed51e2ede9015ebd164dfd57daa5a5d84991
+[`e54fdd5ad3cf91a7d34da2b9c795a1a841b9c727c44935bdc83af349e5ca080d`]: https://explorer.cardano.org/tx/e54fdd5ad3cf91a7d34da2b9c795a1a841b9c727c44935bdc83af349e5ca080d

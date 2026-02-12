@@ -9,7 +9,7 @@
 | Treasury's stake address | [`stake17xrh74lqhhxgzelfsn0wq5kcm4e5dmluprlcpg5mq30p5yqhgk7k8`][]                                            |
 | Treasury's address       | [`addr1xxrh74lqhhxgzelf...3fkpz7rggqpymr9r`][]<br/>[`mercenaries@amaru`](https://pool.pm/$mercenaries@amaru) |
 | Initial allocation       | ₳500,000                                                                                                     |
-| Current balance          | ₳400,047 <br/> $47,761                                                                                       |
+| Current balance          | ₳47.65 <br/> $47,761                                                                                         |
 
 ## Delivered Milestones
 
@@ -41,6 +41,18 @@
 </details>
 
 ## Transactions
+
+
+| ID             | [`c05d3cffea09c5f4b2f8613ff8524c1c3c7aab82b88e57965c86dc0f34d8f2ed`][] |
+| :------------- | -----------------------------------------------------:                 |
+| Type           | `sweep`                                                                |
+| Delta amount   | -400,000 ADA                                                           |
+| Agreement?     | N/A                                                                    |
+
+Sweeping of the ADA leftovers from 2025, back into Cardano's treasury.
+
+---
+
 
 | ID           | [`197b673435395a88fb8287cb5ac8ab23b2ea9721d63411208efd029f11aea93e + 18 others`][] |
 | :----------- | ---------------------------------------------------------------------: |
@@ -117,5 +129,6 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266`]: https://explorer.cardano.org/tx/dc67e79626a265ce808f1a7ca5fcfa5bdb0d7fb635691fc5bd82917930d8f266
 [`0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c`]: https://explorer.cardano.org/tx/0729a234e4e12b945f06189ca479681e49ffcc116fb3713720bada72180fe27c
 [`b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857`]: https://explorer.cardano.org/tx/b6aaa5bdfec89b0c52c338842971b12f525625dcfc7e899b4c8ebb15f8a45857
+[`c05d3cffea09c5f4b2f8613ff8524c1c3c7aab82b88e57965c86dc0f34d8f2ed`]: https://explorer.cardano.org/tx/c05d3cffea09c5f4b2f8613ff8524c1c3c7aab82b88e57965c86dc0f34d8f2ed
 [AmaruDoctor_2025_09_12]: https://ipfs.io/ipfs/QmQyaSb1hfyzEgSkNuDeNudiXn8uMSMbgTNUMkWEc4eMVc
 [HaskellPallas_2025_10_20]: https://ipfs.io/ipfs/Qme5Nob2xDR5MVZqypNcMa9RfQBDp1UYQ1YGJREKXhRwhy

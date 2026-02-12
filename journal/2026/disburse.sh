@@ -23,6 +23,11 @@ Arguments:
 			    - middleware
 			    - contingency
   WITNESS_SCOPE: 	  Other scope owner(s) required for disbursement. May be repeated.
+			  Can be one of:
+  			    - core_development
+			    - ops_and_use_cases
+			    - network_compliance
+			    - middleware
 EOF
 }
 
@@ -93,14 +98,14 @@ ccli () {
 
 : "${CARDANO_NODE_SOCKET_PATH:=./node.socket}"
 : "${CARDANO_NODE_NETWORK_ID:=2}"
-: "${METADATA_JSON:=./metadata.json}"
+: "${RATIONALE_JSON:=./rationale.json}"
 : "${USDM_POLICY:=c48cbb3d5e57ed56e276bc45f99ab39abe94e6cd7ac39fb402da47ad}"
 : "${USDM_TOKEN:=0014df105553444d}"
 
 title ":: Environment Variables"
 key_value $COL "CARDANO_NODE_SOCKET_PATH" $CARDANO_NODE_SOCKET_PATH
 key_value $COL "CARDANO_NODE_NETWORK_ID" $CARDANO_NODE_NETWORK_ID
-key_value $COL "METADATA_JSON" $METADATA_JSON
+key_value $COL "RATIONALE_JSON" $RATIONALE_JSON
 echo ""
 
 title ":: Arguments"
@@ -133,7 +138,7 @@ key_value $COL "witnesses" "${witness_scopes[@]}"
 echo ""
 
 title ":: Configuration"
-metadata=$(curl -sL https://raw.githubusercontent.com/pragma-org/amaru-treasury/refs/heads/main/journal/2026/metadata.json | jq -c)
+metadata=$(cat ./$(dirname "$0")/metadata.json | jq -c)
 owner_credential=$(echo "${metadata}" | jq -r ".treasuries.${scope}.owner")
 treasury_script_hash=$(echo "${metadata}" | jq -r ".treasuries.${scope}.treasury_script.hash")
 treasury_reference=$(echo "${metadata}" | jq -r ".treasuries.${scope}.treasury_script.deployed_at")
@@ -161,9 +166,15 @@ echo ""
 title ":: Signers"
 signers=()
 owner=$(echo "$metadata" | jq -cr ".treasuries.${scope}.owner")
-key_value $COL "* $scope.key" $owner
-signers+=( $owner )
+if [[ $scope != "contingency" ]]; then
+  key_value $COL "* $scope.key" $owner
+  signers+=( $owner )
+fi
 for witness in ${witness_scopes[@]}; do
+  if [[ $witness == "contingency" ]]; then
+    usage
+    exit 1
+  fi
   key=$(echo "$metadata" | jq -cr ".treasuries.${witness}.owner")
   key_value $COL "+ $witness.key" $key
   signers+=( $key )
@@ -209,7 +220,7 @@ echo ""
 treasury_instance=$(ccli conway query utxo --tx-in "$registry_reference" --output-json | jq -r -c '.[keys[0]].value | keys[0]')
 
 tmp_metadata=$(mktemp)
-jq ".[\"1694\"].instance = \"$treasury_instance\"" $METADATA_JSON > $tmp_metadata
+jq ".[\"1694\"].instance = \"$treasury_instance\"" $RATIONALE_JSON > $tmp_metadata
 
 tmp_redeemer=$(mktemp)
 if [[ $unit == "ada" ]]; then

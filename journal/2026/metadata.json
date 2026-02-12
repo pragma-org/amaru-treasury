@@ -65,7 +65,7 @@
       "owner": null,
       "treasury_script": {
         "hash": "58a44e5eec24755ddf7009a4cb2e80eb62018fc8d7ed3567c43b5398",
-        "deployed_at": null
+        "deployed_at": "8040891cbcb9df0ad3a9a7239d4bceb3864c5b9ad319e8a241fd6910fa68ff32#00"
       },
       "permissions_script": {
         "hash": "401b6441fbe1d762a5b00bdc3fe8755ee6354ef4cb33e7dfac13baed",

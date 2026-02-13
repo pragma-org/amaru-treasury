@@ -44,16 +44,19 @@ scopes: prerequisites ## Compile the scopes script, and prepare its initial mint
 	@recipes/scopes.sh $(NETWORK) $(SCOPES_SEED_TX) $(SCOPES_SEED_IX) $(OWNERS)
 
 permissions: permissions-core_development permissions-ops_and_use_cases permissions-network_compliance permissions-middleware permissions-contingency ## Compile all permissions scripts for all scopes.
+	@recipes/register-permissions-scripts.sh $(NETWORK)
 	@recipes/publish-permissions-scripts.sh $(NETWORK)
 
 permissions-%: prerequisites ## Compile the permissions script for a single scope.
 	@recipes/permissions.sh $(NETWORK) $*
 
 treasury: treasury-core_development treasury-ops_and_use_cases treasury-network_compliance treasury-middleware treasury-contingency ## Compile all teasury scripts for all scopes.
+	@recipes/register-treasury-scripts.sh $(NETWORK)
 	@recipes/publish-treasury-scripts.sh $(NETWORK) core_development
 	@recipes/publish-treasury-scripts.sh $(NETWORK) ops_and_use_cases
 	@recipes/publish-treasury-scripts.sh $(NETWORK) network_compliance
 	@recipes/publish-treasury-scripts.sh $(NETWORK) middleware
+	@recipes/publish-treasury-scripts.sh $(NETWORK) contingency
 
 treasury-%: prerequisites ## Compile the treasury script for a single scope.
 	@recipes/treasury.sh $(NETWORK) $* $(REGISTRY_SEED_TX) $(REGISTRY_SEED_IX)

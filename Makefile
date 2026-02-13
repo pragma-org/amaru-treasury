@@ -1,21 +1,21 @@
 ### Configuration
 
 # The target network for which to build and mint initial configuration.
-NETWORK ?= preview
+NETWORK ?= mainnet
 
 # A (spendable) UTxO reference to seed the scopes.
 #
 # Must have enough ADA to cover for the transaction fee (~0.3 ADA) and the
 # min-UTxO deposit that will hold the scopes datum (2 ADA)
-SCOPES_SEED_TX ?= 9632c0fd34d793033abca77c89adc6d67f3d16e167032923d2e842aab92f10f2
-SCOPES_SEED_IX ?= 01
+SCOPES_SEED_TX ?= 2d8871c264e32bef3ad728738beba5a8b4c78edccaf51e8c3ab693ff697f21fc
+SCOPES_SEED_IX ?= 00
 
 # A (spendable) UTxO reference to seed the treasury registries.
 #
 # Must have enough ADA to cover for the transaction fee (~0.75 ADA) and the
 # min-UTxO deposits that will hold each registry (2 ADA x 5 = 10 ADA).
-REGISTRY_SEED_TX ?= 8c43d6b8c668effa0102a1a200dc6f5a8ec21961540af062fcbce7cd5386c9d9
-REGISTRY_SEED_IX ?= 05
+REGISTRY_SEED_TX ?= 80ac843c71d5c4933877ab671bf377b34bc90abfc4df8287a3e92af806152c48
+REGISTRY_SEED_IX ?= 00
 
 # The public key hash of the (initial) core_development scope owner
 OWNER_CORE_DEVELOPMENT ?= 7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb

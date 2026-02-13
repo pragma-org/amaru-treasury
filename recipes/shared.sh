@@ -102,8 +102,6 @@ network_to_env () {
   case $1 in
     "mainnet")
       echo "default"
-      echo -e "\033[91mConfiguration for mainnet not ready.\033[0m" >&2
-      exit 1
     ;;
 
     "preview")

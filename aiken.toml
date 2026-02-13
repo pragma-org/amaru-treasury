@@ -39,12 +39,29 @@ expiration = 1798757999000
 
 # PRAGMA's general assembly members verification key hashes.
 pragma_general_assembly = [
+  # Seba
   { bytes = "9a296a8571c597459b54ddc515668c2cd357bec3284413f4d92c67fd", encoding = "base16" },
+  # Santi
   { bytes = "d3fcffe0f00fdb109674a16891cdc2c94cfd5147dc89df200169bdd8", encoding = "base16" },
+  # Pi
   { bytes = "e0b68e229f9c043ab610067ed7f3c6d662b8f3c6bb4ec452c11f6411", encoding = "base16" },
+  # KtorZ
   { bytes = "7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb", encoding = "base16" },
+  # Chris
   { bytes = "058a5ab0c66647dcce82d7244f80bfea41ba76c7c9ccaf86a41b00fe", encoding = "base16" },
 ]
+
+scopes_seed_output_index = 0
+scopes_seed_output_reference = {
+  bytes = "2d8871c264e32bef3ad728738beba5a8b4c78edccaf51e8c3ab693ff697f21fc",
+  encoding = "base16"
+}
+
+registry_seed_output_index = 0
+registry_seed_output_reference = {
+  bytes = "80ac843c71d5c4933877ab671bf377b34bc90abfc4df8287a3e92af806152c48",
+  encoding = "base16"
+}
 
 [config.preview]
 # The name of the scopes token.
@@ -57,3 +74,15 @@ expiration = 1798757999000
 pragma_general_assembly = [
   { bytes = "7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb", encoding = "base16" },
 ]
+
+scopes_seed_output_index = 1
+scopes_seed_output_reference = {
+  bytes = "9632c0fd34d793033abca77c89adc6d67f3d16e167032923d2e842aab92f10f2",
+  encoding = "base16"
+}
+
+registry_seed_output_index = 5
+registry_seed_output_reference = {
+  bytes = "8c43d6b8c668effa0102a1a200dc6f5a8ec21961540af062fcbce7cd5386c9d9",
+  encoding = "base16"
+}

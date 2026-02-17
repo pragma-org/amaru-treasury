@@ -128,9 +128,7 @@ else
 fi
 
 # Fuel to pay for fees & al. Must be large enough for collateral.
-fuel=$(ccli conway query utxo --address "$wallet_address" --output-json | jq -rc '. | keys | @csv' | tr ',' '\n' | tr -d '"' | head -1)
 key_value $COL "wallet.address" $wallet_address
-key_value $COL "wallet.utxo" $fuel
 key_value $COL "beneficiary.address" $beneficiary_address
 key_value $COL "amount.$unit" $amount
 key_value $COL "scope" $scope
@@ -149,8 +147,10 @@ scopes_reference=$(echo "${metadata}" | jq -r ".scope_owners")
 treasury_address=$(address_from_script_hash $treasury_script_hash)
 permissions_stake_address=$(stake_address_from_script_hash $permissions_script_hash)
 
+fuel=$(ccli conway query utxo --address "$wallet_address" --output-json | jq -rc '. | keys | @csv' | tr ',' '\n' | tr -d '"' | head -1)
+
 key_value $COL "network" $(network_tag)
-key_value $COL "amount.lovelace" $amount_lovelace
+key_value $COL "wallet.utxo" $fuel
 key_value $COL "owner.credential" $owner_credential
 key_value $COL "treasury.script_hash" $treasury_script_hash
 key_value $COL "treasury.address" $treasury_address

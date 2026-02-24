@@ -138,6 +138,16 @@
 
 ## Transactions
 
+| ID           | [`699c95943b99f787f67024e482b0c30ba26d8e07bc2b414f0460d91fa30a5fe9`][] |
+|:-------------|-----------------------------------------------------------------------:|
+| Type         |                                                             `disburse` |
+| Delta amount |                                                       - 16,000.00 USDM |
+| Agreement?   |                   [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
+
+Disbursement of $16,000.00 in payment of invoice CON-58 for completion of _Milestone 2_
+
+---
+
 | ID             | [`9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5`][] |
 | :------------- | -----------------------------------------------------:                 |
 | Type           | `sweep`                                                                |
@@ -318,3 +328,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [Sundae_2025_10_01]: https://ipfs.io/ipfs/bafybeifembdl6i5pzhzwui2v4kzp6gmv4re4hvpbbnhmpabkzdfywo5vfm
 [`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`]: https://explorer.cardano.org/tx/4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388
 [`9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5`]: https://explorer.cardano.org/tx/9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5
+[`699c95943b99f787f67024e482b0c30ba26d8e07bc2b414f0460d91fa30a5fe9`]: https://explorer.cardano.org/tx/699c95943b99f787f67024e482b0c30ba26d8e07bc2b414f0460d91fa30a5fe9

@@ -59,7 +59,6 @@
 
 ##### [Milestone 2](https://ipfs.io/ipfs/bafybeiakblvgqiy66eucta467zr435dwarhw4p4rgsbiw7qx4u3t5qyvvi)
 
-
 <details><summary>Delivery of Consensus pipeline. Complete simulation testing to cover all stages and integrate with pure-stage framework.</summary>
 
 * [refactor: use a prefix range to iterate over parent/child relationships](https://github.com/pragma-org/amaru/pull/478)
@@ -86,6 +85,16 @@
 </details>
 
 #### [Consensus scope: Consensus and simulation environment development][Sundae_2025_10_01]
+
+##### [Milestone 3](https://ipfs.io/ipfs/bafybeiav4fb3d75hc6jjzy76vad6tr2p2l44rjirkk5u4giwv4yuwywpca)
+
+Development work continued on the Consensus scope during this reporting period. Due
+to the breadth of the original milestone structure, several implementation tasks
+associated with early milestone objectives remain ongoing. In alignment with guidance
+from the scope owners and maintainers committee, this work is being reported under
+Milestone 3 for the purposes of the current reporting cycle.
+
+Checkout invoice for PR details.
 
 ##### [Milestone 2](https://ipfs.io/ipfs/QmQRz47evKW1GEMBuQ15rAu9djcxbakTh9WbhePn9DwRU4)
 
@@ -137,6 +146,16 @@
 </details>
 
 ## Transactions
+
+| ID           | [`84106fd48fdbbd48c9059638405fa95ac9163b6a48733904ebb7af201991d37c`][] |
+|:-------------|-----------------------------------------------------------------------:|
+| Type         |                                                             `disburse` |
+| Delta amount |                                                       - 16,000.00 USDM |
+| Agreement?   |                   [AMC-Sundae Agreement 2025-10-01][Sundae_2025_10_01] |
+
+Disbursement of $16,000.00 in payment of invoice CON-75 for completion of _Milestone 3_
+
+---
 
 | ID           | [`699c95943b99f787f67024e482b0c30ba26d8e07bc2b414f0460d91fa30a5fe9`][] |
 |:-------------|-----------------------------------------------------------------------:|
@@ -329,3 +348,4 @@ Publishing the initial registry datum identifying the treasury script. This is n
 [`4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388`]: https://explorer.cardano.org/tx/4dc81d95b2327ed47de07d94ea157dfc8c62daae5860557304fddd5826ad9388
 [`9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5`]: https://explorer.cardano.org/tx/9bdd86ac951af6aae0bcf12afc7d84149f991b31daaed6d2d95239a6c37023a5
 [`699c95943b99f787f67024e482b0c30ba26d8e07bc2b414f0460d91fa30a5fe9`]: https://explorer.cardano.org/tx/699c95943b99f787f67024e482b0c30ba26d8e07bc2b414f0460d91fa30a5fe9
+[`84106fd48fdbbd48c9059638405fa95ac9163b6a48733904ebb7af201991d37c`]: https://explorer.cardano.org/tx/84106fd48fdbbd48c9059638405fa95ac9163b6a48733904ebb7af201991d37c

@@ -3,6 +3,7 @@
   "treasuries": {
     "core_development": {
       "owner": "7095faf3d48d582fbae8b3f2e726670d7a35e2400c783d992bbdeffb",
+      "budget": 2575000,
       "treasury_script": {
         "hash": "5fbb3e5295c211c7595ddd23db2e0a0833131e0681cc7ea800f85d34",
         "deployed_at": "87ee53271fb41021efa13c2dbe2998c18ead07d32a6ab6dda184853ed7e39aae#00"
@@ -18,6 +19,7 @@
     },
     "ops_and_use_cases": {
       "owner": "f3ab64b0f97dcf0f91232754603283df5d75a1201337432c04d23e2e",
+      "budget": 1160000,
       "treasury_script": {
         "hash": "46746c64151c3733e6de91585785841a2d53422d2ee94ec51a3bbcb4",
         "deployed_at": "660c0729b68bce67f62d4f1f3ae38082217e55915bb3e0d9222a67b2f9fd821c#00"
@@ -33,6 +35,7 @@
     },
     "network_compliance": {
       "owner": "8bd03209d227956aaf9670751e0aa2057b51c1537a43f155b24fb1c1",
+      "budget": 1450000,
       "treasury_script": {
         "hash": "32201dc1e82708364c6c42a53f89f675314bb9ad5da2734aa10baa0d",
         "deployed_at": "810bfcbde85ae72f27d7e8cd154c03c802de15d3fa0dd83a32a4b0fdba330b3c#00"
@@ -48,6 +51,7 @@
     },
     "middleware": {
       "owner": "97e0f6d6c86dbebf15cc8fdf0981f939b2f2b70928a46511edd49df2",
+      "budget": 900000,
       "treasury_script": {
         "hash": "fb44197b7926271de93bc700c23da35d9dd630743360cf0b6bddc71a",
         "deployed_at": "ec31219173fd4eb3cc3c2123e53425654c1122354ceafc247e7c32d278dad223#00"
@@ -63,6 +67,7 @@
     },
     "contingency": {
       "owner": null,
+      "budget": 4057000,
       "treasury_script": {
         "hash": "e6dbff09245eb89c4f583faaa428387e42c471f1868637a848602a4e",
         "deployed_at": "b25328336bbba240d5906952534e84bb8edf1a690f86a4160c38703396853c90#00"

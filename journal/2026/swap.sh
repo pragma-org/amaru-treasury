@@ -7,16 +7,15 @@ COL=26
 
 usage () {
     cat <<EOF
-Disburse some ADA to an Amaru contributor
+Swap some ADA for USDM using SundaeSwap order book.
 
-Usage: disburse.sh <WALLET_ADDRESS> <AMOUNT> <UNIT> <BENEFICIARY_ADDRESS> <SCOPE> <WITNESS_SCOPE>...
+Usage: swap.sh <WALLET_ADDRESS> <AMOUNT> <RATE> <SCOPE> <WITNESS_SCOPE>...
 
 Arguments:
   WALLET_ADDRESS:         Address to use to pay fees, collateral, and send change to
-  AMOUNT:                 Amount to send to beneficiary, without decimals.
-  UNIT: 		  Unit to use for the amount; either ada or usdm.
-  BENEFICIARY_ADDRESS:    Address of the beneficiary to receive disbursement
-  SCOPE:                  Name of treasury scope to disburse from, one of:
+  AMOUNT:                 Amount of ADA to swap
+  RATE: 		  ADA per USD price rate
+  SCOPE:                  Name of treasury scope to swap from, one of:
   			    - core_development
 			    - ops_and_use_cases
 			    - network_compliance
@@ -90,6 +89,87 @@ stake_address_from_script_hash() {
   echo -n $HASH | cardano-address address stake --network-tag $(network_tag)
 }
 
+swap_order() {
+  local chunk_lovelace=$1
+  local rate=$2
+  local metadata=$3
+  local treasury_script_hash=$4
+  local chunk_usdm=$(awk "BEGIN {print ($chunk_lovelace * $rate)}")
+  local tmp_datum=$(mktemp)
+  cat > $tmp_datum <<EOF
+{
+  "constructor": 0,
+  "fields": [
+    {
+       "constructor": 0,
+       "fields": [{
+         "bytes": "$SUNDAE_USDM_POOL"
+       }]
+    },
+    {
+      "constructor": 1,
+      "fields": [
+	{
+	  "list": [
+	    { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.core_development.owner")" } ] },
+	    { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.ops_and_use_cases.owner")" } ] },
+	    { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.network_compliance.owner")" } ] },
+	    { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.middleware.owner")" } ] }
+	  ]
+	}
+      ]
+    },
+    { "int": $SUNDAE_PROTOCOL_FEE_LOVELACE },
+    {
+      "constructor": 0,
+      "fields": [
+	{
+	  "constructor": 0,
+	  "fields": [
+	    { "constructor": 1, "fields": [ { "bytes": "$treasury_script_hash" } ] },
+	    {
+	      "constructor": 0,
+	      "fields": [
+		{
+		  "constructor": 0,
+		  "fields": [{
+		    "constructor": 1,
+		    "fields": [ { "bytes": "$treasury_script_hash" } ]
+		  }]
+		}
+	      ]
+	    }
+	  ]
+	},
+	{ "constructor": 0, "fields": [] }
+      ]
+    },
+    {
+      "constructor": 1,
+      "fields": [
+	{
+          "list": [
+	    { "bytes": "" },
+	    { "bytes": "" },
+	    { "int": $chunk_lovelace }
+	  ]
+	},
+	{
+          "list": [
+	    { "bytes": "$USDM_POLICY" },
+	    { "bytes": "$USDM_TOKEN" },
+	    { "int": $chunk_usdm }
+	  ]
+	}
+      ]
+    },
+    { "constructor": 0, "fields": [] }
+  ]
+}
+EOF
+  echo $tmp_datum
+}
+
 ccli () {
   cardano-cli "$@" --socket-path "${CARDANO_NODE_SOCKET_PATH}" $(network_id)
 }
@@ -101,6 +181,9 @@ ccli () {
 : "${RATIONALE_JSON:=./rationale.json}"
 : "${USDM_POLICY:=c48cbb3d5e57ed56e276bc45f99ab39abe94e6cd7ac39fb402da47ad}"
 : "${USDM_TOKEN:=0014df105553444d}"
+: "${SUNDAE_PROTOCOL_FEE_LOVELACE:=1280000}"
+: "${SUNDAE_USDM_POOL:=64f35d26b237ad58e099041bc14c687ea7fdc58969d7d5b66e2540ef}"
+: "${MIN_UTXO_DEPOSIT_LOVELACE:=2000000}"
 
 title ":: Environment Variables"
 key_value $COL "CARDANO_NODE_SOCKET_PATH" $CARDANO_NODE_SOCKET_PATH
@@ -110,29 +193,24 @@ echo ""
 
 title ":: Arguments"
 wallet_address=$1
-amount=$2
-unit=$3
-beneficiary_address=$4
-scope=$5
-witness_scopes=${@:6}
+amount_ada=$2
+rate=$3
+scope=$4
+witness_scopes=${@:5}
 
-if [[ $unit == "ada" ]]; then
-  amount_lovelace=$(( amount * 1000000 ))
-  amount_usdm=0
-elif [[ $unit == "usdm" ]]; then
-  amount_lovelace=0
-  amount_usdm=$(( amount * 1000000 ))
-else
-  echo "unrecognized unit; expected either 'ada' or 'usdm'"
-  exit 1
-fi
+amount_lovelace=$(( $amount_ada * 1000000 ))
+amount_usdm=$(awk "BEGIN {print ($amount_ada * $rate)}")
 
 key_value $COL "wallet.address" $wallet_address
-key_value $COL "beneficiary.address" $beneficiary_address
-key_value $COL "amount.$unit" $amount
+key_value $COL "amount.ada" "₳$amount_ada"
+key_value $COL "amount.lovelace" "Ł$amount_lovelace"
+key_value $COL "amount.usdm" "\$$amount_usdm"
+key_value $COL "rate.ada_per_usd" $rate
 key_value $COL "scope" $scope
 key_value $COL "witnesses" "${witness_scopes[@]}"
 echo ""
+
+amount_usdm=$(awk "BEGIN {print ($amount_usdm * 1000000)}")
 
 title ":: Configuration"
 metadata=$(cat ./$(dirname "$0")/metadata.json | jq -c)
@@ -145,8 +223,9 @@ registry_reference=$(echo "${metadata}" | jq -r ".treasuries.${scope}.registry_s
 scopes_reference=$(echo "${metadata}" | jq -r ".scope_owners")
 treasury_address=$(address_from_script_hash $treasury_script_hash)
 permissions_stake_address=$(stake_address_from_script_hash $permissions_script_hash)
+swap_order_address=$(echo  "31fa6a58bbe2d0ff05534431c8e2f0ef2cbdc1602a8456e4b13c8f3077$treasury_script_hash" | bech32 addr )
 
-fuel=$(ccli conway query utxo --address "$wallet_address" --output-json | jq -rc '. | keys | @csv' | tr ',' '\n' | tr -d '"' | head -1)
+fuel="${FUEL:=$(ccli conway query utxo --address "$wallet_address" --output-json | jq -rc '. | keys | @csv' | tr ',' '\n' | tr -d '"' | head -1)}"
 
 key_value $COL "network" $(network_tag)
 key_value $COL "wallet.utxo" $fuel
@@ -181,45 +260,33 @@ done
 echo ""
 
 tmp_utxos=$(mktemp)
-if [[ $unit == "ada" ]]; then
-  utxo_filter="to_entries | .[] | [.key,.value.value.${USDM_POLICY}[\"${USDM_TOKEN}\"],.value.value.lovelace] | @csv"
-else
-  utxo_filter="to_entries | .[] | [.key,.value.value.${USDM_POLICY}[\"${USDM_TOKEN}\"],.value.value.lovelace] | select(.[1]) | @csv"
-fi
+utxo_filter="to_entries | .[] | [.key,.value.value.${USDM_POLICY}[\"${USDM_TOKEN}\"],.value.value.lovelace] | @csv"
 treasury_utxos=$(ccli conway query utxo --address "$treasury_address" --output-json | jq -rc "$utxo_filter" | tr -d '"' > $tmp_utxos)
 
-acc_usdm=0
 acc_lovelace=0
+acc_usdm=0
 acc_txins=
 
 while IFS=, read txin usdm lovelace ; do
+    acc_lovelace=$(( $acc_lovelace + $lovelace ))
     if [[ -n "$usdm" ]]; then
       acc_usdm=$(( $acc_usdm + $usdm ))
     fi
 
-    acc_lovelace=$(( $acc_lovelace + $lovelace ))
-
-    usdms+=( $usdm )
     lovelaces+=( $lovelace )
     txins+=( $txin )
 
-    if [[ $unit == "ada" ]]; then
-      if [[ $acc_lovelace -ge $amount_lovelace ]]; then
-        break
-      fi
-    else
-      if [[ $acc_usdm -ge $amount_usdm ]]; then
-        break
-      fi
+    if [[ $acc_lovelace -ge $amount_lovelace ]] ; then
+      break
     fi
 done < $tmp_utxos
 
-leftover_treasury_lovelace=$(($acc_lovelace - $amount_lovelace))
-leftover_treasury_usdm=$(($acc_usdm - $amount_usdm))
+leftover_treasury_lovelace=$(( $acc_lovelace - $amount_lovelace ))
+leftover_treasury_usdm=$(( $acc_usdm + $amount_usdm ))
 
 title ":: Treasury's Balance"
-key_value $COL "ada (before -> after)" "$(( ${acc_lovelace} / 1000000 )) -> $(( ${leftover_treasury_lovelace} / 1000000 ))"
-key_value $COL "usdm (before -> after)" "$(( ${acc_usdm} / 1000000 )) -> $(( ${leftover_treasury_usdm} / 1000000 ))"
+key_value $COL "ada (before -> after)" "₳$(( ${acc_lovelace} / 1000000 )) -> ₳$(awk "BEGIN {print ($leftover_treasury_lovelace / 1000000)}")"
+key_value $COL "usdm (before -> after)" "\$$(( ${acc_usdm} / 1000000 )) -> \$$(awk "BEGIN {print ($leftover_treasury_usdm / 1000000)}")"
 echo ""
 
 treasury_instance=$(ccli conway query utxo --tx-in "$registry_reference" --output-json | jq -r -c '.[keys[0]].value | keys[0]')
@@ -228,11 +295,7 @@ tmp_metadata=$(mktemp)
 jq ".[\"1694\"].instance = \"$treasury_instance\"" $RATIONALE_JSON > $tmp_metadata
 
 tmp_redeemer=$(mktemp)
-if [[ $unit == "ada" ]]; then
-  jq --null-input "{ constructor: 3, fields: [ { map: [ { k: {bytes: \"\"}, v: { map: [{k: {bytes: \"\"}, v : {int: ${amount_lovelace} } } ] } }]}]}" > $tmp_redeemer
-else
-  jq --null-input "{ constructor: 3, fields: [ { map: [ { k: {bytes: \"$USDM_POLICY\"}, v: { map: [{k: {bytes: \"$USDM_TOKEN\"}, v : {int: ${amount_usdm} } } ] } }]}]}" > $tmp_redeemer
-fi
+jq --null-input "{ constructor: 3, fields: [ { map: [ { k: {bytes: \"\"}, v: { map: [{k: {bytes: \"\"}, v : {int: ${amount_lovelace} } } ] } }]}]}" > $tmp_redeemer
 
 args=( \
   "latest" "transaction" "build" \
@@ -259,19 +322,27 @@ for i in ${!lovelaces[@]}; do
   )
 done
 
-if [[ $unit == "ada" ]]; then
-  # Change back to treasury
-  args+=( "--tx-out" "$treasury_address+$leftover_treasury_lovelace+$acc_usdm $USDM_POLICY.$USDM_TOKEN" )
-  # Actual disburse
-  args+=( "--tx-out" "$beneficiary_address+$amount_lovelace" )
-else
-  tmp_pparams=$(mktemp)
-  ccli latest query protocol-parameters > /tmp/pparams.json
-  min_lovelace_utxo=$(cardano-cli latest transaction calculate-min-required-utxo --tx-out "$beneficiary_address+2000000+$amount_usdm $usdm_policy.$usdm_token" --protocol-params-file $tmp_pparams | cut -d ' ' -f2)
-  # Change back to treasury
-  args+=( "--tx-out" "$treasury_address+$acc_lovelace+$leftover_treasury_usdm $USDM_POLICY.$USDM_TOKEN" )
-  # Actual disburse
-  args+=( "--tx-out" "$beneficiary_address+$min_lovelace_utxo+$amount_usdm $USDM_POLICY.$USDM_TOKEN" )
+# Change back to treasury
+args+=( "--tx-out" "$treasury_address+$leftover_treasury_lovelace+$acc_usdm $USDM_POLICY.$USDM_TOKEN" )
+
+# Each swaps
+CHUNK_SIZE=10000
+full=$(( amount_ada / CHUNK_SIZE ))
+rem=$(( amount_ada % CHUNK_SIZE ))
+for ((i = 0; i < full; i++)); do
+  chunk_lovelace=$(( $CHUNK_SIZE * 1000000 ))
+  swap_order_lovelace=$(( $chunk_lovelace + $SUNDAE_PROTOCOL_FEE_LOVELACE + $MIN_UTXO_DEPOSIT_LOVELACE ))
+  tmp_datum=$(swap_order $chunk_lovelace $rate $metadata $treasury_script_hash)
+  args+=( "--tx-out" "$swap_order_address+$swap_order_lovelace" )
+  args+=( "--tx-out-inline-datum-file" $tmp_datum )
+done
+
+if [[ $rem -gt 0 ]]; then
+  chunk_lovelace=$(( $rem * 1000000 ))
+  swap_order_lovelace=$(( $chunk_lovelace + $SUNDAE_PROTOCOL_FEE_LOVELACE + $MIN_UTXO_DEPOSIT_LOVELACE ))
+  tmp_datum=$(swap_order $chunk_lovelace $rate $metadata $treasury_script_hash)
+  args+=( "--tx-out" "$swap_order_address+$swap_order_lovelace" )
+  args+=( "--tx-out-inline-datum-file" $tmp_datum )
 fi
 
 title ":: Validity Period"

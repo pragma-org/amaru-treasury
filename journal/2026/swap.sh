@@ -260,7 +260,7 @@ done
 echo ""
 
 tmp_utxos=$(mktemp)
-utxo_filter="to_entries | .[] | [.key,.value.value.${USDM_POLICY}[\"${USDM_TOKEN}\"],.value.value.lovelace] | @csv"
+utxo_filter="to_entries | sort_by(.value.value.lovelace) | reverse | .[] | [.key,.value.value.${USDM_POLICY}[\"${USDM_TOKEN}\"],.value.value.lovelace] | @csv"
 treasury_utxos=$(ccli conway query utxo --address "$treasury_address" --output-json | jq -rc "$utxo_filter" | tr -d '"' > $tmp_utxos)
 
 acc_lovelace=0
@@ -313,17 +313,18 @@ for i in ${!lovelaces[@]}; do
     "--spending-tx-in-reference" "$treasury_reference" \
     "--spending-plutus-script-v3" \
     "--spending-reference-tx-in-redeemer-file" $tmp_redeemer \
-    "--read-only-tx-in-reference" "$registry_reference" \
-    "--read-only-tx-in-reference" "$scopes_reference" \
-    "--withdrawal" "$permissions_stake_address+0" \
-    "--withdrawal-tx-in-reference" "$permissions_reference" \
-    "--withdrawal-plutus-script-v3" \
-    "--withdrawal-reference-tx-in-redeemer-value" "[]" \
   )
 done
 
-# Change back to treasury
-args+=( "--tx-out" "$treasury_address+$leftover_treasury_lovelace+$acc_usdm $USDM_POLICY.$USDM_TOKEN" )
+args+=( \
+  "--read-only-tx-in-reference" "$registry_reference" \
+  "--read-only-tx-in-reference" "$scopes_reference" \
+  "--withdrawal" "$permissions_stake_address+0" \
+  "--withdrawal-tx-in-reference" "$permissions_reference" \
+  "--withdrawal-plutus-script-v3" \
+  "--withdrawal-reference-tx-in-redeemer-value" "[]" \
+  "--tx-out" "$treasury_address+$leftover_treasury_lovelace+$acc_usdm $USDM_POLICY.$USDM_TOKEN" \
+)
 
 # Each swaps
 CHUNK_SIZE=10000

@@ -1,0 +1,178 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+labels="${LABELS:-}"
+
+if [[ $# -lt 1 ]]; then
+  echo "usage: og <tx.json> [labels.json]" >&2
+  return 1
+fi
+
+if [[ $# -ge 2 ]]; then
+  labels="$2"
+fi
+
+jq_args=()
+if [[ -n "$labels" && -f "$labels" ]]; then
+  jq_args=(--slurpfile labels "$labels")
+else
+  jq_args=(--argjson labels '[]')
+fi
+
+ogmios inspect transaction "$(jq -r .cborHex "$1")" \
+  | jq "${jq_args[@]}" '
+    def ixpad:
+      if . < 10 then "0\(.)" else tostring end;
+
+    def outref:
+      "\(.transaction.id)#\(.index | ixpad)";
+
+    def has_labels:
+      ($labels | length) > 0;
+
+    def label_root:
+      if has_labels then $labels[0] else {} end;
+
+    def from_metadatum:
+      if type != "object" then
+        .
+      elif has("string") then
+        .string
+      elif has("int") then
+        .int
+      elif has("bytes") then
+        .bytes
+      elif has("list") then
+        [.list[] | from_metadatum]
+        | if all(.[]; type == "string") then
+            join("")
+          else
+            .
+          end
+      elif has("map") then
+        .map
+        | map({
+            key: (.k | from_metadatum | tostring),
+            value: (.v | from_metadatum)
+          })
+        | from_entries
+      else
+        .
+      end;
+
+    def ada:
+      if .ada.lovelace? then
+        .ada = ("₳" + ((.ada.lovelace / 1000000) | tostring))
+      else . end;
+
+    def usdm:
+      if .["c48cbb3d5e57ed56e276bc45f99ab39abe94e6cd7ac39fb402da47ad"]["0014df105553444d"]? then
+        .usdm = ("$" + (
+          .["c48cbb3d5e57ed56e276bc45f99ab39abe94e6cd7ac39fb402da47ad"]["0014df105553444d"]
+          / 1000000
+          | tostring
+          ))
+        | del(.["c48cbb3d5e57ed56e276bc45f99ab39abe94e6cd7ac39fb402da47ad"])
+      else . end;
+
+    def pretty_value:
+      ada | usdm;
+
+    def label_map:
+      if has_labels then
+        (
+          label_root.treasuries
+          | to_entries
+          | reduce .[] as $t ({};
+              .[$t.value.address] = ("treasury:" + $t.key)
+              | if $t.value.owner != null then
+                  .[$t.value.owner] = ("owner:" + $t.key)
+                else . end
+              | .[$t.value.treasury_script.hash] = ("treasury_script:" + $t.key)
+              | .[$t.value.permissions_script.hash] = ("permissions_script:" + $t.key)
+              | .[$t.value.registry_script.hash] = ("registry_script:" + $t.key)
+              | .[$t.value.treasury_script.deployed_at] = ("deployed:treasury_script:" + $t.key)
+              | .[$t.value.permissions_script.deployed_at] = ("deployed:permissions_script:" + $t.key)
+              | .[$t.value.registry_script.deployed_at] = ("deployed:registry_script:" + $t.key)
+            )
+        )
+        + {
+          (label_root.scope_owners): "scope_owners",
+          "addr1q8qrds2nnx7clx3kcpp2l0eu45twmdcahsfu9m0xcwy59j6xz3vs0hnfaz9nhje8z34kfnds4jyk7hs6dnrag6e2lfgqtyf4rl": "Crypto Accounting Group"
+        }
+      else
+        {}
+      end;
+
+    def replace_outref($m):
+      (outref as $r
+        | if has_labels then
+    	($m[$r] // $r)
+          else
+    	$r
+          end
+      );
+
+    def replace_address($m):
+      if has_labels and $m[.address] then
+        .address = $m[.address]
+      else
+        .
+      end;
+
+    label_map as $m
+    | . as $tx
+
+    | .inputs      |= map(replace_outref($m))
+    | .references  |= map(replace_outref($m))
+    | .collaterals |= map(replace_outref($m))
+
+    | .outputs |= map(
+        replace_address($m)
+        | .value |= pretty_value
+      )
+
+    | if .collateralReturn? then
+        .collateralReturn |= (
+          replace_address($m)
+          | .value |= pretty_value
+        )
+      else . end
+
+    | if .fee? then
+        .fee |= pretty_value
+      else . end
+
+    | if .totalCollateral? then
+        .totalCollateral |= pretty_value
+      else . end
+
+    | if .withdrawals? then
+        .withdrawals |= with_entries(.value |= pretty_value)
+      else . end
+
+    | if .metadata.labels? then
+        .metadata.labels |= with_entries(
+          if .value.json? then
+            .value = (.value.json | from_metadatum)
+          else
+            .
+          end
+        )
+      else . end
+
+    | if has_labels then
+        .requiredExtraSignatories |= map($m[.] // .)
+      else . end
+
+    | .redeemers |= map(
+        if .validator.purpose == "spend" then
+          ($tx.inputs[.validator.index] | outref) as $r
+          | $m[$r] // $r
+        elif .validator.purpose == "withdraw" then
+          "withdraw"
+        else
+          .
+        end
+      )
+  '

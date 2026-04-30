@@ -1,0 +1,5 @@
+print_environment() {
+  key_value "$COL" "CARDANO_NODE_SOCKET_PATH" "$CARDANO_NODE_SOCKET_PATH"
+  key_value "$COL" "CARDANO_NODE_NETWORK_ID" "$CARDANO_NODE_NETWORK_ID"
+  key_value "$COL" "RATIONALE_JSON" "$RATIONALE_JSON"
+}

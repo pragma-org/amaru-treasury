@@ -10,7 +10,7 @@ usage() {
   cat <<USAGE
 Swap ADA for USDM using SundaeSwap order book.
 
-Usage: swap.sh <WALLET_ADDRESS> <AMOUNT> <RATE> <SCOPE> <WITNESS_SCOPE>...
+Usage: swap.sh <WALLET_ADDRESS> <AMOUNT_USDM> <RATE> <SCOPE> <WITNESS_SCOPE>...
 USAGE
 }
 
@@ -22,14 +22,14 @@ echo "" >&2
 
 title ":: Arguments"
 wallet_address=$1
-amount_ada=$2
+amount_usdm_display=$2
 rate=$3
 scope=$4
 shift 4
 witness_scopes=("$@")
-amount_lovelace=$((amount_ada * 1000000))
-amount_usdm_display=$(awk "BEGIN {print ($amount_ada * $rate)}")
-amount_usdm=$(awk "BEGIN {print ($amount_usdm_display * 1000000)}")
+amount_usdm=$((amount_usdm_display * 1000000))
+amount_lovelace=$(awk "BEGIN {printf \"%.0f\", ($amount_usdm / $rate)}")
+unit="ada"
 echo "" >&2
 
 title ":: Configuration"
@@ -39,7 +39,6 @@ load_permissions_config $metadata $scope
 pparams=$(mktemp)
 ccli query protocol-parameters > "$pparams"
 swap_order_address=$(echo "31fa6a58bbe2d0ff05534431c8e2f0ef2cbdc1602a8456e4b13c8f3077$treasury_script_hash" | bech32 addr)
-unit=ada
 echo "" >&2
 
 title ":: Signers"
@@ -51,23 +50,31 @@ fuel=$(resolve_fuel "$wallet_address")
 echo "" >&2
 
 title ":: Selecting Treasury UTxOs"
-select_treasury_utxos "$treasury_address" "$unit" true
-leftover_treasury_lovelace=$((acc_lovelace - amount_lovelace))
-leftover_treasury_usdm=$(awk "BEGIN {print ($acc_usdm + $amount_usdm)}")
+select_treasury_utxos "$treasury_address" "$amount_lovelace" "$unit" true
+echo "" >&2
+
+title ":: Validity Period"
+upper_bound=$(compute_validity_period)
 echo "" >&2
 
 title ":: cardano-cli latest transaction build"
-CHUNK_SIZE=10000
-full=$((amount_ada / CHUNK_SIZE))
-rem=$((amount_ada % CHUNK_SIZE))
+CHUNK_SIZE=12500000000
+full=$((amount_lovelace / CHUNK_SIZE))
+rem=$((amount_lovelace % CHUNK_SIZE))
 declare -a tx_outs
+declare -a tx_outs_datums
 add_swap_order () {
-  local amount=$1
-  chunk_lovelace=$((amount * 1000000))
-  swap_order_lovelace=$((chunk_lovelace + SUNDAE_PROTOCOL_FEE_LOVELACE + MIN_UTXO_DEPOSIT_LOVELACE))
-  datum=$(swap_order "$chunk_lovelace" "$rate" "$metadata" "$treasury_script_hash")
-  tx_outs+=("$swap_order_address+$swap_order_lovelace" "--tx-out-inline-datum-file" "$datum")
+  local lovelace=$1
+  swap_order_lovelace=$((lovelace + SUNDAE_PROTOCOL_FEE_LOVELACE + MIN_UTXO_DEPOSIT_LOVELACE))
+  datum=$(swap_order "$lovelace" "$rate" "$metadata" "$treasury_script_hash")
+  tx_outs+=("$swap_order_address+$swap_order_lovelace")
+  tx_outs_datums+=("$datum")
 }
+if [[ $leftover_treasury_usdm -gt 0 ]]; then
+  tx_outs+=("$treasury_address+$leftover_treasury_lovelace+$leftover_treasury_usdm $USDM_POLICY.$USDM_TOKEN")
+else
+  tx_outs+=("$treasury_address+$leftover_treasury_lovelace")
+fi
 for ((i = 0; i < full; i++)); do
   add_swap_order "$CHUNK_SIZE"
 done
@@ -79,4 +86,4 @@ tx=$(build_transaction)
 echo "" >&2
 
 title ":: Transaction"
-write_conway_tx "disburse"
+write_conway_tx "$tx" "disburse"

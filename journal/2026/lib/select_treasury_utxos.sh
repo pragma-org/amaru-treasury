@@ -1,7 +1,8 @@
 select_treasury_utxos() {
   local treasury_address="$1"
-  local unit="$2"
-  local sort_by_lovelace_desc="${5:-false}"
+  local target="$2"
+  local unit="$3"
+  local sort_by_lovelace_desc="${4:-false}"
   local tmp_utxos utxo_filter txin usdm lovelace
 
   tmp_utxos=$(mktemp)
@@ -32,14 +33,19 @@ select_treasury_utxos() {
     txins+=( "$txin" )
 
     if [[ "$unit" = "ada" ]]; then
-      [[ "$acc_lovelace" -ge "$amount_lovelace" ]] && break
+      [[ "$acc_lovelace" -ge "$target" ]] && break
     else
-      [[ "$acc_usdm" -ge "$amount_usdm" ]] && break
+      [[ "$acc_usdm" -ge "$target" ]] && break
     fi
   done < "$tmp_utxos"
 
-  leftover_treasury_lovelace=$((acc_lovelace - amount_lovelace))
-  leftover_treasury_usdm=$((acc_usdm - amount_usdm))
+  if [[ "$unit" = "ada" ]]; then
+    leftover_treasury_lovelace=$((acc_lovelace - target))
+    leftover_treasury_usdm=$acc_usdm
+  else
+    leftover_treasury_lovelace=$acc_lovelace
+    leftover_treasury_usdm=$((acc_usdm - target))
+  fi
 
   if [[ $leftover_treasury_usdm -lt 0 ]]; then
     echo "error: not enough USDM to cover request; missing \$$(( -1 * leftover_treasury_usdm / 1000000 ))"

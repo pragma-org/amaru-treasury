@@ -23,7 +23,13 @@ build_transaction() {
   )
 
   # Outputs
-  for tx_out in "${tx_outs[@]}"; do args+=("--tx-out" "$tx_out"); done
+  for i in "${!tx_outs[@]}"; do
+    args+=("--tx-out" "${tx_outs[i]}")
+
+    if [[ -n "${tx_outs_datums[i]+_}" ]]; then
+      args+=("--tx-out-inline-datum-file" "${tx_outs_datums[i]}")
+    fi
+  done
 
   # Signers
   for signer in "${signers[@]}"; do args+=("--required-signer-hash" "$signer"); done
@@ -43,7 +49,7 @@ build_transaction() {
 
   cli_out=$(cardano-cli "${args[@]}")
   if [[ $? != 0 ]]; then
-    echo "$cli_out" &>2
+    echo "$cli_out" >&2
     exit 1
   fi
 

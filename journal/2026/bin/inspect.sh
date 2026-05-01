@@ -98,7 +98,12 @@ ogmios inspect transaction "$(jq -r .cborHex "$1")" \
         )
         + {
           (label_root.scope_owners): "scope_owners",
-          "addr1q8qrds2nnx7clx3kcpp2l0eu45twmdcahsfu9m0xcwy59j6xz3vs0hnfaz9nhje8z34kfnds4jyk7hs6dnrag6e2lfgqtyf4rl": "Crypto Accounting Group"
+          "addr1q8qrds2nnx7clx3kcpp2l0eu45twmdcahsfu9m0xcwy59j6xz3vs0hnfaz9nhje8z34kfnds4jyk7hs6dnrag6e2lfgqtyf4rl": "Crypto Accounting Group",
+          "addr1x8ax5k9mutg07p2ngscu3chsauktmstq92z9de938j8nqaejyqwur6p8pqmycmzz55lcnan4x99mnt2a5fe54ggt4gxst7gy3n": "SundaeSwap (Order Contract)",
+          "addr1x8ax5k9mutg07p2ngscu3chsauktmstq92z9de938j8nqa6lhvl999wzz8r4jhway0djuzsgxvf3up5pe3l2sq8ct56qlgdu8k": "SundaeSwap (Order Contract)",
+          "addr1x8ax5k9mutg07p2ngscu3chsauktmstq92z9de938j8nqa6xw3kxg9guxue7dh53tptctpq694f5ytfwa98v2x3mhj6qcya6y6": "SundaeSwap (Order Contract)",
+          "addr1x8ax5k9mutg07p2ngscu3chsauktmstq92z9de938j8nqalmgsvhk7fxyuw7jw78qrprmg6anhtrqapnvr8sk67acudq5up5n4": "SundaeSwap (Order Contract)",
+          "addr1x8ax5k9mutg07p2ngscu3chsauktmstq92z9de938j8nqalxm0lsjfz7hzwy7kpl42jzswr7gtz8ruvxscm6sjrq9f8qkrg7f6": "SundaeSwap (Order Contract)"
         }
       else
         {}

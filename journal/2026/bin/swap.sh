@@ -70,16 +70,16 @@ add_swap_order () {
   tx_outs+=("$swap_order_address+$swap_order_lovelace")
   tx_outs_datums+=("$datum")
 }
-if [[ $leftover_treasury_usdm -gt 0 ]]; then
-  tx_outs+=("$treasury_address+$leftover_treasury_lovelace+$leftover_treasury_usdm $USDM_POLICY.$USDM_TOKEN")
-else
-  tx_outs+=("$treasury_address+$leftover_treasury_lovelace")
-fi
 for ((i = 0; i < full; i++)); do
   add_swap_order "$CHUNK_SIZE"
 done
 if [[ $rem -gt 0 ]]; then
   add_swap_order "$rem"
+fi
+if [[ $leftover_treasury_usdm -gt 0 ]]; then
+  tx_outs+=("$treasury_address+$leftover_treasury_lovelace+$leftover_treasury_usdm $USDM_POLICY.$USDM_TOKEN")
+else
+  tx_outs+=("$treasury_address+$leftover_treasury_lovelace")
 fi
 redeemer=$(make_redeemer_disburse "$unit")
 tx=$(build_transaction)

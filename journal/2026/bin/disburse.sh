@@ -51,7 +51,7 @@ fuel=$(resolve_fuel "$wallet_address")
 echo "" >&2
 
 title ":: Selecting Treasury UTxOs"
-select_treasury_utxos "$treasury_address" "$unit" false
+select_treasury_utxos "$treasury_address" "$amount_lovelace" "$unit" false
 echo "" >&2
 
 title ":: Validity Period"

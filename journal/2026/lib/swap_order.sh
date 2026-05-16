@@ -15,15 +15,18 @@ swap_order() {
   "fields": [
     { "constructor": 0, "fields": [{ "bytes": "$SUNDAE_USDM_POOL" }] },
     {
-      "constructor": 1,
-      "fields": [{
-        "list": [
-          { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.core_development.owner")" } ] },
-          { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.ops_and_use_cases.owner")" } ] },
-          { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.network_compliance.owner")" } ] },
-          { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.middleware.owner")" } ] }
-        ]
-      }]
+      "constructor": 3,
+      "fields": [
+        { "int": 2 },
+        {
+          "list": [
+            { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.core_development.owner")" } ] },
+            { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.ops_and_use_cases.owner")" } ] },
+            { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.network_compliance.owner")" } ] },
+            { "constructor": 0, "fields": [ { "bytes": "$(echo "$metadata" | jq -cr ".treasuries.middleware.owner")" } ] }
+          ]
+        }
+      ]
     },
     { "int": $SUNDAE_PROTOCOL_FEE_LOVELACE },
     {

@@ -241,12 +241,10 @@ fn has_marginal_utxos(txs: List<Transaction>) {
     [] -> False
     [head, ..tail] -> {
       let input <- list.any(head.inputs)
-      let is_script =
-        input.output.address.payment_credential == Credential.Script(
-          validator_hash,
-        )
-      let has_token =
-        assets.tokens(input.output.value, validator_hash) != dict.empty
+      let is_script = input.output.address.payment_credential == Credential.Script(
+        validator_hash,
+      )
+      let has_token = assets.tokens(input.output.value, validator_hash) != dict.empty
       or {
         is_script && !has_token,
         has_marginal_utxos(tail),
@@ -336,38 +334,35 @@ fn step(st: State) -> Fuzzer<Scenario<State>> {
 /// - nothing else is minted
 /// - properly authenticated
 fn step_mint(st: State) -> Fuzzer<Scenario<State>> {
-  let (st, inputs) <-
-    scenario.fork_and_then(
-      weights.scenario_inputs,
-      fn() { scenario_mint_inputs_baseline(st) },
-      fn() { scenario_mint_inputs_no_seed_utxo(st) },
-    )
+  let (st, inputs) <- scenario.fork_and_then(
+    weights.scenario_inputs,
+    fn() { scenario_mint_inputs_baseline(st) },
+    fn() { scenario_mint_inputs_no_seed_utxo(st) },
+  )
 
-  let (st, outputs) <-
-    scenario.fork4_if_and_then(
-      st.labels == [],
-      weights.scenario_outputs,
-      fn() { scenario_outputs_baseline(st) },
-      fn() { scenario_outputs_missing_datum(st) },
-      fn() { scenario_outputs_escaping_token(st) },
-      fn() { scenario_outputs_malformed_datum(st) },
-      fn() {
-        scenario.fork(
-          128,
-          fn() { scenario_outputs_ref_script(st) },
-          fn() { scenario_outputs_garbage_tokens(st) },
-        )
-      },
-    )
+  let (st, outputs) <- scenario.fork4_if_and_then(
+    st.labels == [],
+    weights.scenario_outputs,
+    fn() { scenario_outputs_baseline(st) },
+    fn() { scenario_outputs_missing_datum(st) },
+    fn() { scenario_outputs_escaping_token(st) },
+    fn() { scenario_outputs_malformed_datum(st) },
+    fn() {
+      scenario.fork(
+        128,
+        fn() { scenario_outputs_ref_script(st) },
+        fn() { scenario_outputs_garbage_tokens(st) },
+      )
+    },
+  )
 
-  let (st, mint) <-
-    scenario.fork2_if_and_then(
-      st.labels == [],
-      weights.scenario_mint,
-      fn() { scenario_mint_baseline(st) },
-      fn() { scenario_mint_too_many(st) },
-      fn() { scenario_mint_unexpected(st) },
-    )
+  let (st, mint) <- scenario.fork2_if_and_then(
+    st.labels == [],
+    weights.scenario_mint,
+    fn() { scenario_mint_baseline(st) },
+    fn() { scenario_mint_too_many(st) },
+    fn() { scenario_mint_unexpected(st) },
+  )
 
   return(
     Scenario.Step(
@@ -388,43 +383,44 @@ fn step_mint(st: State) -> Fuzzer<Scenario<State>> {
 /// many times as necessary. The update has roughly the same constraints as the
 /// mint regarding the outputs, so we can re-use a lot of the scenarii.
 fn step_update(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
-  let own_input =
-    OutputReference { transaction_id: "own_input", output_index: 0 }
+  let own_input = OutputReference {
+    transaction_id: "own_input",
+    output_index: 0,
+  }
 
-  let own_utxo =
-    Input { output_reference: own_input, output: own_resolved_input }
+  let own_utxo = Input {
+    output_reference: own_input,
+    output: own_resolved_input,
+  }
 
-  let (st, inputs) <-
-    scenario.fork_and_then(
-      weights.scenario_inputs,
-      fn() { scenario_update_inputs_baseline(st, own_utxo) },
-      fn() { scenario_update_inputs_missing_token(st, own_input) },
-    )
+  let (st, inputs) <- scenario.fork_and_then(
+    weights.scenario_inputs,
+    fn() { scenario_update_inputs_baseline(st, own_utxo) },
+    fn() { scenario_update_inputs_missing_token(st, own_input) },
+  )
 
-  let (st, outputs) <-
-    scenario.fork4_if_and_then(
-      st.labels == [],
-      weights.scenario_outputs,
-      fn() { scenario_outputs_baseline(st) },
-      fn() { scenario_outputs_missing_datum(st) },
-      fn() { scenario_outputs_escaping_token(st) },
-      fn() { scenario_outputs_malformed_datum(st) },
-      fn() {
-        scenario.fork(
-          128,
-          fn() { scenario_outputs_ref_script(st) },
-          fn() { scenario_outputs_garbage_tokens(st) },
-        )
-      },
-    )
+  let (st, outputs) <- scenario.fork4_if_and_then(
+    st.labels == [],
+    weights.scenario_outputs,
+    fn() { scenario_outputs_baseline(st) },
+    fn() { scenario_outputs_missing_datum(st) },
+    fn() { scenario_outputs_escaping_token(st) },
+    fn() { scenario_outputs_malformed_datum(st) },
+    fn() {
+      scenario.fork(
+        128,
+        fn() { scenario_outputs_ref_script(st) },
+        fn() { scenario_outputs_garbage_tokens(st) },
+      )
+    },
+  )
 
-  let (st, extra_signatories) <-
-    scenario.fork_if_and_then(
-      st.labels == [],
-      weights.scenario_signatories,
-      fn() { scenario_signatories_baseline(st) },
-      fn() { scenario_signatories_missing(st, unauthorized_update) },
-    )
+  let (st, extra_signatories) <- scenario.fork_if_and_then(
+    st.labels == [],
+    weights.scenario_signatories,
+    fn() { scenario_signatories_baseline(st) },
+    fn() { scenario_signatories_missing(st, unauthorized_update) },
+  )
 
   return(
     Scenario.Step(
@@ -446,36 +442,37 @@ fn step_update(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>>
 /// than one token or burning an asset that doesn't exist because those cases are
 /// already caught as phase-1 validation failures.
 fn step_burn(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
-  let own_input =
-    OutputReference { transaction_id: "own_input", output_index: 0 }
+  let own_input = OutputReference {
+    transaction_id: "own_input",
+    output_index: 0,
+  }
 
-  let own_utxo =
-    Input { output_reference: own_input, output: own_resolved_input }
+  let own_utxo = Input {
+    output_reference: own_input,
+    output: own_resolved_input,
+  }
 
   let (st, inputs) <- and_then(scenario_update_inputs_baseline(st, own_utxo))
 
-  let (st, mint) <-
-    scenario.fork_and_then(
-      weights.scenario_burn,
-      fn() { scenario_burn_baseline(st) },
-      fn() { scenario_burn_none(st) },
-    )
+  let (st, mint) <- scenario.fork_and_then(
+    weights.scenario_burn,
+    fn() { scenario_burn_baseline(st) },
+    fn() { scenario_burn_none(st) },
+  )
 
-  let (st, validity_range) <-
-    scenario.fork_if_and_then(
-      st.labels == [],
-      weights.scenario_validity,
-      fn() { scenario_validity_range_baseline(st) },
-      fn() { scenario_validity_range_before(st) },
-    )
+  let (st, validity_range) <- scenario.fork_if_and_then(
+    st.labels == [],
+    weights.scenario_validity,
+    fn() { scenario_validity_range_baseline(st) },
+    fn() { scenario_validity_range_before(st) },
+  )
 
-  let (st, extra_signatories) <-
-    scenario.fork_if_and_then(
-      st.labels == [],
-      weights.scenario_signatories,
-      fn() { scenario_signatories_baseline(st) },
-      fn() { scenario_signatories_missing(st, unauthorized_burn) },
-    )
+  let (st, extra_signatories) <- scenario.fork_if_and_then(
+    st.labels == [],
+    weights.scenario_signatories,
+    fn() { scenario_signatories_baseline(st) },
+    fn() { scenario_signatories_missing(st, unauthorized_burn) },
+  )
 
   return(
     Scenario.Step(
@@ -502,69 +499,68 @@ fn step_burn(st: State, own_resolved_input: Output) -> Fuzzer<Scenario<State>> {
 // ------------------------------------------------------------------
 
 fn scenario_mint_inputs_baseline(st: State) -> Fuzzer<(State, List<Input>)> {
-  let inputs <-
-    and_then(
-      list_with(
-        fuzz.list_between(cardano.input(), 0, 2),
-        cardano.input_with(return(seed), cardano.output()),
-      ),
-    )
+  let inputs <- and_then(
+    list_with(
+      fuzz.list_between(cardano.input(), 0, 2),
+      cardano.input_with(return(seed), cardano.output()),
+    ),
+  )
   return((st, inputs))
 }
 
 fn scenario_mint_inputs_no_seed_utxo(st: State) -> Fuzzer<(State, List<Input>)> {
-  let inputs <-
-    scenario.fork2_and_then(
-      85,
-      // No seed UTxO whatsoever.
-      fn() { fuzz.list_between(cardano.input(), 0, 3) },
-      // Wrong transaction id.
-      fn() {
-        list_with(
-          fuzz.list_between(cardano.input(), 0, 2),
-          {
-            let id <- and_then(cardano.transaction_id())
-            let input <-
-              and_then(cardano.input_with(return(seed), cardano.output()))
-            return(
-              Input {
-                ..input,
-                output_reference: OutputReference {
-                  ..input.output_reference,
-                  transaction_id: id,
-                },
+  let inputs <- scenario.fork2_and_then(
+    85,
+    // No seed UTxO whatsoever.
+    fn() { fuzz.list_between(cardano.input(), 0, 3) },
+    // Wrong transaction id.
+    fn() {
+      list_with(
+        fuzz.list_between(cardano.input(), 0, 2),
+        {
+          let id <- and_then(cardano.transaction_id())
+          let input <- and_then(
+            cardano.input_with(return(seed), cardano.output()),
+          )
+          return(
+            Input {
+              ..input,
+              output_reference: OutputReference {
+                ..input.output_reference,
+                transaction_id: id,
               },
-            )
-          },
-        )
-      },
-      // Wrong output index.
-      fn() {
-        list_with(
-          fuzz.list_between(cardano.input(), 0, 2),
-          {
-            let index <-
-              and_then(
-                fuzz.such_that(
-                  fuzz.int_at_least(0),
-                  fn(i) { i != seed.output_index },
-                ),
-              )
-            let input <-
-              and_then(cardano.input_with(return(seed), cardano.output()))
-            return(
-              Input {
-                ..input,
-                output_reference: OutputReference {
-                  ..input.output_reference,
-                  output_index: index,
-                },
+            },
+          )
+        },
+      )
+    },
+    // Wrong output index.
+    fn() {
+      list_with(
+        fuzz.list_between(cardano.input(), 0, 2),
+        {
+          let index <- and_then(
+            fuzz.such_that(
+              fuzz.int_at_least(0),
+              fn(i) { i != seed.output_index },
+            ),
+          )
+          let input <- and_then(
+            cardano.input_with(return(seed), cardano.output()),
+          )
+          return(
+            Input {
+              ..input,
+              output_reference: OutputReference {
+                ..input.output_reference,
+                output_index: index,
               },
-            )
-          },
-        )
-      },
-    )
+            },
+          )
+        },
+      )
+    },
+  )
 
   return((State { ..st, labels: [unseeded_mint, ..st.labels] }, inputs))
 }
@@ -573,52 +569,49 @@ fn scenario_update_inputs_baseline(
   st: State,
   utxo: Input,
 ) -> Fuzzer<(State, List<Input>)> {
-  let inputs <-
-    and_then(
-      list_with(
-        fuzz.list_between(
-          fuzz.either(
-            cardano.input(),
-            {
-              // Allow inputs to be locked by a our script. Although only one can have the state token.
-              // This demonstrates that we can collect UTxO sent by mistake to the contract.
-              let our_input <- fuzz.and_then(cardano.input())
+  let inputs <- and_then(
+    list_with(
+      fuzz.list_between(
+        fuzz.either(
+          cardano.input(),
+          {
+            // Allow inputs to be locked by a our script. Although only one can have the state token.
+            // This demonstrates that we can collect UTxO sent by mistake to the contract.
+            let our_input <- fuzz.and_then(cardano.input())
 
-              let output = our_input.output
+            let output = our_input.output
 
-              // Sometimes, create fake UTxO that have datums of the right
-              // shape, but don't hold the NFT.
-              let datum <-
+            // Sometimes, create fake UTxO that have datums of the right
+            // shape, but don't hold the NFT.
+            let datum <- fuzz.map(
+              fuzz.either(
+                return(output.datum),
                 fuzz.map(
-                  fuzz.either(
-                    return(output.datum),
-                    fuzz.map(
-                      when st.kind is {
-                        KindScopes -> fuzz.map(scopes(), fn(s) { as_data(s) })
-                        KindRegistry ->
-                          fuzz.map(registry(), fn(r) { as_data(r) })
-                      },
-                      InlineDatum,
-                    ),
-                  ),
-                )
+                  when st.kind is {
+                    KindScopes -> fuzz.map(scopes(), fn(s) { as_data(s) })
+                    KindRegistry -> fuzz.map(registry(), fn(r) { as_data(r) })
+                  },
+                  InlineDatum,
+                ),
+              ),
+            )
 
-              Input {
-                ..our_input,
-                output: Output {
-                  ..output,
-                  address: address.from_script(validator_hash),
-                  datum,
-                },
-              }
-            },
-          ),
-          0,
-          2,
+            Input {
+              ..our_input,
+              output: Output {
+                ..output,
+                address: address.from_script(validator_hash),
+                datum,
+              },
+            }
+          },
         ),
-        return(utxo),
+        0,
+        2,
       ),
-    )
+      return(utxo),
+    ),
+  )
 
   return((st, inputs))
 }
@@ -627,20 +620,20 @@ fn scenario_update_inputs_missing_token(
   st: State,
   output_reference: OutputReference,
 ) -> Fuzzer<(State, List<Input>)> {
-  let output <-
-    and_then(
-      cardano.output_with(
-        output_address_baseline(),
-        cardano.value(assets.zero),
-        cardano.datum(),
-        cardano.reference_script(),
-      ),
-    )
+  let output <- and_then(
+    cardano.output_with(
+      output_address_baseline(),
+      cardano.value(assets.zero),
+      cardano.datum(),
+      cardano.reference_script(),
+    ),
+  )
 
   let utxo = Input { output_reference, output }
 
-  let inputs <-
-    and_then(list_with(fuzz.list_between(cardano.input(), 0, 2), return(utxo)))
+  let inputs <- and_then(
+    list_with(fuzz.list_between(cardano.input(), 0, 2), return(utxo)),
+  )
 
   return((State { ..st, labels: [missing_token, ..st.labels] }, inputs))
 }
@@ -684,10 +677,9 @@ fn output_baseline(st: State) -> Fuzzer<Output> {
 fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
   let output <- and_then(output_baseline(st))
 
-  let outputs <-
-    and_then(
-      list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
-    )
+  let outputs <- and_then(
+    list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
+  )
 
   return((State { ..st, utxo: Some(output) }, outputs))
 }
@@ -695,20 +687,18 @@ fn scenario_outputs_baseline(st: State) -> Fuzzer<(State, List<Output>)> {
 fn scenario_outputs_garbage_tokens(st: State) -> Fuzzer<(State, List<Output>)> {
   let output <- and_then(output_baseline(st))
 
-  let poisoned_value <-
-    and_then(
-      fuzz.such_that(
-        cardano.value(output.value),
-        fn(value) { list.length(assets.policies(value)) > 2 },
-      ),
-    )
+  let poisoned_value <- and_then(
+    fuzz.such_that(
+      cardano.value(output.value),
+      fn(value) { list.length(assets.policies(value)) > 2 },
+    ),
+  )
 
   let output = Output { ..output, value: poisoned_value }
 
-  let outputs <-
-    and_then(
-      list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
-    )
+  let outputs <- and_then(
+    list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
+  )
 
   return(
     (
@@ -724,10 +714,9 @@ fn scenario_outputs_ref_script(st: State) -> Fuzzer<(State, List<Output>)> {
 
   let output = Output { ..output, reference_script: Some(script_hash) }
 
-  let outputs <-
-    and_then(
-      list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
-    )
+  let outputs <- and_then(
+    list_with(fuzz.list_between(cardano.output(), 0, 2), return(output)),
+  )
 
   return(
     (
@@ -742,58 +731,57 @@ fn scenario_outputs_ref_script(st: State) -> Fuzzer<(State, List<Output>)> {
 }
 
 fn scenario_outputs_missing_datum(st: State) -> Fuzzer<(State, List<Output>)> {
-  let output =
-    cardano.output_with(
-      output_address_baseline(),
-      output_value_baseline(st.asset_name),
-      fuzz.either(cardano.no_datum(), cardano.datum_hash()),
-      cardano.reference_script(),
-    )
+  let output = cardano.output_with(
+    output_address_baseline(),
+    output_value_baseline(st.asset_name),
+    fuzz.either(cardano.no_datum(), cardano.datum_hash()),
+    cardano.reference_script(),
+  )
 
-  let outputs <-
-    and_then(list_with(fuzz.list_between(cardano.output(), 0, 2), output))
+  let outputs <- and_then(
+    list_with(fuzz.list_between(cardano.output(), 0, 2), output),
+  )
 
   return((State { ..st, labels: [missing_datum, ..st.labels] }, outputs))
 }
 
 fn scenario_outputs_escaping_token(st: State) -> Fuzzer<(State, List<Output>)> {
-  let output =
-    cardano.output_with(
-      cardano.address(),
-      output_value_baseline(st.asset_name),
-      output_datum_baseline(st),
-      cardano.reference_script(),
-    )
+  let output = cardano.output_with(
+    cardano.address(),
+    output_value_baseline(st.asset_name),
+    output_datum_baseline(st),
+    cardano.reference_script(),
+  )
 
-  let outputs <-
-    and_then(list_with(fuzz.list_between(cardano.output(), 0, 2), output))
+  let outputs <- and_then(
+    list_with(fuzz.list_between(cardano.output(), 0, 2), output),
+  )
 
   return((State { ..st, labels: [escaping_token, ..st.labels] }, outputs))
 }
 
 fn scenario_outputs_malformed_datum(st: State) -> Fuzzer<(State, List<Output>)> {
-  let (st, datum) <-
-    and_then(
-      when st.kind is {
-        KindScopes -> scenario_datum_malformed_scopes(st)
-        KindRegistry ->
-          when st.utxo is {
-            None -> scenario_datum_malformed_registry(st)
-            Some(output) -> scenario_datum_altered_registry(st, output.datum)
-          }
-      },
-    )
+  let (st, datum) <- and_then(
+    when st.kind is {
+      KindScopes -> scenario_datum_malformed_scopes(st)
+      KindRegistry ->
+        when st.utxo is {
+          None -> scenario_datum_malformed_registry(st)
+          Some(output) -> scenario_datum_altered_registry(st, output.datum)
+        }
+    },
+  )
 
-  let output =
-    cardano.output_with(
-      output_address_baseline(),
-      output_value_baseline(st.asset_name),
-      return(datum),
-      cardano.reference_script(),
-    )
+  let output = cardano.output_with(
+    output_address_baseline(),
+    output_value_baseline(st.asset_name),
+    return(datum),
+    cardano.reference_script(),
+  )
 
-  let outputs <-
-    and_then(list_with(fuzz.list_between(cardano.output(), 0, 2), output))
+  let outputs <- and_then(
+    list_with(fuzz.list_between(cardano.output(), 0, 2), output),
+  )
 
   return((st, outputs))
 }
@@ -818,37 +806,35 @@ fn output_datum_baseline(st: State) -> Fuzzer<Datum> {
 }
 
 fn scenario_datum_malformed_scopes(st: State) -> Fuzzer<(State, Datum)> {
-  let datum <-
-    fuzz.map(
-      fuzz.such_that(
-        fuzz.data(),
-        fn(data: Data) {
-          if data is _: Scopes {
-            False
-          } else {
-            True
-          }
-        },
-      ),
-    )
+  let datum <- fuzz.map(
+    fuzz.such_that(
+      fuzz.data(),
+      fn(data: Data) {
+        if data is _: Scopes {
+          False
+        } else {
+          True
+        }
+      },
+    ),
+  )
 
   (State { ..st, labels: [malformed_datum, ..st.labels] }, InlineDatum(datum))
 }
 
 fn scenario_datum_malformed_registry(st: State) -> Fuzzer<(State, Datum)> {
-  let datum <-
-    fuzz.map(
-      fuzz.such_that(
-        fuzz.data(),
-        fn(data: Data) {
-          if data is _: Registry {
-            False
-          } else {
-            True
-          }
-        },
-      ),
-    )
+  let datum <- fuzz.map(
+    fuzz.such_that(
+      fuzz.data(),
+      fn(data: Data) {
+        if data is _: Registry {
+          False
+        } else {
+          True
+        }
+      },
+    ),
+  )
 
   (State { ..st, labels: [malformed_datum, ..st.labels] }, InlineDatum(datum))
 }
@@ -857,13 +843,12 @@ fn scenario_datum_altered_registry(
   st: State,
   current_datum: Datum,
 ) -> Fuzzer<(State, Datum)> {
-  let datum <-
-    fuzz.map(
-      fuzz.such_that(
-        registry(),
-        fn(data: Registry) { InlineDatum(as_data(data)) != current_datum },
-      ),
-    )
+  let datum <- fuzz.map(
+    fuzz.such_that(
+      registry(),
+      fn(data: Registry) { InlineDatum(as_data(data)) != current_datum },
+    ),
+  )
 
   (State { ..st, labels: [altered_datum, ..st.labels] }, InlineDatum(datum))
 }
@@ -873,29 +858,27 @@ fn scenario_datum_altered_registry(
 // ------------------------------------------------------------------
 
 fn scenario_mint_baseline(st: State) -> Fuzzer<(State, Value)> {
-  let mint <-
-    and_then(
-      cardano.value_with(
-        assets.zero,
-        return([validator_hash]),
-        fn(_policy_id) { return(st.asset_name) },
-        fn(_policy_id, _asset_name) { return(1) },
-      ),
-    )
+  let mint <- and_then(
+    cardano.value_with(
+      assets.zero,
+      return([validator_hash]),
+      fn(_policy_id) { return(st.asset_name) },
+      fn(_policy_id, _asset_name) { return(1) },
+    ),
+  )
 
   return((st, mint))
 }
 
 fn scenario_mint_too_many(st: State) -> Fuzzer<(State, Value)> {
-  let mint <-
-    and_then(
-      cardano.value_with(
-        assets.zero,
-        return([validator_hash]),
-        fn(_policy_id) { return(st.asset_name) },
-        fn(_policy_id, _asset_name) { return(2) },
-      ),
-    )
+  let mint <- and_then(
+    cardano.value_with(
+      assets.zero,
+      return([validator_hash]),
+      fn(_policy_id) { return(st.asset_name) },
+      fn(_policy_id, _asset_name) { return(2) },
+    ),
+  )
 
   return((State { ..st, labels: [minted_too_many, ..st.labels] }, mint))
 }
@@ -903,15 +886,14 @@ fn scenario_mint_too_many(st: State) -> Fuzzer<(State, Value)> {
 fn scenario_mint_unexpected(st: State) -> Fuzzer<(State, Value)> {
   let (st, base) <- and_then(scenario_mint_baseline(st))
 
-  let mint <-
-    and_then(
-      cardano.value_with(
-        base,
-        return([validator_hash]),
-        fn(_policy_id) { cardano.asset_name() },
-        fn(_policy_id, _asset_name) { return(1) },
-      ),
-    )
+  let mint <- and_then(
+    cardano.value_with(
+      base,
+      return([validator_hash]),
+      fn(_policy_id) { cardano.asset_name() },
+      fn(_policy_id, _asset_name) { return(1) },
+    ),
+  )
 
   return((State { ..st, labels: [unexpected_mint, ..st.labels] }, mint))
 }
@@ -921,31 +903,29 @@ fn scenario_mint_unexpected(st: State) -> Fuzzer<(State, Value)> {
 // ------------------------------------------------------------------
 
 fn scenario_burn_baseline(st: State) -> Fuzzer<(State, Value)> {
-  let burn <-
-    and_then(
-      cardano.value_with(
-        assets.zero,
-        return([validator_hash]),
-        fn(_policy_id) { return(st.asset_name) },
-        fn(_policy_id, _asset_name) { return(-1) },
-      ),
-    )
+  let burn <- and_then(
+    cardano.value_with(
+      assets.zero,
+      return([validator_hash]),
+      fn(_policy_id) { return(st.asset_name) },
+      fn(_policy_id, _asset_name) { return(-1) },
+    ),
+  )
 
   return((st, burn))
 }
 
 fn scenario_burn_none(st: State) -> Fuzzer<(State, Value)> {
-  let mint <-
-    and_then(
-      cardano.value_with(
-        assets.zero,
-        return([validator_hash]),
-        fn(_policy_id) {
-          fuzz.either(return(st.asset_name), cardano.asset_name())
-        },
-        fn(_policy_id, _asset_name) { fuzz.int_at_least(1) },
-      ),
-    )
+  let mint <- and_then(
+    cardano.value_with(
+      assets.zero,
+      return([validator_hash]),
+      fn(_policy_id) {
+        fuzz.either(return(st.asset_name), cardano.asset_name())
+      },
+      fn(_policy_id, _asset_name) { fuzz.int_at_least(1) },
+    ),
+  )
 
   return((State { ..st, labels: [not_burning, ..st.labels] }, mint))
 }
@@ -961,13 +941,12 @@ fn scenario_validity_range_baseline(st: State) -> Fuzzer<(State, Interval<Int>)>
 }
 
 fn scenario_validity_range_before(st: State) -> Fuzzer<(State, Interval<Int>)> {
-  let validity_range <-
-    fuzz.map(
-      fuzz.either(
-        fuzz.one_of([interval.everything, interval.after(config.expiration)]),
-        fuzz.map(fuzz.int_between(0, config.expiration), interval.before),
-      ),
-    )
+  let validity_range <- fuzz.map(
+    fuzz.either(
+      fuzz.one_of([interval.everything, interval.after(config.expiration)]),
+      fuzz.map(fuzz.int_between(0, config.expiration), interval.before),
+    ),
+  )
 
   (State { ..st, labels: [burn_before, ..st.labels] }, validity_range)
 }
@@ -988,13 +967,12 @@ fn scenario_signatories_missing(
   st: State,
   lbl: String,
 ) -> Fuzzer<(State, List<VerificationKeyHash>)> {
-  let signatories <-
-    and_then(
-      fuzz.such_that(
-        fuzz.sublist(config.pragma_general_assembly),
-        fn(elems) { elems != config.pragma_general_assembly },
-      ),
-    )
+  let signatories <- and_then(
+    fuzz.such_that(
+      fuzz.sublist(config.pragma_general_assembly),
+      fn(elems) { elems != config.pragma_general_assembly },
+    ),
+  )
 
   return((State { ..st, labels: [lbl, ..st.labels] }, signatories))
 }

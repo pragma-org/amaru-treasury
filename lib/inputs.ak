@@ -47,9 +47,8 @@ pub fn expect_single_script(
   inputs: List<Input>,
   redeemers: Pairs<ScriptPurpose, Data>,
 ) -> Data {
-  expect [Pair(_, redeemer)] =
-    collect_script_inputs(inputs, redeemers)
-      |> dict.to_pairs
+  expect [Pair(_, redeemer)] = collect_script_inputs(inputs, redeemers)
+    |> dict.to_pairs
 
   redeemer
 }
@@ -64,8 +63,10 @@ fn collect_script_inputs(
   let next, scripts <- list.foldl(inputs, dict.empty)
   when next.output.address.payment_credential is {
     Credential.Script(script_hash) -> {
-      expect Some(redeemer) =
-        pairs.get_first(redeemers, ScriptPurpose.Spend(next.output_reference))
+      expect Some(redeemer) = pairs.get_first(
+        redeemers,
+        ScriptPurpose.Spend(next.output_reference),
+      )
 
       scripts
         |> dict.insert_with(

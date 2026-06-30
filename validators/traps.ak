@@ -45,14 +45,13 @@ validator scopes(seed: OutputReference) {
   ) {
     let asset_name = config.scopes_token_name
 
-    let with_state =
-      fn(_, new_datum) {
-        // Allow updates, but enforces that the new datum is at least:
-        //
-        // (a) present;
-        // (b) of the right shape.
-        expect_inline_scopes(new_datum)
-      }
+    let with_state = fn(_, new_datum) {
+      // Allow updates, but enforces that the new datum is at least:
+      //
+      // (a) present;
+      // (b) of the right shape.
+      expect_inline_scopes(new_datum)
+    }
 
     spend(asset_name, with_state, utxo, self)
   }
@@ -89,17 +88,16 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
   ) {
     let asset_name = types.registry_token_name()
 
-    let with_state =
-      fn(old_datum: Option<Datum>, new_datum: Datum) {
-        or {
-          // Note that we need not to re-assert the shape of the new datum
-          // here, because it is checked during minting, and we do not allow
-          // the slightest change anyway.
-          (old_datum == Some(new_datum))?,
-          // Allow spending from marginal UTxOs.
-          (old_datum == None)?,
-        }
+    let with_state = fn(old_datum: Option<Datum>, new_datum: Datum) {
+      or {
+        // Note that we need not to re-assert the shape of the new datum
+        // here, because it is checked during minting, and we do not allow
+        // the slightest change anyway.
+        (old_datum == Some(new_datum))?,
+        // Allow spending from marginal UTxOs.
+        (old_datum == None)?,
       }
+    }
 
     spend(asset_name, with_state, utxo, self)
   }
@@ -109,12 +107,11 @@ validator treasury_registry(seed: OutputReference, scope: Scope) {
     let asset_name = types.registry_token_name()
 
     // Assert (or fail) that a given datum is inline and has an expected shape.
-    let expect_script_registry =
-      fn(datum: Datum) {
-        expect Datum.InlineDatum(data) = datum
-        expect _: ScriptHashRegistry = data
-        True
-      }
+    let expect_script_registry = fn(datum: Datum) {
+      expect Datum.InlineDatum(data) = datum
+      expect _: ScriptHashRegistry = data
+      True
+    }
 
     or {
       burn(policy_id, asset_name, self)?,
@@ -165,12 +162,15 @@ fn spend(
 
       // Retrieve the managed datum, if any. We only trust the datum that is trapped with
       // the NFT.
-      let own_datum =
-        if assets.quantity_of(own_input.value, own_script, asset_name) == 1 {
-          Some(own_input.datum)
-        } else {
-          None
-        }
+      let own_datum = if assets.quantity_of(
+        own_input.value,
+        own_script,
+        asset_name,
+      ) == 1 {
+        Some(own_input.datum)
+      } else {
+        None
+      }
 
       with_state(own_datum, output.datum)?
     },
@@ -193,38 +193,35 @@ fn mint(
 
   // Ensure uniqueness by claiming an output reference; this ensures
   // other checks are sound since minting can only happen once.
-  let must_spend_seed_utxo =
-    self.inputs
-      |> list.any(fn(input) { input.output_reference == seed })
+  let must_spend_seed_utxo = self.inputs
+    |> list.any(fn(input) { input.output_reference == seed })
 
   // Ensure the token is trapped by the script. We can filter and only count
   // outputs to our credentials because we also ensure that only one token can
   // be minted.
   // Hence, we need not to check other outputs.
-  let must_trap_token =
-    self.outputs
-      |> list.reduce(
-          0,
-          fn(sum, output) {
-            if output.address.payment_credential == Script(policy_id) {
-              expect expect_datum(output.datum)?
-              expect output.reference_script == None
-              expect outputs.expect_nft(output.value, policy_id, asset_name)
-              sum + 1
-            } else {
-              sum
-            }
-          },
-        )
-      |> builtin.equals_data(1)
+  let must_trap_token = self.outputs
+    |> list.reduce(
+        0,
+        fn(sum, output) {
+          if output.address.payment_credential == Script(policy_id) {
+            expect expect_datum(output.datum)?
+            expect output.reference_script == None
+            expect outputs.expect_nft(output.value, policy_id, asset_name)
+            sum + 1
+          } else {
+            sum
+          }
+        },
+      )
+    |> builtin.equals_data(1)
 
-  let must_not_mint_anything_else =
-    // While this may seem redundant with the check above, this ensures that
-    // nothing ELSE is minted with the token.
-    self.mint
-      |> assets.tokens(policy_id)
-      |> dict.to_pairs
-      |> builtin.equals_data([Pair(asset_name, 1)])
+  let must_not_mint_anything_else = // While this may seem redundant with the check above, this ensures that
+  // nothing ELSE is minted with the token.
+  self.mint
+    |> assets.tokens(policy_id)
+    |> dict.to_pairs
+    |> builtin.equals_data([Pair(asset_name, 1)])
 
   and {
     must_spend_seed_utxo?,
@@ -234,15 +231,13 @@ fn mint(
 }
 
 fn burn(policy_id: PolicyId, asset_name: AssetName, self: Transaction) {
-  let must_burn_token =
-    self.mint
-      |> assets.tokens(policy_id)
-      |> dict.to_pairs
-      |> builtin.equals_data([Pair(asset_name, -1)])
+  let must_burn_token = self.mint
+    |> assets.tokens(policy_id)
+    |> dict.to_pairs
+    |> builtin.equals_data([Pair(asset_name, -1)])
 
-  let must_have_expired =
-    self.validity_range
-      |> is_entirely_after(config.expiration)
+  let must_have_expired = self.validity_range
+    |> is_entirely_after(config.expiration)
 
   and {
     must_be_approved_by_general_assembly(self)?,

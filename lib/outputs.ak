@@ -35,8 +35,9 @@ pub fn forwarding_nft(
       fail
     }
     [head, ..tail] -> {
-      let to_script =
-        head.address.payment_credential == Credential.Script(destination)
+      let to_script = head.address.payment_credential == Credential.Script(
+        destination,
+      )
       if to_script && expect_nft(head.value, destination, expected_asset_name) {
         // We need not to check for the tail here because the token is guaranteed to be unique.
         // Thus, it cannot be found in more than one output. We can stop at the first one.

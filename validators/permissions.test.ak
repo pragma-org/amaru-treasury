@@ -53,8 +53,7 @@ const all_owners: List<VerificationKeyHash> =
 // ----------------------------------------------------------------------------
 
 fn run_as(scope: Scope, txs: List<Transaction>) {
-  let default_handler =
-    handlers.permissions.else(scopes_nft, scope, _)
+  let default_handler = handlers.permissions.else(scopes_nft, scope, _)
 
   scenario.run(
     txs,
@@ -206,39 +205,36 @@ const all_failures: List<String> =
 // ----------------------------------------------------------------------------
 
 fn post_conditions(scenario: Transaction) {
-  let count_script_locked =
-    list.count(
-      scenario.inputs,
-      fn(input) {
-        when input.output.address.payment_credential is {
-          Credential.Script(..) -> True
-          _ -> False
-        }
-      },
-    )
+  let count_script_locked = list.count(
+    scenario.inputs,
+    fn(input) {
+      when input.output.address.payment_credential is {
+        Credential.Script(..) -> True
+        _ -> False
+      }
+    },
+  )
 
   let signatories = list.unique(scenario.extra_signatories)
 
-  expect Some(Pair(_, data)) =
-    list.find(
-      scenario.redeemers,
-      fn(Pair(key, _)) {
-        when key is {
-          ScriptPurpose.Spend(..) -> True
-          _ -> False
-        }
-      },
-    )
+  expect Some(Pair(_, data)) = list.find(
+    scenario.redeemers,
+    fn(Pair(key, _)) {
+      when key is {
+        ScriptPurpose.Spend(..) -> True
+        _ -> False
+      }
+    },
+  )
 
   expect redeemer: TreasurySpendRedeemer = data
 
-  let (is_disburse, is_reorganize, is_sweep) =
-    when redeemer is {
-      TreasurySpendRedeemer.Disburse { .. } -> (True, False, False)
-      TreasurySpendRedeemer.Reorganize -> (False, True, False)
-      TreasurySpendRedeemer.SweepTreasury -> (False, False, True)
-      TreasurySpendRedeemer.Fund { .. } -> (False, False, False)
-    }
+  let (is_disburse, is_reorganize, is_sweep) = when redeemer is {
+    TreasurySpendRedeemer.Disburse { .. } -> (True, False, False)
+    TreasurySpendRedeemer.Reorganize -> (False, True, False)
+    TreasurySpendRedeemer.SweepTreasury -> (False, False, True)
+    TreasurySpendRedeemer.Fund { .. } -> (False, False, False)
+  }
 
   []
     |> scenario.classify(
@@ -300,38 +296,34 @@ fn step(st: State) -> Fuzzer<Scenario<State>> {
   } else {
     let action <- and_then(spend_redeemer())
 
-    let (st, inputs) <-
-      scenario.fork2_and_then(
-        weights.scenario_inputs,
-        fn() { scenario_inputs_baseline(st) },
-        fn() { scenario_inputs_no_scripts(st) },
-        fn() { scenario_inputs_mixed_scripts(st) },
-      )
+    let (st, inputs) <- scenario.fork2_and_then(
+      weights.scenario_inputs,
+      fn() { scenario_inputs_baseline(st) },
+      fn() { scenario_inputs_no_scripts(st) },
+      fn() { scenario_inputs_mixed_scripts(st) },
+    )
 
-    let (st, reference_inputs) <-
-      scenario.fork_and_then(
-        weights.scenario_reference_inputs,
-        fn() { scenario_ref_inputs_baseline(st) },
-        fn() { scenario_ref_inputs_missing_scopes(st) },
-      )
+    let (st, reference_inputs) <- scenario.fork_and_then(
+      weights.scenario_reference_inputs,
+      fn() { scenario_ref_inputs_baseline(st) },
+      fn() { scenario_ref_inputs_missing_scopes(st) },
+    )
 
     let withdrawals <- and_then(scenario_withdrawals_baseline())
 
-    let (st, redeemers) <-
-      scenario.fork_if_and_then(
-        st.labels == [],
-        weights.scenario_redeemers,
-        fn() { scenario_redeemers_baseline(st, inputs, action) },
-        fn() { scenario_redeemers_mixed(st, inputs, action) },
-      )
+    let (st, redeemers) <- scenario.fork_if_and_then(
+      st.labels == [],
+      weights.scenario_redeemers,
+      fn() { scenario_redeemers_baseline(st, inputs, action) },
+      fn() { scenario_redeemers_mixed(st, inputs, action) },
+    )
 
-    let (st, extra_signatories) <-
-      scenario.fork2_and_then(
-        weights.scenario_signatories,
-        fn() { scenario_signatories_baseline(st, action) },
-        fn() { scenario_signatories_missing_owner(st, action) },
-        fn() { scenario_signatories_missing_other(st, action) },
-      )
+    let (st, extra_signatories) <- scenario.fork2_and_then(
+      weights.scenario_signatories,
+      fn() { scenario_signatories_baseline(st, action) },
+      fn() { scenario_signatories_missing_owner(st, action) },
+      fn() { scenario_signatories_missing_other(st, action) },
+    )
 
     return(
       Scenario.Step(
@@ -361,67 +353,63 @@ fn step(st: State) -> Fuzzer<Scenario<State>> {
 fn scenario_inputs_baseline(st: State) -> Fuzzer<(State, List<Input>)> {
   let treasury_hash <- and_then(cardano.script_hash())
 
-  let inputs <-
-    and_then(
-      fuzz.such_that(
-        fuzz.list_at_least(
-          fuzz.either(
-            input_with_payment_credential(cardano.verification_key()),
-            input_with_payment_credential(
-              return(Credential.Script(treasury_hash)),
-            ),
+  let inputs <- and_then(
+    fuzz.such_that(
+      fuzz.list_at_least(
+        fuzz.either(
+          input_with_payment_credential(cardano.verification_key()),
+          input_with_payment_credential(
+            return(Credential.Script(treasury_hash)),
           ),
-          1,
         ),
-        // At least one input has a script.
-        fn(inputs) {
-          let input <- list.any(inputs)
-          when input.output.address.payment_credential is {
-            Credential.Script(..) -> True
-            _ -> False
-          }
-        },
+        1,
       ),
-    )
+      // At least one input has a script.
+      fn(inputs) {
+        let input <- list.any(inputs)
+        when input.output.address.payment_credential is {
+          Credential.Script(..) -> True
+          _ -> False
+        }
+      },
+    ),
+  )
 
   return((st, inputs))
 }
 
 fn scenario_inputs_mixed_scripts(st: State) -> Fuzzer<(State, List<Input>)> {
-  let inputs <-
-    and_then(
-      fuzz.such_that(
-        fuzz.list_at_least(cardano.input(), 2),
-        // At least one input has a script.
-        fn(inputs) {
-          let n =
-            list.foldl(
-              inputs,
-              dict.empty,
-              fn(input, set) {
-                when input.output.address.payment_credential is {
-                  Credential.Script(hash) -> dict.insert(set, hash, Void)
-                  _ -> set
-                }
-              },
-            )
-              |> dict.size
-          n >= 2
-        },
-      ),
-    )
+  let inputs <- and_then(
+    fuzz.such_that(
+      fuzz.list_at_least(cardano.input(), 2),
+      // At least one input has a script.
+      fn(inputs) {
+        let n = list.foldl(
+          inputs,
+          dict.empty,
+          fn(input, set) {
+            when input.output.address.payment_credential is {
+              Credential.Script(hash) -> dict.insert(set, hash, Void)
+              _ -> set
+            }
+          },
+        )
+          |> dict.size
+        n >= 2
+      },
+    ),
+  )
 
   return((State { ..st, labels: [mixed_scripts_inputs, ..st.labels] }, inputs))
 }
 
 fn scenario_inputs_no_scripts(st: State) -> Fuzzer<(State, List<Input>)> {
-  let inputs <-
-    and_then(
-      fuzz.list_at_least(
-        input_with_payment_credential(cardano.verification_key()),
-        1,
-      ),
-    )
+  let inputs <- and_then(
+    fuzz.list_at_least(
+      input_with_payment_credential(cardano.verification_key()),
+      1,
+    ),
+  )
 
   return((State { ..st, labels: [no_script_inputs, ..st.labels] }, inputs))
 }
@@ -435,27 +423,25 @@ fn scenario_ref_inputs_baseline(st: State) -> Fuzzer<(State, List<Input>)> {
 
   let input <- and_then(cardano.input())
 
-  let (st, datum) <-
-    scenario.fork_and_then(
-      weights.scenario_scopes_datum,
-      fn() { scenario_scopes_datum_baseline(st) },
-      fn() { scenario_scopes_datum_malformed(st) },
-    )
+  let (st, datum) <- scenario.fork_and_then(
+    weights.scenario_scopes_datum,
+    fn() { scenario_scopes_datum_baseline(st) },
+    fn() { scenario_scopes_datum_malformed(st) },
+  )
 
-  let input =
-    Input {
-      ..input,
-      output: Output {
-        ..input.output,
-        datum: InlineDatum(datum),
-        value: assets.add(
-          input.output.value,
-          scopes_nft,
-          config.scopes_token_name,
-          1,
-        ),
-      },
-    }
+  let input = Input {
+    ..input,
+    output: Output {
+      ..input.output,
+      datum: InlineDatum(datum),
+      value: assets.add(
+        input.output.value,
+        scopes_nft,
+        config.scopes_token_name,
+        1,
+      ),
+    },
+  }
 
   let inputs_after <- and_then(fuzz.list_between(cardano.input(), 0, 1))
 
@@ -481,19 +467,18 @@ fn scenario_scopes_datum_baseline(st: State) -> Fuzzer<(State, Data)> {
 }
 
 fn scenario_scopes_datum_malformed(st: State) -> Fuzzer<(State, Data)> {
-  let data <-
-    fuzz.map(
-      fuzz.such_that(
-        fuzz.data(),
-        fn(data) {
-          if data is _: Scopes {
-            False
-          } else {
-            True
-          }
-        },
-      ),
-    )
+  let data <- fuzz.map(
+    fuzz.such_that(
+      fuzz.data(),
+      fn(data) {
+        if data is _: Scopes {
+          False
+        } else {
+          True
+        }
+      },
+    ),
+  )
 
   (State { ..st, labels: [malformed_scopes, ..st.labels] }, data)
 }
@@ -510,12 +495,11 @@ fn scenario_ref_inputs_missing_scopes(st: State) -> Fuzzer<(State, List<Input>)>
 fn scenario_withdrawals_baseline() -> Fuzzer<Pairs<Credential, Lovelace>> {
   let amount <- fuzz.map(fuzz.int_at_least(0))
 
-  let withdrawals =
-    [
-      // Always include a withdrawal for our validator, otherwise nothing
-      // is being tested...
-      Pair(Credential.Script(validator_hash), amount),
-    ]
+  let withdrawals = [
+    // Always include a withdrawal for our validator, otherwise nothing
+    // is being tested...
+    Pair(Credential.Script(validator_hash), amount),
+  ]
 
   withdrawals
 }
@@ -529,24 +513,23 @@ fn scenario_redeemers_baseline(
   inputs: List<Input>,
   action: TreasurySpendRedeemer,
 ) -> Fuzzer<(State, Pairs<ScriptPurpose, Data>)> {
-  let redeemers =
-    inputs
-      |> list.foldl(
-          [],
-          fn(input, redeemers) {
-            when input.output.address.payment_credential is {
-              Credential.Script(..) ->
-                [
-                  Pair(
-                    ScriptPurpose.Spend(input.output_reference),
-                    as_data(action),
-                  ),
-                  ..redeemers
-                ]
-              Credential.VerificationKey(..) -> redeemers
-            }
-          },
-        )
+  let redeemers = inputs
+    |> list.foldl(
+        [],
+        fn(input, redeemers) {
+          when input.output.address.payment_credential is {
+            Credential.Script(..) ->
+              [
+                Pair(
+                  ScriptPurpose.Spend(input.output_reference),
+                  as_data(action),
+                ),
+                ..redeemers
+              ]
+            Credential.VerificationKey(..) -> redeemers
+          }
+        },
+      )
 
   return((st, [withdraw, ..redeemers]))
 }
@@ -556,39 +539,37 @@ fn scenario_redeemers_mixed(
   inputs: List<Input>,
   action: TreasurySpendRedeemer,
 ) -> Fuzzer<(State, Pairs<ScriptPurpose, Data>)> {
-  let other_action <-
-    and_then(
-      fuzz.such_that(
-        spend_redeemer(),
-        fn(other_action) { other_action != action },
-      ),
-    )
+  let other_action <- and_then(
+    fuzz.such_that(
+      spend_redeemer(),
+      fn(other_action) { other_action != action },
+    ),
+  )
 
-  let Pair(count, redeemers) =
-    inputs
-      |> list.foldl(
-          Pair(0, []),
-          fn(input, Pair(count, redeemers)) {
-            when input.output.address.payment_credential is {
-              Credential.Script(..) ->
-                Pair(
-                  count + 1,
-                  [
-                    Pair(
-                      ScriptPurpose.Spend(input.output_reference),
-                      if count == 0 {
-                        as_data(action)
-                      } else {
-                        as_data(other_action)
-                      },
-                    ),
-                    ..redeemers
-                  ],
-                )
-              Credential.VerificationKey(..) -> Pair(count, redeemers)
-            }
-          },
-        )
+  let Pair(count, redeemers) = inputs
+    |> list.foldl(
+        Pair(0, []),
+        fn(input, Pair(count, redeemers)) {
+          when input.output.address.payment_credential is {
+            Credential.Script(..) ->
+              Pair(
+                count + 1,
+                [
+                  Pair(
+                    ScriptPurpose.Spend(input.output_reference),
+                    if count == 0 {
+                      as_data(action)
+                    } else {
+                      as_data(other_action)
+                    },
+                  ),
+                  ..redeemers
+                ],
+              )
+            Credential.VerificationKey(..) -> Pair(count, redeemers)
+          }
+        },
+      )
 
   return(
     (
@@ -610,66 +591,61 @@ fn scenario_signatories_baseline(
   st: State,
   action: TreasurySpendRedeemer,
 ) -> Fuzzer<(State, List<VerificationKeyHash>)> {
-  let signatories <-
-    fuzz.map(
-      when action is {
-        TreasurySpendRedeemer.Disburse { .. } |
-        TreasurySpendRedeemer.SweepTreasury ->
-          when st.scope is {
-            Scope.CoreDevelopment -> {
-              let others <-
-                and_then(
-                  non_empty_sublist(
-                    [ops_and_use_cases, network_compliance, middleware],
-                  ),
-                )
-              return([core_development, ..others])
-            }
-            Scope.OpsAndUseCases -> {
-              let others <-
-                and_then(
-                  non_empty_sublist(
-                    [core_development, network_compliance, middleware],
-                  ),
-                )
-              return([ops_and_use_cases, ..others])
-            }
-            Scope.NetworkCompliance -> {
-              let others <-
-                and_then(
-                  non_empty_sublist(
-                    [core_development, ops_and_use_cases, middleware],
-                  ),
-                )
-              return([network_compliance, ..others])
-            }
-            Scope.Middleware -> {
-              let others <-
-                and_then(
-                  non_empty_sublist(
-                    [core_development, ops_and_use_cases, network_compliance],
-                  ),
-                )
-              return([middleware, ..others])
-            }
-            Scope.Contingency -> return(all_owners)
+  let signatories <- fuzz.map(
+    when action is {
+      TreasurySpendRedeemer.Disburse { .. } |
+      TreasurySpendRedeemer.SweepTreasury ->
+        when st.scope is {
+          Scope.CoreDevelopment -> {
+            let others <- and_then(
+              non_empty_sublist(
+                [ops_and_use_cases, network_compliance, middleware],
+              ),
+            )
+            return([core_development, ..others])
           }
-
-        TreasurySpendRedeemer.Reorganize ->
-          when st.scope is {
-            Scope.CoreDevelopment -> return([core_development])
-            Scope.OpsAndUseCases -> return([ops_and_use_cases])
-            Scope.NetworkCompliance -> return([network_compliance])
-            Scope.Middleware -> return([middleware])
-            Scope.Contingency -> non_empty_sublist(all_owners)
+          Scope.OpsAndUseCases -> {
+            let others <- and_then(
+              non_empty_sublist(
+                [core_development, network_compliance, middleware],
+              ),
+            )
+            return([ops_and_use_cases, ..others])
           }
-
-        TreasurySpendRedeemer.Fund { .. } -> {
-          trace @"unsupported action": action
-          fail
+          Scope.NetworkCompliance -> {
+            let others <- and_then(
+              non_empty_sublist(
+                [core_development, ops_and_use_cases, middleware],
+              ),
+            )
+            return([network_compliance, ..others])
+          }
+          Scope.Middleware -> {
+            let others <- and_then(
+              non_empty_sublist(
+                [core_development, ops_and_use_cases, network_compliance],
+              ),
+            )
+            return([middleware, ..others])
+          }
+          Scope.Contingency -> return(all_owners)
         }
-      },
-    )
+
+      TreasurySpendRedeemer.Reorganize ->
+        when st.scope is {
+          Scope.CoreDevelopment -> return([core_development])
+          Scope.OpsAndUseCases -> return([ops_and_use_cases])
+          Scope.NetworkCompliance -> return([network_compliance])
+          Scope.Middleware -> return([middleware])
+          Scope.Contingency -> non_empty_sublist(all_owners)
+        }
+
+      TreasurySpendRedeemer.Fund { .. } -> {
+        trace @"unsupported action": action
+        fail
+      }
+    },
+  )
 
   (st, signatories)
 }
@@ -680,25 +656,23 @@ fn scenario_signatories_missing_other(
 ) -> Fuzzer<(State, List<VerificationKeyHash>)> {
   let tail <- fuzz.and_then(fuzz.list(cardano.verification_key_hash()))
 
-  let signatories <-
-    fuzz.map(
-      when st.scope is {
-        Scope.CoreDevelopment -> return([core_development, ..tail])
-        Scope.OpsAndUseCases -> return([ops_and_use_cases, ..tail])
-        Scope.NetworkCompliance -> return([network_compliance, ..tail])
-        Scope.Middleware -> return([middleware, ..tail])
-        Scope.Contingency -> {
-          let owners <-
-            fuzz.map(
-              fuzz.such_that(
-                fuzz.sublist(all_owners),
-                fn(sub) { sub != all_owners },
-              ),
-            )
-          list.concat(owners, tail)
-        }
-      },
-    )
+  let signatories <- fuzz.map(
+    when st.scope is {
+      Scope.CoreDevelopment -> return([core_development, ..tail])
+      Scope.OpsAndUseCases -> return([ops_and_use_cases, ..tail])
+      Scope.NetworkCompliance -> return([network_compliance, ..tail])
+      Scope.Middleware -> return([middleware, ..tail])
+      Scope.Contingency -> {
+        let owners <- fuzz.map(
+          fuzz.such_that(
+            fuzz.sublist(all_owners),
+            fn(sub) { sub != all_owners },
+          ),
+        )
+        list.concat(owners, tail)
+      }
+    },
+  )
 
   when action is {
     TreasurySpendRedeemer.Disburse { .. } | TreasurySpendRedeemer.SweepTreasury ->
@@ -728,35 +702,32 @@ fn scenario_signatories_missing_owner(
   st: State,
   action: TreasurySpendRedeemer,
 ) -> Fuzzer<(State, List<VerificationKeyHash>)> {
-  let signatories <-
-    fuzz.map(
-      when st.scope is {
-        Scope.CoreDevelopment ->
-          fuzz.sublist([ops_and_use_cases, network_compliance, middleware])
-        Scope.OpsAndUseCases ->
-          fuzz.sublist([core_development, network_compliance, middleware])
-        Scope.NetworkCompliance ->
-          fuzz.sublist([core_development, ops_and_use_cases, middleware])
-        Scope.Middleware ->
-          fuzz.sublist(
-            [core_development, ops_and_use_cases, network_compliance],
-          )
-        Scope.Contingency ->
-          when action is {
-            TreasurySpendRedeemer.Disburse { .. } |
-            TreasurySpendRedeemer.SweepTreasury ->
-              fuzz.such_that(
-                fuzz.sublist(all_owners),
-                fn(sub) { sub != all_owners },
-              )
-            TreasurySpendRedeemer.Reorganize -> return([])
-            TreasurySpendRedeemer.Fund { .. } -> {
-              trace @"unsupported action": action
-              fail
-            }
+  let signatories <- fuzz.map(
+    when st.scope is {
+      Scope.CoreDevelopment ->
+        fuzz.sublist([ops_and_use_cases, network_compliance, middleware])
+      Scope.OpsAndUseCases ->
+        fuzz.sublist([core_development, network_compliance, middleware])
+      Scope.NetworkCompliance ->
+        fuzz.sublist([core_development, ops_and_use_cases, middleware])
+      Scope.Middleware ->
+        fuzz.sublist([core_development, ops_and_use_cases, network_compliance])
+      Scope.Contingency ->
+        when action is {
+          TreasurySpendRedeemer.Disburse { .. } |
+          TreasurySpendRedeemer.SweepTreasury ->
+            fuzz.such_that(
+              fuzz.sublist(all_owners),
+              fn(sub) { sub != all_owners },
+            )
+          TreasurySpendRedeemer.Reorganize -> return([])
+          TreasurySpendRedeemer.Fund { .. } -> {
+            trace @"unsupported action": action
+            fail
           }
-      },
-    )
+        }
+    },
+  )
 
   (State { ..st, labels: [missing_scope_owner, ..st.labels] }, signatories)
 }

@@ -66,18 +66,26 @@ test expect_single_script_only_scripts() {
   let input_2 = generate(2, cardano.input(), locked_by_script("foo"))
   let input_3 = generate(3, cardano.input(), locked_by_script("foo"))
 
-  let redeemer_1 =
-    generate(1, fuzz.data(), fn(r) { Pair(Spend(input_1.output_reference), r) })
-  let redeemer_2 =
-    generate(1, fuzz.data(), fn(r) { Pair(Spend(input_2.output_reference), r) })
-  let redeemer_3 =
-    generate(1, fuzz.data(), fn(r) { Pair(Spend(input_3.output_reference), r) })
+  let redeemer_1 = generate(
+    1,
+    fuzz.data(),
+    fn(r) { Pair(Spend(input_1.output_reference), r) },
+  )
+  let redeemer_2 = generate(
+    1,
+    fuzz.data(),
+    fn(r) { Pair(Spend(input_2.output_reference), r) },
+  )
+  let redeemer_3 = generate(
+    1,
+    fuzz.data(),
+    fn(r) { Pair(Spend(input_3.output_reference), r) },
+  )
 
-  let redeemer =
-    expect_single_script(
-      [input_1, input_2, input_3],
-      [redeemer_1, redeemer_2, redeemer_3],
-    )
+  let redeemer = expect_single_script(
+    [input_1, input_2, input_3],
+    [redeemer_1, redeemer_2, redeemer_3],
+  )
 
   and {
     redeemer == redeemer_1.2nd,
@@ -94,8 +102,10 @@ test expect_single_script_mixed_scripts_and_keys() {
   let redeemer_1 = generate(1, fuzz.data(), spend(input_3))
   let redeemer_3 = generate(1, fuzz.data(), spend(input_1))
 
-  let redeemer =
-    expect_single_script([input_1, input_2, input_3], [redeemer_1, redeemer_3])
+  let redeemer = expect_single_script(
+    [input_1, input_2, input_3],
+    [redeemer_1, redeemer_3],
+  )
 
   and {
     redeemer == redeemer_1.2nd,
@@ -120,11 +130,10 @@ test expect_single_script_different_scripts() fail {
   let redeemer_2 = generate(1, fuzz.data(), spend(input_2))
   let redeemer_3 = generate(1, fuzz.data(), spend(input_3))
 
-  expect _: Data =
-    expect_single_script(
-      [input_1, input_2, input_3],
-      [redeemer_1, redeemer_2, redeemer_3],
-    )
+  expect _: Data = expect_single_script(
+    [input_1, input_2, input_3],
+    [redeemer_1, redeemer_2, redeemer_3],
+  )
 }
 
 test expect_single_script_different_redeemers() fail {
@@ -132,13 +141,14 @@ test expect_single_script_different_redeemers() fail {
   let input_2 = generate(2, cardano.input(), locked_by_key("foo"))
 
   let redeemer_1 = generate(1, fuzz.data(), spend(input_1))
-  let redeemer_2 =
-    generate(
-      2,
-      fuzz.data() |> fuzz.such_that(fn(data) { data != redeemer_1.2nd }),
-      spend(input_2),
-    )
+  let redeemer_2 = generate(
+    2,
+    fuzz.data() |> fuzz.such_that(fn(data) { data != redeemer_1.2nd }),
+    spend(input_2),
+  )
 
-  expect _: Data =
-    expect_single_script([input_1, input_2], [redeemer_1, redeemer_2])
+  expect _: Data = expect_single_script(
+    [input_1, input_2],
+    [redeemer_1, redeemer_2],
+  )
 }

@@ -32,12 +32,16 @@ Contracts signed by all scope owners. No more payments can be made for these con
 | Scope                  | Whom                                                | Date           | Amount     | Duration  | Link                                                    |
 | ---------------------- | --------------------------------------------------- | -------------- | ---        | ---       | ---                                                     |
 | Operations & Use Cases | Open The Lead                                       | 31 March, 2026 | `₳360,000` | 6 months  | [Project Management][]                                  |
-| Operations & Use Cases | Jacob Finkelman                                     | 31 March, 2026 | `$112,500` | 12 months | [Rust Optimisations][]                                  |
+| Operations & Use Cases | Jacob Finkelman                                     | 31 March, 2026 | `$112,500` | 12 months[^1] | [Rust Optimisations][]                                  |
 | Operations & Use Cases | Crypto Accounting Group                             | 31 March, 2026 | `$8,000`   | 4 months  | [Master Service Agreement: Accounting for Amaru 2025][] |
-| Operations & Use Cases | Sundae Labs                                         | 31 March, 2026 | `$121,875` | 12 months | [Node Diversity Website][]                              |
+| Operations & Use Cases | Sundae Labs                                         | 31 March, 2026 | `$121,875` | 12 months[^2] | [Node Diversity Website][]                              |
 | Core development       | RKSW UG                                             | 31 March, 2026 | `₳360,000` | 6 months  | [Consensus, Networking and Simulation][]                |
-| Core development       | Sundae Labs                                         | 31 March, 2026 | `$225,000` | 12 months | [Consensus, Simulation and Mempool][]                   |
-| Core development       | Sundae Labs                                         | 24 April, 2026 | `$121,875` | 12 months | [Relay & Block Production][]                            |
+| Core development       | Sundae Labs                                         | 31 March, 2026 | `$225,000` | 12 months[^2] | [Consensus, Simulation and Mempool][]                   |
+| Core development       | Sundae Labs                                         | 24 April, 2026 | `$121,875` | 12 months[^2] | [Relay & Block Production][]                            |
+
+[^1]: Cancelled before completion 
+[^2]: Cancelled and superseded with people-centric contracts
+
 
 [Project Management]: https://amaru.mypinata.cloud/ipfs/bafybeiaigjeoia5ms574cagxwrjm5nnov2332keos6njzush3hvcmq5fn4
 [Rust Optimisations]: https://amaru.mypinata.cloud/ipfs/bafybeiaqtexw2sfcknfcbqb463beqgfymtkiwl6qwuigjyenpx7dbls2l4
